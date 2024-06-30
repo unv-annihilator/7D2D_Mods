@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+#TFP Harmony (Default Harmony Mod shipped with 1.0)
+0_TFP_Harmony/
