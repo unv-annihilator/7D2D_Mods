@@ -5,7 +5,7 @@ VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraftFromContainers", "CraftFromContainers\CraftFromContainers.csproj", "{D45F5F47-54DF-442B-9DC2-2F79ADE4C7C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModTemplate", "ModTemplate\ModTemplate.csproj", "{70B0F08E-FE12-4F35-B71D-828ACC65E26C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoClaimChallenges", "AutoClaimChallenges\AutoClaimChallenges.csproj", "{C732D68B-D24D-44F6-90F6-93ECF191BCF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +20,10 @@ Global
 		{70B0F08E-FE12-4F35-B71D-828ACC65E26C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{70B0F08E-FE12-4F35-B71D-828ACC65E26C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70B0F08E-FE12-4F35-B71D-828ACC65E26C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C732D68B-D24D-44F6-90F6-93ECF191BCF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C732D68B-D24D-44F6-90F6-93ECF191BCF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C732D68B-D24D-44F6-90F6-93ECF191BCF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C732D68B-D24D-44F6-90F6-93ECF191BCF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
