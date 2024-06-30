@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 #TFP Harmony (Default Harmony Mod shipped with 1.0)
 0_TFP_Harmony/
+
+#Other mods not being maintained
+KHV1-HPBars/
