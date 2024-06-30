@@ -21,7 +21,8 @@ namespace CraftFromContainers.XUIC
                         AccessTools.Method(typeof(XUiM_PlayerInventory), nameof(XUiM_PlayerInventory.GetItemCount),
                             new[] { typeof(ItemValue) }))
                     {
-                        LogUtil.DebugLog("XUiC_IngredientEntry.GetBindingValue: Adding method to add item counts from all storages");
+                        LogUtil.DebugLog(
+                            "XUiC_IngredientEntry.GetBindingValue: Adding method to add item counts from all storages");
                         codes.Insert(i + 1,
                             new CodeInstruction(OpCodes.Call,
                                 AccessTools.Method(typeof(ContainerUtils),

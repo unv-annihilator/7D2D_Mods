@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace CraftFromContainers.Scripts
+﻿namespace CraftFromContainers.Scripts
 {
     public static class LogUtil
     {

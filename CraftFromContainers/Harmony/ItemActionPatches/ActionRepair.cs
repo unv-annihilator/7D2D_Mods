@@ -22,7 +22,8 @@ namespace CraftFromContainers.ItemActionPatches
                     if (codes[i].opcode == OpCodes.Callvirt && (MethodInfo)codes[i].operand ==
                         AccessTools.Method(typeof(Bag), nameof(Bag.GetItemCount)))
                     {
-                        LogUtil.DebugLog("ItemActionRepair.CanRemoveRequiredResource: Adding method to count items from all storages");
+                        LogUtil.DebugLog(
+                            "ItemActionRepair.CanRemoveRequiredResource: Adding method to count items from all storages");
                         codes.Insert(i + 1,
                             new CodeInstruction(OpCodes.Call,
                                 AccessTools.Method(typeof(ContainerUtils),
@@ -48,7 +49,8 @@ namespace CraftFromContainers.ItemActionPatches
                     if (codes[i].opcode == OpCodes.Callvirt && (MethodInfo)codes[i].operand ==
                         AccessTools.Method(typeof(Bag), nameof(Bag.DecItem)))
                     {
-                        LogUtil.DebugLog("ItemActionRepair.RemoveRequiredResource: Adding method to remove items from all storages");
+                        LogUtil.DebugLog(
+                            "ItemActionRepair.RemoveRequiredResource: Adding method to remove items from all storages");
                         codes.Insert(i + 1,
                             new CodeInstruction(OpCodes.Call,
                                 AccessTools.Method(typeof(ContainerUtils),
@@ -75,7 +77,8 @@ namespace CraftFromContainers.ItemActionPatches
                     if (codes[i].opcode == OpCodes.Callvirt && (MethodInfo)codes[i].operand ==
                         AccessTools.Method(typeof(Bag), nameof(Bag.GetItemCount)))
                     {
-                        LogUtil.DebugLog("ItemActionRepair.canRemoveRequiredItem: Adding method to count items from all storages");
+                        LogUtil.DebugLog(
+                            "ItemActionRepair.canRemoveRequiredItem: Adding method to count items from all storages");
                         codes.Insert(i + 1,
                             new CodeInstruction(OpCodes.Call,
                                 AccessTools.Method(typeof(ContainerUtils),
@@ -101,7 +104,8 @@ namespace CraftFromContainers.ItemActionPatches
                     if (codes[i].opcode == OpCodes.Callvirt && (MethodInfo)codes[i].operand ==
                         AccessTools.Method(typeof(Bag), nameof(Bag.DecItem)))
                     {
-                        LogUtil.DebugLog("ItemActionRepair.removeRequiredItem: Adding method to remove items from all storages");
+                        LogUtil.DebugLog(
+                            "ItemActionRepair.removeRequiredItem: Adding method to remove items from all storages");
                         codes.Insert(i + 1,
                             new CodeInstruction(OpCodes.Call,
                                 AccessTools.Method(typeof(ContainerUtils),

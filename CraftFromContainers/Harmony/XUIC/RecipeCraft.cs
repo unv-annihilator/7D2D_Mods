@@ -20,7 +20,8 @@ namespace CraftFromContainers.XUIC
                     if (codes[i].opcode == OpCodes.Callvirt && (MethodInfo)codes[i].operand ==
                         AccessTools.Method(typeof(XUiM_PlayerInventory), nameof(XUiM_PlayerInventory.GetAllItemStacks)))
                     {
-                        LogUtil.DebugLog("XUiC_RecipeCraftCount.calcMaxCraftable: Adding method to add items from all storages");
+                        LogUtil.DebugLog(
+                            "XUiC_RecipeCraftCount.calcMaxCraftable: Adding method to add items from all storages");
                         codes.Insert(i + 2,
                             new CodeInstruction(OpCodes.Call,
                                 AccessTools.Method(typeof(ContainerUtils),

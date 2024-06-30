@@ -10,10 +10,10 @@ namespace CraftFromContainers.Scripts
 {
     public static class ContainerUtils
     {
-        private static Dictionary<Vector3i, ITileEntityLootable> _knownStorageDict =
+        private static readonly Dictionary<Vector3i, ITileEntityLootable> _knownStorageDict =
             new Dictionary<Vector3i, ITileEntityLootable>();
 
-        private static Dictionary<Vector3i, ITileEntityLootable> currentStorageDict =
+        private static readonly Dictionary<Vector3i, ITileEntityLootable> currentStorageDict =
             new Dictionary<Vector3i, ITileEntityLootable>();
 
         public static void Init()
@@ -220,17 +220,16 @@ namespace CraftFromContainers.Scripts
                         if (!tileEntityLootable.bPlayerStorage)
                             continue;
                         if (tileEntityLootable is ILockable tileLockable)
-                        {
                             if (tileLockable.IsLocked() &&
                                 tileLockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                                 continue;
-                        }
                         _knownStorageDict[loc] = tileEntityLootable;
                         if (CraftFromContainers.Config.range <= 0 ||
                             Vector3.Distance(pos, loc) < CraftFromContainers.Config.range)
                             currentStorageDict[loc] = tileEntityLootable;
                     }
                 }
+
                 sync.ExitReadLock();
             }
         }

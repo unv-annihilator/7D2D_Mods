@@ -85,7 +85,7 @@
         <Compile Include="Harmony\GameManagerPatches\StartGameHook.cs"/>
         <Compile Include="Harmony\ItemActionPatches\ActionRepair.cs"/>
         <Compile Include="Harmony\ItemActionPatches\EntryCraft.cs"/>
-        <Compile Include="Harmony\ItemActionPatches\EntryRepair.cs" />
+        <Compile Include="Harmony\ItemActionPatches\EntryRepair.cs"/>
         <Compile Include="Harmony\XUIC\IngredientEntry.cs"/>
         <Compile Include="Harmony\XUIC\RecipeCraft.cs"/>
         <Compile Include="Harmony\XUIC\RecipeList.cs"/>
