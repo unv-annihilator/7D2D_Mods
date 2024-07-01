@@ -6,7 +6,7 @@
 
 ### CraftFromContainers [v0.7.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/CraftFromContainers_v0.7.0)
 
-### RandomTraders [v0.1.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/RandomTraders_v0.1.0.0)
+### RandomTraders [v1.0.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/RandomTraders_v1.0.0.0)
 
 ### SprintToggleFix [v0.1.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/SprintToggleFix_v0.1.0.0)
 
@@ -26,8 +26,9 @@
   - Pulls from ALL storage, not limited to chests anymore. (Fridges, drawers, etc. all work now)
 
 - ### [Random Traders](https://github.com/unv-annihilator/7D2D_Mods/tree/master/RandomTraders):
-  - Removes biome specific requirements from traders. (Similar to A21)
-  - No longer limits who hands out tier upgrade quests. (Similar to A21)
+  - Removes biome specific requirements from traders.
+  - Quest tier upgrade quests given by any trader.
+  - NOTE: Does NOT change trader challenge order.
 
 - ### [SprintToggleFix](https://github.com/unv-annihilator/7D2D_Mods/tree/master/SprintToggleFix):
   - Removes delay that can cause your sprint to get stuck on after button press with toggle disabled. 
