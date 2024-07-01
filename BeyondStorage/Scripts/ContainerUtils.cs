@@ -6,7 +6,7 @@ using HarmonyLib;
 using Platform;
 using UnityEngine;
 
-namespace CraftFromContainers.Scripts
+namespace BeyondStorage.Scripts
 {
     public static class ContainerUtils
     {
@@ -121,7 +121,7 @@ namespace CraftFromContainers.Scripts
 
         public static int RemoveRemainingForUpgrade(int numRemoved, ItemActionRepair action, Block block)
         {
-            if (!CraftFromContainers.Config.modEnabled)
+            if (!BeyondStorage.Config.modEnabled)
                 return numRemoved;
             if (!int.TryParse(block.Properties.Values[Block.PropUpgradeBlockClassItemCount], out var totalToRemove))
                 return numRemoved;
@@ -160,7 +160,7 @@ namespace CraftFromContainers.Scripts
 
         public static int RemoveRemainingForRepair(int numRemoved, ItemStack _itemStack)
         {
-            if (!CraftFromContainers.Config.modEnabled)
+            if (!BeyondStorage.Config.modEnabled)
                 return numRemoved;
             var totalToRemove = _itemStack.count;
 
@@ -224,8 +224,8 @@ namespace CraftFromContainers.Scripts
                                 tileLockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                                 continue;
                         _knownStorageDict[loc] = tileEntityLootable;
-                        if (CraftFromContainers.Config.range <= 0 ||
-                            Vector3.Distance(pos, loc) < CraftFromContainers.Config.range)
+                        if (BeyondStorage.Config.range <= 0 ||
+                            Vector3.Distance(pos, loc) < BeyondStorage.Config.range)
                             currentStorageDict[loc] = tileEntityLootable;
                     }
                 }

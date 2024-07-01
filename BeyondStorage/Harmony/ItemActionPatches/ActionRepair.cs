@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using CraftFromContainers.Scripts;
+using BeyondStorage.Scripts;
 using HarmonyLib;
 
-namespace CraftFromContainers.ItemActionPatches
+namespace BeyondStorage.ItemActionPatches
 {
     public static class ActionRepair
     {
@@ -15,7 +15,7 @@ namespace CraftFromContainers.ItemActionPatches
             public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
                 var codes = new List<CodeInstruction>(instructions);
-                if (!CraftFromContainers.Config.enableForRepairAndUpgrade)
+                if (!BeyondStorage.Config.enableForRepairAndUpgrade)
                     return codes;
                 LogUtil.DebugLog("Transpiling ItemActionRepair.CanRemoveRequiredResource");
                 for (var i = 0; i < codes.Count; i++)
@@ -42,7 +42,7 @@ namespace CraftFromContainers.ItemActionPatches
             public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
                 var codes = new List<CodeInstruction>(instructions);
-                if (!CraftFromContainers.Config.enableForRepairAndUpgrade)
+                if (!BeyondStorage.Config.enableForRepairAndUpgrade)
                     return codes;
                 LogUtil.DebugLog("Transpiling ItemActionRepair.RemoveRequiredResource");
                 for (var i = 0; i < codes.Count; i++)
@@ -70,7 +70,7 @@ namespace CraftFromContainers.ItemActionPatches
             public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
                 var codes = new List<CodeInstruction>(instructions);
-                if (!CraftFromContainers.Config.enableForRepairAndUpgrade)
+                if (!BeyondStorage.Config.enableForRepairAndUpgrade)
                     return codes;
                 LogUtil.DebugLog("Transpiling ItemActionRepair.canRemoveRequiredItem");
                 for (var i = 0; i < codes.Count; i++)
@@ -97,7 +97,7 @@ namespace CraftFromContainers.ItemActionPatches
             public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
                 var codes = new List<CodeInstruction>(instructions);
-                if (!CraftFromContainers.Config.enableForRepairAndUpgrade)
+                if (!BeyondStorage.Config.enableForRepairAndUpgrade)
                     return codes;
                 LogUtil.DebugLog("Transpiling ItemActionRepair.removeRequiredItem");
                 for (var i = 0; i < codes.Count; i++)

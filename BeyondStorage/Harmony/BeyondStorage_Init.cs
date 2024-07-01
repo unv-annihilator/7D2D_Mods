@@ -1,12 +1,12 @@
 ﻿using System.Reflection;
-using CraftFromContainers.Scripts;
+using BeyondStorage.Scripts;
 using HarmonyLib;
 
-namespace CraftFromContainers
+namespace BeyondStorage
 {
-    public class CraftFromContainers : IModApi
+    public class BeyondStorage : IModApi
     {
-        private static CraftFromContainers _context;
+        private static BeyondStorage _context;
         public static ModConfig Config;
         public static Mod ModInstance;
 

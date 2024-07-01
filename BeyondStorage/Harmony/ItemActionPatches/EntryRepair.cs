@@ -2,10 +2,10 @@
 // using System.Linq;
 // using System.Reflection;
 // using System.Reflection.Emit;
-// using CraftFromContainers.Scripts;
+// using BeyondStorage.Scripts;
 // using HarmonyLib;
 //
-// namespace CraftFromContainers.ItemActionPatches
+// namespace BeyondStorage.ItemActionPatches
 // {
 //     public class EntryRepair
 //     {
@@ -23,7 +23,7 @@
 //                         LogUtil.DebugLog("ItemActionEntryRepair.OnActivated: Adding method to add items from all storages");
 //                         codes.Insert(i + 1,
 //                             new CodeInstruction(OpCodes.Call,
-//                                 AccessTools.Method(typeof(CraftFromContainers),
+//                                 AccessTools.Method(typeof(BeyondStorage),
 //                                     nameof(ContainerUtils.GetAllStorageStacks2))));
 //                         break;
 //                     }

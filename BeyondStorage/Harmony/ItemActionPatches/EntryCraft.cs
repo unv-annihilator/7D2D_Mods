@@ -2,30 +2,29 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using CraftFromContainers.Scripts;
+using BeyondStorage.Scripts;
 using HarmonyLib;
 
-namespace CraftFromContainers.XUIC
+namespace BeyondStorage.ItemActionPatches
 {
-    public static class RecipeCraft
+    public static class EntryCraft
     {
-        [HarmonyPatch(typeof(XUiC_RecipeCraftCount), "calcMaxCraftable")]
-        private static class XUiC_RecipeCraftCount_calcMaxCraftable_Patch
+        [HarmonyPatch(typeof(ItemActionEntryCraft), nameof(ItemActionEntryCraft.HasItems))]
+        private static class ItemActionEntryCraft_OnActivated_Patch
         {
             public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
-                LogUtil.DebugLog("Transpiling XUiC_RecipeCraftCount.calcMaxCraftable");
+                LogUtil.DebugLog("Transpiling ItemActionEntryCraft.HasItems");
                 var codes = new List<CodeInstruction>(instructions);
                 for (var i = 0; i < codes.Count; i++)
                     if (codes[i].opcode == OpCodes.Callvirt && (MethodInfo)codes[i].operand ==
                         AccessTools.Method(typeof(XUiM_PlayerInventory), nameof(XUiM_PlayerInventory.GetAllItemStacks)))
                     {
-                        LogUtil.DebugLog(
-                            "XUiC_RecipeCraftCount.calcMaxCraftable: Adding method to add items from all storages");
-                        codes.Insert(i + 2,
+                        LogUtil.DebugLog("ItemActionEntryCraft.HasItems: Adding method to add items from all storages");
+                        codes.Insert(i + 1,
                             new CodeInstruction(OpCodes.Call,
                                 AccessTools.Method(typeof(ContainerUtils),
-                                    nameof(ContainerUtils.GetAllStorageStacks))));
+                                    nameof(ContainerUtils.GetAllStorageStacks2))));
                         break;
                     }
 

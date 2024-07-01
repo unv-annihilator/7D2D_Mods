@@ -4,7 +4,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Formatting = System.Xml.Formatting;
 
-namespace CraftFromContainers.Scripts
+namespace BeyondStorage.Scripts
 {
     public class ModConfig
     {
@@ -27,7 +27,7 @@ namespace CraftFromContainers.Scripts
             return path;
         }
 
-        public static ModConfig LoadConfig(CraftFromContainers context)
+        public static ModConfig LoadConfig(BeyondStorage context)
         {
             var path = Path.Combine(GetAssetPath(context, true), "config.json");
             var config = !File.Exists(path)

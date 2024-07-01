@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using CraftFromContainers.Scripts;
+using BeyondStorage.Scripts;
 using HarmonyLib;
 
-namespace CraftFromContainers.XUIM
+namespace BeyondStorage.XUIM
 {
     public static class PlayerInventory
     {

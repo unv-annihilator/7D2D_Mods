@@ -7,8 +7,8 @@
         <ProjectGuid>{D45F5F47-54DF-442B-9DC2-2F79ADE4C7C7}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>CraftFromContainers</RootNamespace>
-        <AssemblyName>CraftFromContainers</AssemblyName>
+        <RootNamespace>BeyondStorage</RootNamespace>
+        <AssemblyName>BeyondStorage</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <Deterministic>true</Deterministic>
@@ -81,7 +81,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Harmony\CraftFromContainers_Init.cs"/>
+        <Compile Include="Harmony\BeyondStorage_Init.cs" />
         <Compile Include="Harmony\GameManagerPatches\StartGameHook.cs"/>
         <Compile Include="Harmony\ItemActionPatches\ActionRepair.cs"/>
         <Compile Include="Harmony\ItemActionPatches\EntryCraft.cs"/>

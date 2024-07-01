@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<xml>
-    <Name value="CraftFromContainers"/>
-    <DisplayName value="Craft From Containers"/>
-    <Version value="0.7.0"/>
-    <Description value="Lets you craft items using resources from nearby containers."/>
-    <Author value="aedenthorn"/>
-    <Website value="https://github.com/aedenthorn/7D2DMods"/>
-</xml>

@@ -1,7 +1,7 @@
-﻿using CraftFromContainers.Scripts;
+﻿using BeyondStorage.Scripts;
 using HarmonyLib;
 
-namespace CraftFromContainers.GameManagerPatches
+namespace BeyondStorage.GameManagerPatches
 {
     public static class StartGameHook
     {
