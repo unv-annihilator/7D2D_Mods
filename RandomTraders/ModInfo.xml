@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+    <Name value="RandomTraders"/>
+    <DisplayName value="Random Traders"/>
+    <Version value="0.1.0.0"/>
+    <Description value="Removes biome requirement from traders for rwg."/>
+    <Author value="unv_Annihilator"/>
+    <Website value="https://github.com/unv-annihilator/7D2D_Mods"/>
+</xml>

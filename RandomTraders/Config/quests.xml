@@ -1,0 +1,9 @@
+<configs>
+    <setattribute xpath="/quests/quest_list[@id='trader_rekt_quests']" name="id">trader_quests</setattribute>
+    <append xpath="/quests/quest_list[@id='trader_quests']">
+        <quest id="tier3_nexttrader"/>
+        <quest id="tier4_nexttrader"/>
+        <quest id="tier5_nexttrader"/>
+    </append>
+    <remove xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_quests')]" />
+</configs>

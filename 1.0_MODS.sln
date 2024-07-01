@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraftFromContainers", "Craf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoClaimChallenges", "AutoClaimChallenges\AutoClaimChallenges.csproj", "{C732D68B-D24D-44F6-90F6-93ECF191BCF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SprintToggleFix", "SprintToggleFix\SprintToggleFix.csproj", "{860270A4-AB2A-4773-972B-FE673AC50E82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,11 +26,21 @@ Global
 		{C732D68B-D24D-44F6-90F6-93ECF191BCF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C732D68B-D24D-44F6-90F6-93ECF191BCF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C732D68B-D24D-44F6-90F6-93ECF191BCF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB42E175-A1F8-4874-ACB1-FF2BCE47CDD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB42E175-A1F8-4874-ACB1-FF2BCE47CDD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB42E175-A1F8-4874-ACB1-FF2BCE47CDD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB42E175-A1F8-4874-ACB1-FF2BCE47CDD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{860270A4-AB2A-4773-972B-FE673AC50E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{860270A4-AB2A-4773-972B-FE673AC50E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{860270A4-AB2A-4773-972B-FE673AC50E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{860270A4-AB2A-4773-972B-FE673AC50E82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CD5781C2-4748-4686-BA84-1737887BD202}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
