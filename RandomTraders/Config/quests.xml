@@ -1,9 +1,14 @@
 <configs>
-    <setattribute xpath="/quests/quest_list[@id='trader_rekt_quests']" name="id">trader_quests</setattribute>
-    <append xpath="/quests/quest_list[@id='trader_quests']">
+    <append xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_rekt_quests')]">
+        <quest id="tier2_nexttrader"/>
+    </append>
+    <append xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_jen_quests')]">
         <quest id="tier3_nexttrader"/>
+    </append>
+    <append xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_bob_quests')]">
         <quest id="tier4_nexttrader"/>
+    </append>
+    <append xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_hugh_quests')]">
         <quest id="tier5_nexttrader"/>
     </append>
-    <remove xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_quests')]" />
 </configs>
