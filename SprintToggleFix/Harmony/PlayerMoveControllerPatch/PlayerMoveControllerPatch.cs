@@ -18,7 +18,6 @@ namespace SprintToggleFix.PlayerMoveControllerPatch
                 var codes = new List<CodeInstruction>(instructions);
                 Log.Out("[ToggleSprintFix] Transpiling PlayerMoveController.Update");
                 for (var i = 0; i < codes.Count; i++)
-                {
                     if (codes[i].opcode == OpCodes.Ldfld && ((FieldInfo)codes[i].operand).Name == "runInputTime")
                     {
                         Log.Out("[ToggleSprintFix] Found runInputTime");
@@ -34,7 +33,7 @@ namespace SprintToggleFix.PlayerMoveControllerPatch
                             }
                         }
                     }
-                }
+
                 return codes.AsEnumerable();
             }
         }
