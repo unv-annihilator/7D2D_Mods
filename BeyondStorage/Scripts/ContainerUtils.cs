@@ -9,7 +9,7 @@ namespace BeyondStorage.Scripts;
 
 public static class ContainerUtils
 {
-    private static readonly Dictionary<Vector3i, ITileEntityLootable> _currentStorageDict = new();
+    private static Dictionary<Vector3i, ITileEntityLootable> _currentStorageDict = new();
 
     public static void Init()
     {

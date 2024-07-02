@@ -1,14 +1,13 @@
 ﻿using System.Reflection;
 using HarmonyLib;
 
-namespace SprintToggleFix
+namespace SprintToggleFix;
+
+public class SprintToggleFix : IModApi
 {
-    public class SprintToggleFix : IModApi
+    public void InitMod(Mod modInstance)
     {
-        public void InitMod(Mod modInstance)
-        {
-            var harmony = new Harmony(GetType().ToString());
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
-        }
+        var harmony = new Harmony(GetType().ToString());
+        harmony.PatchAll(Assembly.GetExecutingAssembly());
     }
 }
