@@ -29,6 +29,7 @@ public class XUiC_RecipeList_Patches
     // IL_0096: call System.Void XUiC_RecipeList::BuildRecipeInfosList(System.Collections.Generic.List`1<ItemStack>)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(XUiC_RecipeList.Update))]
+    // [HarmonyDebug]
     [UsedImplicitly]
     public static IEnumerable<CodeInstruction> XUiC_RecipeList_Update_Patch(IEnumerable<CodeInstruction> instructions)
     {

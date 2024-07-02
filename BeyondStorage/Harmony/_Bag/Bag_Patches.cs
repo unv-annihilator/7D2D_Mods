@@ -22,12 +22,13 @@ public static class Bag_Patches
 
     [HarmonyPostfix]
     [HarmonyPatch(nameof(Bag.DecItem))]
-    // [HarmonyDebug]
+    [HarmonyDebug]
     public static void Bag_DecItem_Postfix(ref int __result, ItemValue _itemValue, int _count, bool _ignoreModdedItems,
         IList<ItemStack> _removedItems)
     {
-        // LogUtil.DebugLog($"Bag DecItem | Count: {_count} | Result: {__result}");
-        __result = ContainerUtils.RemoveRemaining(_itemValue, _count, _ignoreModdedItems, _removedItems);
-        // LogUtil.DebugLog($"Bag DecItem | New Result: {__result}");
+        LogUtil.DebugLog($"Bag DecItem | Count: {_count} | Result: {__result}");
+        if (_count > 0)
+            __result = ContainerUtils.RemoveRemaining(_itemValue, _count, _ignoreModdedItems, _removedItems);
+        LogUtil.DebugLog($"Bag DecItem | New Result: {__result}");
     }
 }
