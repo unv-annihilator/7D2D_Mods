@@ -4,7 +4,7 @@
 
 ### AutoClaimChallenges [v0.1.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/AutoClaimChallenges_v0.1.0.0)
 
-### CraftFromContainers [v0.7.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/CraftFromContainers_v0.7.0)
+### BeyondStorage [v0.1.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/BeyondStorage_v0.1.0.0)
 
 ### RandomTraders [v1.0.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/RandomTraders_v1.0.0.0)
 
@@ -15,20 +15,20 @@
 
 ---
 
-- ### [AutoClaimChallenges](https://github.com/unv-annihilator/7D2D_Mods/tree/master/AutoClaimChallenges):
+- ### [Auto Claim Challenges](https://github.com/unv-annihilator/7D2D_Mods/tree/master/AutoClaimChallenges):
   - Claims the rewards of challenges automatically after you complete them.
 
-- ### [CraftFromContainers](https://github.com/unv-annihilator/7D2D_Mods/tree/master/CraftFromContainers):
-  - Craft from nearby containers.
-  - Upgrade/Repair blocks from nearby containers.
-  - Original code/mod created by aedenthorn. 
-  - Updated for v1.0 and refactored. 
-  - Pulls from ALL storage, not limited to chests anymore. (Fridges, drawers, etc. all work now)
+- ### [Beyond Storage](https://github.com/unv-annihilator/7D2D_Mods/tree/master/BeyondStorage): 
+  - Originally 'CraftFromContainers' by aedenthorn. Refactored and updated for v1.0
+  - Craft and Repair items using items from nearby storage.
+  - Repair and Upgrade blocks using items from nearby storage. (no longer configurable)
+  - Pulls from ALL nearby storage. (Fridges, drawers, storage chests, etc.)
+  - Range configurable in the configuration json file. (-1 is unlimited range)
 
 - ### [Random Traders](https://github.com/unv-annihilator/7D2D_Mods/tree/master/RandomTraders):
   - Removes biome specific requirements from traders.
   - Quest tier upgrade quests given by any trader.
   - NOTE: Does NOT change trader challenge order.
 
-- ### [SprintToggleFix](https://github.com/unv-annihilator/7D2D_Mods/tree/master/SprintToggleFix):
+- ### [Sprint Toggle Fix](https://github.com/unv-annihilator/7D2D_Mods/tree/master/SprintToggleFix):
   - Removes delay that can cause your sprint to get stuck on after button press with toggle disabled. 
