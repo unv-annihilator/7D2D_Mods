@@ -4,7 +4,7 @@
 
 ### AutoClaimChallenges [v0.1.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/AutoClaimChallenges_v0.1.0.0)
 
-### BeyondStorage [v0.2.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/BeyondStorage_v0.1.0.0)
+### BeyondStorage [v0.2.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/BeyondStorage_v0.2.0.0)
 
 ### RandomTraders [v1.0.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/RandomTraders_v1.0.0.0)
 
