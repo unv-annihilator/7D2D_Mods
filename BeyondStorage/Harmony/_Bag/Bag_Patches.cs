@@ -22,7 +22,7 @@ public static class Bag_Patches
 
     [HarmonyPostfix]
     [HarmonyPatch(nameof(Bag.DecItem))]
-    [HarmonyDebug]
+    // [HarmonyDebug]
     public static void Bag_DecItem_Postfix(ref int __result, ItemValue _itemValue, int _count, bool _ignoreModdedItems,
         IList<ItemStack> _removedItems)
     {
