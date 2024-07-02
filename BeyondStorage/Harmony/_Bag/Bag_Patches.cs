@@ -4,7 +4,6 @@ using HarmonyLib;
 
 // ReSharper disable InconsistentNaming
 
-
 namespace BeyondStorage._Bag;
 
 [HarmonyPatch(typeof(Bag))]

@@ -9,7 +9,7 @@ namespace BeyondStorage.Scripts;
 
 public static class ContainerUtils
 {
-    private static Dictionary<Vector3i, ITileEntityLootable> _currentStorageDict = new();
+    private static readonly Dictionary<Vector3i, ITileEntityLootable> _currentStorageDict = new();
 
     public static void Init()
     {
@@ -120,6 +120,8 @@ public static class ContainerUtils
                             tileLockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                             continue;
                     // KnownStorageDict[loc] = tileEntityLootable;
+                    // LogUtil.DebugLog(
+                    // $"Config Range: {BeyondStorage.Config.range} | Distance: {Vector3.Distance(pos, loc)}");
                     if (BeyondStorage.Config.range <= 0 ||
                         Vector3.Distance(pos, loc) < BeyondStorage.Config.range)
                         _currentStorageDict[loc] = tileEntityLootable;

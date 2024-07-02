@@ -33,8 +33,11 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="Harmony\PlayerMoveControllerPatch\PlayerMoveControllerPatch.cs"/>
+        <Compile Include="Harmony\_PlayerMoveController\PlayerMoveController_Patches.cs"/>
         <Compile Include="Harmony\SprintToggleFix_Init.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="ModInfo.xml"/>
     </ItemGroup>
     <ItemGroup>
         <Reference Include="0Harmony">
@@ -45,41 +48,14 @@
             <HintPath>..\..\7DaysToDie_Data\Managed\Assembly-CSharp.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="Assembly-CSharp-firstpass">
-            <HintPath>..\..\7DaysToDie_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
         <Reference Include="LogLibrary">
             <HintPath>..\..\7DaysToDie_Data\Managed\LogLibrary.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="mscorlib">
-            <HintPath>..\..\7DaysToDie_Data\Managed\mscorlib.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Newtonsoft.Json">
-            <HintPath>..\..\..\..\[Clean][v1.0 (b309)]7 Days To Die\7 Days To Die\7DaysToDie_Data\Managed\Newtonsoft.Json.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="System">
-            <HintPath>..\..\7DaysToDie_Data\Managed\System.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="System.Xml">
-            <HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="UnityEngine">
-            <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
             <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="ModInfo.xml"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

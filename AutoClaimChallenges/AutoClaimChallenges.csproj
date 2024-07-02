@@ -45,34 +45,14 @@
             <HintPath>..\..\7DaysToDie_Data\Managed\Assembly-CSharp.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="Assembly-CSharp-firstpass">
-            <HintPath>..\..\7DaysToDie_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="LogLibrary">
-            <HintPath>..\..\7DaysToDie_Data\Managed\LogLibrary.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="mscorlib">
-            <HintPath>..\..\7DaysToDie_Data\Managed\mscorlib.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="System">
-            <HintPath>..\..\7DaysToDie_Data\Managed\System.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="System.Xml">
-            <HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="UnityEngine">
-            <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.dll</HintPath>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Harmony\AutoClaimChallenges_Init.cs"/>
-        <Compile Include="Harmony\Challenges\ChallengeComplete.cs"/>
+        <Compile Include="Harmony\_Challenge\Challenge_Patches.cs"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
