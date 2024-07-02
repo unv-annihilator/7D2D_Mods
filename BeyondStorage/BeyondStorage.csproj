@@ -12,6 +12,7 @@
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <Deterministic>true</Deterministic>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -81,15 +82,11 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Harmony\BeyondStorage_Init.cs" />
-        <Compile Include="Harmony\GameManagerPatches\StartGameHook.cs"/>
-        <Compile Include="Harmony\ItemActionPatches\ActionRepair.cs"/>
-        <Compile Include="Harmony\ItemActionPatches\EntryCraft.cs"/>
-        <Compile Include="Harmony\ItemActionPatches\EntryRepair.cs"/>
-        <Compile Include="Harmony\XUIC\IngredientEntry.cs"/>
-        <Compile Include="Harmony\XUIC\RecipeCraft.cs"/>
-        <Compile Include="Harmony\XUIC\RecipeList.cs"/>
-        <Compile Include="Harmony\XUIM\PlayerInventory.cs"/>
+        <Compile Include="Harmony\BeyondStorage_Init.cs"/>
+        <Compile Include="Harmony\_Bag\Bag_Patches.cs"/>
+        <Compile Include="Harmony\_GameManager\GameManager_Patches.cs"/>
+        <Compile Include="Harmony\_XUiC\XUiC_RecipeList_Patches.cs"/>
+        <Compile Include="Harmony\_XUiM\XUiM_PlayerInventory_Patches.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="Scripts\ContainerUtils.cs"/>
         <Compile Include="Scripts\LogUtil.cs"/>
