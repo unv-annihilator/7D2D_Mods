@@ -1,6 +1,7 @@
 # Latest Releases
 
 ---
+### AlphaJump [v1.0.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/AlphaJump_v1.0.0.0)
 
 ### AutoClaimChallenges [v0.1.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/AutoClaimChallenges_v0.1.0.0)
 
@@ -14,6 +15,8 @@
 ## Mod Descriptions & Code Links
 
 ---
+- ### [AlphaJump](https://github.com/unv-annihilator/7D2D_Mods/tree/master/AlphaJump):
+  - One jump per keybind press similar to alpha. (Holding space results in a single jump instead of constant jumping)
 
 - ### [Auto Claim Challenges](https://github.com/unv-annihilator/7D2D_Mods/tree/master/AutoClaimChallenges):
   - Claims the rewards of challenges automatically after you complete them.
