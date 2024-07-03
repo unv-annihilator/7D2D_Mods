@@ -9,6 +9,7 @@ namespace BeyondStorage.Scripts;
 
 public static class ContainerUtils
 {
+    // ReSharper disable once FieldCanBeMadeReadOnly.Local
     private static Dictionary<Vector3i, ITileEntityLootable> _currentStorageDict = new();
 
     public static void Init()
