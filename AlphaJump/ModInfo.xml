@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xml>
-    <Name value="AlphaJump"/>
-    <DisplayName value="Alpha Jump"/>
-    <Version value="1.0.0.0"/>
-    <Description value="Reverts jumping behaviour to jump once per button press, similar to alpha."/>
-    <Author value="unv_Annihilator"/>
-    <Website value="https://github.com/unv-annihilator/7D2D_Mods"/>
+  <Name value="AlphaJump"/>
+  <DisplayName value="Alpha Jump"/>
+  <Version value="1.0.0.0"/>
+  <Description value="Reverts jumping behaviour to jump once per button press, similar to alpha."/>
+  <Author value="unv_Annihilator"/>
+  <Website value="https://github.com/unv-annihilator/7D2D_Mods"/>
 </xml>

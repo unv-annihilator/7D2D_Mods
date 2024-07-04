@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xml>
-    <Name value="BeyondStorage"/>
-    <DisplayName value="Beyond Storage"/>
-    <Version value="0.2.0.0"/>
-    <Description
-            value="Utilize resources from distance storage containers for crafting, upgrading, and repairing. Originally 'CraftFromContainers' by aedenthorn."/>
-    <Author value="aedenthorn, unv_Annihilator"/>
-    <Website value="https://github.com/unv-annihilator/7D2D_Mods"/>
+  <Name value="BeyondStorage"/>
+  <DisplayName value="Beyond Storage"/>
+  <Version value="0.2.0.0"/>
+  <Description
+    value="Utilize resources from distance storage containers for crafting, upgrading, and repairing. Originally 'CraftFromContainers' by aedenthorn."/>
+  <Author value="aedenthorn, unv_Annihilator"/>
+  <Website value="https://github.com/unv-annihilator/7D2D_Mods"/>
 </xml>
