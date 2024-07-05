@@ -2,7 +2,7 @@
 <xml>
   <Name value="SprintToggleFix"/>
   <DisplayName value="Sprint Toggle Fix"/>
-  <Version value="0.1.0.0"/>
+  <Version value="1.0.0"/>
   <Description
     value="Removes keybind delay that can leave sprint on without holding the keybind (and with toggle disabled)."/>
   <Author value="unv_Annihilator"/>

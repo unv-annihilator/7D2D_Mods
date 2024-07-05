@@ -19,22 +19,20 @@ public static class PlayerMoveController_Patches
         var codes = new List<CodeInstruction>(instructions);
         Log.Out("[ToggleSprintFix] Transpiling PlayerMoveController.Update");
         for (var i = 0; i < codes.Count; i++)
-            if (codes[i].opcode == OpCodes.Ldfld && ((FieldInfo)codes[i].operand).Name == "runInputTime")
-            {
-                Log.Out("[ToggleSprintFix] Found runInputTime");
-                if (codes[i + 1].opcode == OpCodes.Ldc_R4)
-                {
-                    Log.Out("[ToggleSprintFix] Found 0.2 delay");
-                    var value = (float)codes[i + 1].operand;
-                    if (Math.Abs(value - 0.2f) < 0.000000002f)
-                    {
-                        codes[i + 1] = new CodeInstruction(OpCodes.Ldc_R4, (float)0.0);
-                        Log.Out("[ToggleSprintFix] Updated to 0.0 delay");
-                        break;
-                    }
-                }
-            }
-
+        {
+            // ldfld        float32 PlayerMoveController::runInputTime
+            if (codes[i].opcode != OpCodes.Ldfld || ((FieldInfo)codes[i].operand).Name != "runInputTime") continue;
+            Log.Out("[ToggleSprintFix] Found runInputTime");
+            // ldc.r4       0.2
+            if (codes[i + 1].opcode != OpCodes.Ldc_R4) continue;
+            Log.Out("[ToggleSprintFix] Found 0.2 delay check");
+            var value = (float)codes[i + 1].operand;
+            if (!(Math.Abs(value - 0.2f) < 0.000000002f)) continue;
+            // ldc.r4 -1
+            codes[i + 1] = new CodeInstruction(OpCodes.Ldc_R4, (float)-1.0);
+            Log.Out("[ToggleSprintFix] Updated to -1.0 check (always true)");
+            break;
+        }
         return codes.AsEnumerable();
     }
 }
