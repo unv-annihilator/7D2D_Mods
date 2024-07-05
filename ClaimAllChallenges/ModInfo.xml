@@ -3,7 +3,7 @@
   <Name value="ClaimAllChallenges"/>
   <DisplayName value="Claim All Challenges"/>
   <Version value="1.0.1.0"/>
-  <Description value="Adds a button to the Challenges screen to 'Claim All' completed challenges."/>
+  <Description value="Adds a button to the Challenges screen to 'Redeem All' completed challenges."/>
   <Author value="unv_Annihilator"/>
   <Website value="https://github.com/unv-annihilator/7D2D_Mods"/>
 </xml>
