@@ -30,11 +30,27 @@ public class XUiC_ClaimAllButton : XUiController
         var entityPlayer = xui.playerUI.entityPlayer;
         var challengeJournal = entityPlayer.challengeJournal;
         foreach (var challenge in challengeJournal.ChallengeDictionary.Values
-                     .Where(challenge => challenge.ReadyToComplete).Where(challenge => !challenge.needsPrerequisites))
+                     .Where(challenge => challenge.ReadyToComplete)
+                     .Where(challenge => challenge.ChallengeClass.ChallengeGroup.IsVisible()))
         {
             challenge.ChallengeState = Challenge.ChallengeStates.Redeemed;
             challenge.Redeem();
             QuestEventManager.Current.ChallengeCompleted(challenge.ChallengeClass, true);
+        }
+    }
+
+    public override bool GetBindingValue(ref string value, string bindingName)
+    {
+        switch (bindingName)
+        {
+            case "hascompletedchallenges":
+                var entityPlayer = xui.playerUI.entityPlayer;
+                value = entityPlayer == null
+                    ? "false"
+                    : entityPlayer.challengeJournal.HasCompletedChallenges().ToString();
+                return true;
+            default:
+                return false;
         }
     }
 }

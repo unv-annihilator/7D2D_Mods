@@ -3,7 +3,7 @@
     <rect controller="ClaimAllChallenges.Scripts.XUiC.ClaimAllButton, ClaimAllChallenges">
       <simplebutton name="btnCompleteAll" depth="3" pos="290,-631" width="250" height="36" font_size="24"
                     caption_key="redeemAll" visible="{haschallenge}" parse_actions="true"
-                    enabled="{hasreward}" gamepad_selectable="false"/>
+                    enabled="{hascompletedchallenges}" gamepad_selectable="false"/>
     </rect>
   </append>
 </configs>

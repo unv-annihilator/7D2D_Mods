@@ -33,6 +33,7 @@ public static class PlayerMoveController_Patches
             Log.Out("[ToggleSprintFix] Updated to -1.0 check (always true)");
             break;
         }
+
         return codes.AsEnumerable();
     }
 }
