@@ -25,6 +25,22 @@ public class XUiC_ClaimAllButton : XUiController
         CompleteAllChallenges();
     }
 
+    public override void Update(float _dt)
+    {
+        base.Update(_dt);
+        if (!IsDirty)
+            return;
+        RefreshBindings(true);
+        IsDirty = false;
+    }
+
+    public override void OnOpen()
+    {
+        base.OnOpen();
+        IsDirty = true;
+        RefreshBindings(true);
+    }
+
     private void CompleteAllChallenges()
     {
         var entityPlayer = xui.playerUI.entityPlayer;
@@ -37,6 +53,9 @@ public class XUiC_ClaimAllButton : XUiController
             challenge.Redeem();
             QuestEventManager.Current.ChallengeCompleted(challenge.ChallengeClass, true);
         }
+
+        RefreshBindings(true);
+        IsDirty = true;
     }
 
     public override bool GetBindingValue(ref string value, string bindingName)
