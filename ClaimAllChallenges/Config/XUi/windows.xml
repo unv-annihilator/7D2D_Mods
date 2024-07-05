@@ -1,9 +1,9 @@
 ﻿<configs>
-  <append xpath="/windows/window[@name='windowChallengeEntryDescription']/rect[@name='content']">
-    <rect controller="ClaimAllChallenges.Scripts.XUiC.ClaimAllButton, ClaimAllChallenges">
-      <simplebutton name="btnCompleteAll" depth="3" pos="290,-631" width="250" height="36" font_size="24"
-                    caption="Complete All" visible="{haschallenge}" parse_actions="true"
-                    enabled="{hasreward}" gamepad_selectable="false"/>
-    </rect>
-  </append>
+    <append xpath="/windows/window[@name='windowChallengeEntryDescription']/rect[@name='content']">
+        <rect controller="ClaimAllChallenges.Scripts.XUiC.ClaimAllButton, ClaimAllChallenges">
+            <simplebutton name="btnCompleteAll" depth="3" pos="290,-631" width="250" height="36" font_size="24"
+                          caption="Complete All" visible="{haschallenge}" parse_actions="true"
+                          enabled="{hasreward}" gamepad_selectable="false"/>
+        </rect>
+    </append>
 </configs>
