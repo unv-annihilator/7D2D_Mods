@@ -1,0 +1,2 @@
+﻿Key,English
+redeemAll,"Redeem All"
