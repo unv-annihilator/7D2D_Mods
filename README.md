@@ -14,7 +14,7 @@
 - Pulls from ALL nearby storage. (Fridges, drawers, storage chests, etc.)
 - Range configurable in the configuration json file. (-1 is unlimited range)
 
-### Claim All Challenges [v1.1.1](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/ClaimAllChallenges_v1.1.0-exp.1.0%2B313)
+### Claim All Challenges [v1.1.1](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/ClaimAllChallenges_v1.1.1-exp.1.0%2B313)
 - Alternative to 'Auto Claim Challenges'; adds a button to click to claim all completed challenges.
 
 ### Random Traders [v1.0.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/RandomTraders_v1.0.0.0)
