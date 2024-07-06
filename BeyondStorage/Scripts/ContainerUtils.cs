@@ -93,8 +93,9 @@ public static class ContainerUtils
                 }
         }
 
-        LogUtil.DebugLog($"Removed {num - requiredAmount} {itemValue.ItemClass.GetItemName()}");
-        return num - requiredAmount;
+        var result = num - requiredAmount;
+        LogUtil.DebugLog($"Removed {result} {itemValue.ItemClass.GetItemName()}");
+        return result;
     }
 
     private static void ReloadStorages()

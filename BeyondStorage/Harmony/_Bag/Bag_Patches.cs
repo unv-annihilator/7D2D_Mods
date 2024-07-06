@@ -27,7 +27,7 @@ public static class Bag_Patches
     {
         LogUtil.DebugLog($"Bag DecItem | Count: {_count} | Result: {__result}");
         var removed = ContainerUtils.RemoveRemaining(_itemValue, _count, _ignoreModdedItems, _removedItems);
-        __result -= removed;
+        __result += removed;
         LogUtil.DebugLog($"Bag DecItem | New Result: {__result}");
     }
 }
