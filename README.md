@@ -7,7 +7,7 @@
 ### Auto Claim Challenges [v0.1.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/AutoClaimChallenges_v0.1.0.0)
 - Claims the rewards of challenges automatically after you complete them.
 
-### Beyond Storage [v0.2.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/BeyondStorage_v0.2.0.0)
+### Beyond Storage [v1.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/BeyondStorage_v1.0.0-exp.1.0%2B313)
 - Originally 'CraftFromContainers' by aedenthorn. Refactored and updated for v1.0
 - Craft and Repair items using items from nearby storage.
 - Repair and Upgrade blocks using items from nearby storage. (no longer configurable)

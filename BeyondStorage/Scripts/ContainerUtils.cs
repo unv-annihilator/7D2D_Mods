@@ -70,13 +70,17 @@ public static class ContainerUtils
                 {
                     if (ItemClass.GetForId(items[index].itemValue.type).CanStack())
                     {
+                        LogUtil.DebugLog($"Loc: {kvp.Key}, Value: {kvp.Value}");
                         var itemCount = items[index].count;
                         var countToRemove = itemCount >= requiredAmount ? requiredAmount : itemCount;
+                        LogUtil.DebugLog($"Item Count: {itemCount} Count To Remove: {countToRemove}");
                         removedItems?.Add(new ItemStack(items[index].itemValue.Clone(), countToRemove));
+                        LogUtil.DebugLog($"Item Count Before: {items[index].count}");
                         items[index].count -= countToRemove;
+                        LogUtil.DebugLog($"Item Count After: {items[index].count}");
                         requiredAmount -= countToRemove;
-                        if (items[index].count <= 0)
-                            items[index].Clear();
+                        LogUtil.DebugLog($"Required After: {requiredAmount}");
+                        if (items[index].count <= 0) items[index].Clear();
                         kvp.Value.SetModified();
                     }
                     else
@@ -89,7 +93,7 @@ public static class ContainerUtils
                 }
         }
 
-        LogUtil.DebugLog($"Removed {num} - {requiredAmount} {itemValue.ItemClass.GetItemName()}");
+        LogUtil.DebugLog($"Removed {num - requiredAmount} {itemValue.ItemClass.GetItemName()}");
         return num - requiredAmount;
     }
 
