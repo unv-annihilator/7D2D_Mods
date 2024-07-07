@@ -123,7 +123,7 @@ public static class ContainerUtils
                         continue;
                     if (tileEntityLootable is ILockable tileLockable)
                         if (tileLockable.IsLocked() &&
-                            tileLockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
+                            !tileLockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                             continue;
                     // KnownStorageDict[loc] = tileEntityLootable;
                     // LogUtil.DebugLog(
