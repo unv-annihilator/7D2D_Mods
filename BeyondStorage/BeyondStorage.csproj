@@ -33,13 +33,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Harmony\BeyondStorage_Init.cs"/>
-    <Compile Include="Harmony\_Bag\Bag_Patches.cs"/>
-    <Compile Include="Harmony\_GameManager\GameManager_Patches.cs"/>
-    <Compile Include="Harmony\_XUiC\XUiC_RecipeList_Patches.cs"/>
-    <Compile Include="Harmony\_XUiM\XUiM_PlayerInventory_Patches.cs"/>
+    <Compile Include="Harmony\Block\Repair\ItemActionRepair_Repair_Patches.cs"/>
+    <Compile Include="Harmony\Block\Upgrade\ItemActionRepair_Upgrade_Patches.cs"/>
+    <Compile Include="Harmony\Common\GameManager_Patches.cs"/>
+    <Compile Include="Harmony\Item\Craft\XUiC_RecipeCraftCount_Patches.cs"/>
+    <Compile Include="Harmony\Item\Craft\XUiC_RecipeList_Patches.cs"/>
+    <Compile Include="Harmony\Item\Repair\ItemActionEntryRepair_Patches.cs"/>
+    <Compile Include="Harmony\Item\XUiC_IngredientEntry_Patches.cs"/>
+    <Compile Include="Harmony\Item\XUiM_PlayerInventory_Common_Patches.cs"/>
+    <Compile Include="Harmony\Reload\AnimatorRangedReloadState_Patches.cs"/>
+    <Compile Include="Harmony\Reload\ItemActionRanged_Patches.cs"/>
+    <Compile Include="Scripts\Common\FileUtil.cs"/>
+    <Compile Include="Scripts\Common\LogUtil.cs"/>
+    <Compile Include="Scripts\Configuration\ModConfig.cs"/>
     <Compile Include="Scripts\ContainerUtils.cs"/>
-    <Compile Include="Scripts\LogUtil.cs"/>
-    <Compile Include="Scripts\ModConfig.cs"/>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ModInfo.xml"/>
@@ -63,6 +70,10 @@
     </Reference>
     <Reference Include="System.Xml">
       <HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
