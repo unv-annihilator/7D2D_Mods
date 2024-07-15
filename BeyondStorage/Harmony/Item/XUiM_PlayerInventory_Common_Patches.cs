@@ -105,11 +105,6 @@ public class XUiMPlayerInventoryCommonPatches {
     // [HarmonyDebug]
     private static IEnumerable<CodeInstruction> XUiM_PlayerInventory_RemoveItems_Patch(
         IEnumerable<CodeInstruction> instructions) {
-        // TODO: Enable/disable as required
-        // if (!BeyondStorage.Config.enableForItemCraft && !BeyondStorage.Config.enableForItemRepair) {
-        //     return instructions;
-        // }
-
         LogUtil.Info("Transpiling XUiM_PlayerInventory.RemoveItems");
         var codes = new List<CodeInstruction>(instructions);
         var set = false;

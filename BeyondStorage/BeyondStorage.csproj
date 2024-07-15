@@ -41,6 +41,7 @@
     <Compile Include="Harmony\Item\Repair\ItemActionEntryRepair_Patches.cs"/>
     <Compile Include="Harmony\Item\XUiC_IngredientEntry_Patches.cs"/>
     <Compile Include="Harmony\Item\XUiM_PlayerInventory_Common_Patches.cs"/>
+    <Compile Include="Harmony\Reload\Animator3PRangedReloadState_Patches.cs" />
     <Compile Include="Harmony\Reload\AnimatorRangedReloadState_Patches.cs"/>
     <Compile Include="Harmony\Reload\ItemActionRanged_Patches.cs"/>
     <Compile Include="Scripts\Common\FileUtil.cs"/>
