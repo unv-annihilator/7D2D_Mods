@@ -15,7 +15,7 @@ public class Animator3PRangedReloadStatePatches {
         if (__result > 0) return;
 
         if (BeyondStorage.Config.isDebug) {
-            LogUtil.DebugLog("AnimatorRangedReloadState_GetAmmoCountToReload_Postfix");
+            LogUtil.DebugLog("Animator3PRangedReloadState_GetAmmoCountToReload_Postfix");
             // LogUtil.DebugLog($"Bag Ammo Count: {ea.bag.GetItemCount(ammo)}");
             // LogUtil.DebugLog($"Inv Ammo Count: {ea.inventory.GetItemCount(ammo)}");
             LogUtil.DebugLog($"Orig Result: {__result}");
