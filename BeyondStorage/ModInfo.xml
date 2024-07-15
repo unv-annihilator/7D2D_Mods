@@ -2,7 +2,7 @@
 <xml>
   <Name value="BeyondStorage"/>
   <DisplayName value="Beyond Storage"/>
-  <Version value="2.0.0"/>
+  <Version value="2.0.1"/>
   <Description
     value="Utilize resources from distance storage containers for crafting, upgrading, and more! Originally 'CraftFromContainers' by aedenthorn."/>
   <Author value="aedenthorn, unv_Annihilator"/>
