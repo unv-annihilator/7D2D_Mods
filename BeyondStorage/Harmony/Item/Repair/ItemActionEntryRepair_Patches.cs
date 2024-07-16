@@ -10,7 +10,8 @@ namespace BeyondStorage.Item.Repair;
 
 [HarmonyPatch(typeof(ItemActionEntryRepair))]
 public class ItemActionEntryRepairPatches {
-    // Used For: Item Repair (Allows Repair)
+    // Used For:
+    //      Item Repair (Allows Repair)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(ItemActionEntryRepair.OnActivated))]
     // [HarmonyDebug]
@@ -71,8 +72,8 @@ public class ItemActionEntryRepairPatches {
         return codes.AsEnumerable();
     }
 
-    // Used For: Item Repair (Button Enabled)
-    // TODO: Refactor, cache or something as this is called A LOT (ex: shooting a gun)
+    // Used For:
+    //      Item Repair (Button Enabled)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(ItemActionEntryRepair.RefreshEnabled))]
     // [HarmonyDebug]
@@ -99,7 +100,7 @@ public class ItemActionEntryRepairPatches {
                     codes[startIndex - 1].Clone(),
                     // ContainerUtils.GetItemCount(new ItemValue(itemClass.Id, 0))
                     new CodeInstruction(OpCodes.Call,
-                        AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.GetItemCount))),
+                        AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.GetItemCountForItem))),
                     // ldloc.s  'int32'
                     codes[startIndex + 1].Clone(),
                     // call         int32 [UnityEngine.CoreModule]UnityEngine.Mathf::Min(int32, int32)

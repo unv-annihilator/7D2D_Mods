@@ -12,15 +12,36 @@ public static class ContainerUtils {
     // ReSharper disable once FieldCanBeMadeReadOnly.Local
     private static Dictionary<Vector3i, ITileEntityLootable> _currentStorageDict = new();
 
+    internal static bool IngredientListShown { get; set; }
+
+    internal static bool RepairActionShown { get; set; }
+
+    internal static bool ActionListVisible { get; set; }
+
     public static void Init() {
         _currentStorageDict.Clear();
     }
 
     public static void Cleanup() {
         _currentStorageDict.Clear();
+        IngredientListShown = false;
+        RepairActionShown = false;
+        ActionListVisible = false;
     }
 
+    private static bool ShouldCheck(bool forRepair = false) {
+        return IngredientListShown || forRepair && BeyondStorage.Config.enableForItemRepair && RepairActionShown && ActionListVisible;
+    }
+
+
+    //  Used By:
+    //      XUiC_IngredientEntry_GetBindingValue_Patch
+    // Used For:
+    //      Item Crafting (shows item count available in crafting window(s))
+    //      Item Repair (removes items with Bag DecItem)
     public static int AddAllStoragesCountEntry(int count, XUiC_IngredientEntry entry) {
+        if (!ShouldCheck())
+            return count;
         if (BeyondStorage.Config.isDebug)
             LogUtil.DebugLog(
                 $"AddAllStoragesCountEntry | count {count} |  entry {entry.Ingredient.itemValue.ItemClass.GetItemName()}");
@@ -28,6 +49,11 @@ public static class ContainerUtils {
         return GetItemCount2(count, entry.Ingredient.itemValue);
     }
 
+    //  Used By:
+    //      XUiC_IngredientEntry_GetBindingValue_Patch
+    // Used For:
+    //      Item Crafting (shows item count available in crafting window(s))
+    //      Item Repair (removes items with Bag DecItem)
     private static int GetItemCount2(int count, ItemValue item) {
         ReloadStorages();
         if (_currentStorageDict.Count == 0) return count;
@@ -37,28 +63,29 @@ public static class ContainerUtils {
         return count;
     }
 
+    // Used By:
+    //      XUiC_RecipeCraftCount.calcMaxCraftable (Item Crafting (gets max craftable amount))
     public static ItemStack[] GetAllStorageStacksArrays(ItemStack[] items) {
-        // TODO: Frequently called
-        // if (BeyondStorage.Config.isDebug) {
-        //     LogUtil.DebugLog($"GetAllStorageStacksArrays");
-        // }
-        return GetAllStorageStacks(items.ToList()).ToArray();
+        if (!ShouldCheck())
+            return items;
+        if (BeyondStorage.Config.isDebug) {
+            LogUtil.DebugLog("GetAllStorageStacksArrays");
+        }
+
+        var tempList = items.ToList();
+        AddAllStorageStacks(tempList);
+        return tempList.ToArray();
     }
 
-    private static List<ItemStack> GetAllStorageStacks(List<ItemStack> items) {
-        // TODO: Frequently called
-        // if (BeyondStorage.Config.isDebug) {
-        //     LogUtil.DebugLog($"GetAllStorageStacks");
-        // }
-        AddAllStorageStacks(items);
-        return items;
-    }
-
+    // Used By:
+    //      XUiC_RecipeList.Update (Item Crafts (shown as available in the list))
+    //      XUiC_RecipeCraftCount.calcMaxCraftable (Item Crafting (gets max craftable amount))
     public static void AddAllStorageStacks(List<ItemStack> items) {
-        // TODO: Frequently called
-        // if (BeyondStorage.Config.isDebug) {
-        //     LogUtil.DebugLog($"AddAllStorageStacks");
-        // }
+        if (!ShouldCheck())
+            return;
+        if (BeyondStorage.Config.isDebug) {
+            LogUtil.DebugLog("AddAllStorageStacks");
+        }
 
         ReloadStorages();
         if (_currentStorageDict.Count == 0) return;
@@ -68,6 +95,18 @@ public static class ContainerUtils {
         }
     }
 
+    // Used By:
+    //      XUiM_PlayerInventory.HasItems (Item Crafting (has items only, does not handle remove))
+    //      ItemActionEntryRepair.RefreshEnabled (Item Repair (Button Enabled))
+    public static int GetItemCountForItem(ItemValue itemValue) {
+        return ShouldCheck(true) ? GetItemCount(itemValue) : 0;
+    }
+
+    // Used By:
+    //      ItemActionRepair.CanRemoveRequiredResource (Block Upgrade (Check for enough items))
+    //      ItemActionRepair.canRemoveRequiredItem (Block Repair (resources available check))
+    //      ItemActionRanged.CanReload (Weapon Reload (check if allowed to reload))
+    //      ItemActionEntryRepair.OnActivated (Item Repair (Allows Repair)) -- Already skips if not in inventory
     public static int GetItemCount(ItemValue itemValue) {
         if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"GetItemCount | item {itemValue.ItemClass.GetItemName()}");
 
@@ -81,7 +120,10 @@ public static class ContainerUtils {
         return slots.Where(t => t.itemValue.type == itemValue.type).Sum(t => t.count);
     }
 
+    // Used By:
+    //      ItemActionEntryRepair.OnActivated (Item Repair (Allows Repair))
     public static int GetTrueItemRepairCount(ItemValue itemValue, int currentCount) {
+        if (!ShouldCheck(true)) return currentCount;
         if (BeyondStorage.Config.isDebug)
             LogUtil.DebugLog(
                 $"GetTrueItemRepairCount | item {itemValue.ItemClass.GetItemName()} | currentCount {currentCount}");
@@ -98,6 +140,8 @@ public static class ContainerUtils {
         return currentCount;
     }
 
+    // Used By:
+    //      ItemActionRepair.RemoveRequiredResource (Block Upgrade (Remove items))
     public static int RemoveRemainingForUpgrade(int currentCount, ItemValue itemValue, int requiredCount) {
         if (currentCount == requiredCount) {
             if (BeyondStorage.Config.isDebug)
@@ -114,6 +158,8 @@ public static class ContainerUtils {
         return currentCount + RemoveRemaining(itemValue, requiredCount - currentCount);
     }
 
+    // Used By:
+    //      ItemActionRepair.removeRequiredItem (Block Repair (remove items on repair))
     public static int RemoveRemainingForRepair(int currentCount, ItemStack itemStack) {
         var num = itemStack.count - currentCount;
         if (num == 0) {
@@ -131,6 +177,11 @@ public static class ContainerUtils {
         return currentCount + RemoveRemaining(itemStack.itemValue, num);
     }
 
+    // Used By:
+    //      XUiM_PlayerInventory.RemoveItems
+    // Used For:
+    //      Item Crafting (Remove items on craft)
+    //      Item Repair (Remove items on repair)
     public static int RemoveRemainingForCraft(int currentCount, ItemValue itemValue, int requiredAmount,
         bool ignoreModdedItems = false,
         IList<ItemStack> removedItems = null) {
@@ -138,12 +189,16 @@ public static class ContainerUtils {
         if (BeyondStorage.Config.isDebug)
             LogUtil.DebugLog(
                 $"RemoveRemainingForCraft | stillNeeded: {num} current: {currentCount} item: {itemValue.ItemClass.GetItemName()} required: {requiredAmount} ignoreModded: {ignoreModdedItems}");
-        //removedCount: {removedItems!.Count}
         if (num <= 0) return currentCount;
 
         return currentCount - RemoveRemaining(itemValue, num, ignoreModdedItems, removedItems);
     }
 
+    // Used By:
+    //      AnimatorRangedReloadState.GetAmmoCountToReload
+    //      Animator3PRangedReloadState.GetAmmoCountToReload
+    // Used For:
+    //      Reloading (removes items on reload)
     public static int RemoveRemainingForReload(ItemValue ammo, int requiredAmount) {
         if (BeyondStorage.Config.isDebug)
             LogUtil.DebugLog(
@@ -214,31 +269,27 @@ public static class ContainerUtils {
             var cc = GameManager.Instance.World.ChunkClusters[i];
             var sync = (ReaderWriterLockSlim)AccessTools.Field(typeof(WorldChunkCache), "sync").GetValue(cc);
             sync.EnterReadLock();
-            foreach (var c in cc.chunks.dict.Values) {
-                var entities =
-                    (DictionaryList<Vector3i, TileEntity>)AccessTools.Field(typeof(Chunk), "tileEntities")
-                        .GetValue(c);
-                foreach (var kvp in entities.dict) {
-                    var loc = kvp.Value.ToWorldPos();
-                    if (kvp.Value.IsUserAccessing()) continue;
+            foreach (var kvp in cc.chunks.dict.Values.Select(c => (DictionaryList<Vector3i, TileEntity>)AccessTools.Field(typeof(Chunk), "tileEntities")
+                         .GetValue(c)).SelectMany(entities => entities.dict)) {
+                if (!kvp.Value.TryGetSelfOrFeature(out ITileEntityLootable tileEntityLootable)) continue;
 
-                    if (!kvp.Value.TryGetSelfOrFeature(out ITileEntityLootable tileEntityLootable)) continue;
+                if (BeyondStorage.Config.onlyStorageCrates)
+                    if (!kvp.Value.TryGetSelfOrFeature(out TEFeatureStorage _))
+                        continue;
 
-                    if (BeyondStorage.Config.onlyStorageCrates)
-                        if (!kvp.Value.TryGetSelfOrFeature(out TEFeatureStorage _))
-                            continue;
+                if (!tileEntityLootable.bPlayerStorage) continue;
 
-                    if (!tileEntityLootable.bPlayerStorage) continue;
+                if (kvp.Value.IsUserAccessing()) continue;
 
-                    if (tileEntityLootable is ILockable tileLockable)
-                        if (tileLockable.IsLocked() &&
-                            !tileLockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
-                            continue;
+                if (tileEntityLootable is ILockable tileLockable)
+                    if (tileLockable.IsLocked() &&
+                        !tileLockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
+                        continue;
 
-                    if (BeyondStorage.Config.range <= 0 ||
-                        Vector3.Distance(pos, loc) < BeyondStorage.Config.range)
-                        _currentStorageDict[loc] = tileEntityLootable;
-                }
+                var loc = kvp.Value.ToWorldPos();
+                if (BeyondStorage.Config.range <= 0 ||
+                    Vector3.Distance(pos, loc) < BeyondStorage.Config.range)
+                    _currentStorageDict[loc] = tileEntityLootable;
             }
 
             sync.ExitReadLock();

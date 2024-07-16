@@ -39,15 +39,18 @@
     <Compile Include="Harmony\Item\Craft\XUiC_RecipeCraftCount_Patches.cs"/>
     <Compile Include="Harmony\Item\Craft\XUiC_RecipeList_Patches.cs"/>
     <Compile Include="Harmony\Item\Repair\ItemActionEntryRepair_Patches.cs"/>
+    <Compile Include="Harmony\Item\Repair\XUiC_ItemActionList_Patches.cs"/>
     <Compile Include="Harmony\Item\XUiC_IngredientEntry_Patches.cs"/>
-    <Compile Include="Harmony\Item\XUiM_PlayerInventory_Common_Patches.cs"/>
-    <Compile Include="Harmony\Reload\Animator3PRangedReloadState_Patches.cs" />
+    <Compile Include="Harmony\Item\XUiC_IngredientList_Patches.cs"/>
+    <Compile Include="Harmony\Item\XUiM_PlayerInventory_Patches.cs"/>
+    <Compile Include="Harmony\Reload\Animator3PRangedReloadState_Patches.cs"/>
     <Compile Include="Harmony\Reload\AnimatorRangedReloadState_Patches.cs"/>
     <Compile Include="Harmony\Reload\ItemActionRanged_Patches.cs"/>
     <Compile Include="Scripts\Common\FileUtil.cs"/>
     <Compile Include="Scripts\Common\LogUtil.cs"/>
     <Compile Include="Scripts\Configuration\ModConfig.cs"/>
     <Compile Include="Scripts\ContainerUtils.cs"/>
+    <Compile Include="Scripts\RangedUtil.cs"/>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ModInfo.xml"/>

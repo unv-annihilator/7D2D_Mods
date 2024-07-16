@@ -45,25 +45,4 @@ public class ItemActionRangedPatches {
         // Set new result
         __result = newResult;
     }
-
-    // [HarmonyPrefix]
-    // [HarmonyPatch(nameof(ItemActionRanged.CanReload))]
-    // private static void ItemActionRanged_CanReload_Prefix(ItemActionRanged __instance, ItemActionData _actionData) {
-    //     if (!BeyondStorage.Config.isDebug) {
-    //         return;
-    //     }
-    //     LogUtil.DebugLog("ItemActionRanged_CanReload_Prefix");
-    //     var actionData = (ItemActionRanged.ItemActionDataRanged) _actionData;
-    //     LogUtil.DebugLog($"NotReloading: {__instance.notReloading(actionData)}");
-    //     var holdingItemItemValue = _actionData.invData.holdingEntity.inventory.holdingItemItemValue;
-    //     LogUtil.DebugLog($"Held Item: {holdingItemItemValue.ItemClass.GetItemName()}");
-    //     var itemValue = ItemClass.GetItem(__instance.MagazineItemNames[(int) holdingItemItemValue.SelectedAmmoTypeIndex]);
-    //     LogUtil.DebugLog($"Ammo: {itemValue.ItemClass.GetItemName()}");
-    //     var num = (int) EffectManager.GetValue(PassiveEffects.MagazineSize, holdingItemItemValue, __instance.BulletsPerMagazine, _actionData.invData.holdingEntity);
-    //     // LogUtil.DebugLog($"Magazine Size: {num}");
-    //     // LogUtil.DebugLog($"InvMeta: {_actionData.invData.itemValue.Meta} >= {num} MagSize");
-    //     LogUtil.DebugLog($"Inventory Count: {_actionData.invData.holdingEntity.inventory.GetItemCount(itemValue)}");
-    //     LogUtil.DebugLog($"Bag Count: {_actionData.invData.holdingEntity.bag.GetItemCount(itemValue)}");
-    //     LogUtil.DebugLog($"Infinite Ammo: {__instance.HasInfiniteAmmo(_actionData)}");
-    // }
 }

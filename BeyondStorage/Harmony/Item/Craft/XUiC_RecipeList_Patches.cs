@@ -26,7 +26,8 @@ public class XUiCRecipeListPatches {
     // IL_0095: ldloc.0      // updateStackList List<ItemStack>
     // IL_0096: call System.Void XUiC_RecipeList::BuildRecipeInfosList(System.Collections.Generic.List`1<ItemStack>)
 
-    // Used for: Item Crafts (shown as available in the list)
+    // Used for:
+    //      Item Crafts (shown as available in the list)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(XUiC_RecipeList.Update))]
     // [HarmonyDebug]

@@ -27,16 +27,13 @@ public class XUiMPlayerInventoryCommonPatches {
     //    return false;
     //
 
-    // Used for: Item Crafting (has items only, does not handle remove)
+    // Used for:
+    //          Item Crafting (has items only, does not handle remove)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(XUiM_PlayerInventory.HasItems))]
     // [HarmonyDebug]
     private static IEnumerable<CodeInstruction> XUiM_PlayerInventory_HasItems_Patch(
         IEnumerable<CodeInstruction> instructions) {
-        // if (!BeyondStorage.Config.enableForItemCraft && !BeyondStorage.Config.enableForItemRepair) {
-        //     return instructions;
-        // }
-
         LogUtil.Info("Transpiling XUiM_PlayerInventory.HasItems");
         var codes = new List<CodeInstruction>(instructions);
         var set = false;
@@ -60,7 +57,7 @@ public class XUiMPlayerInventoryCommonPatches {
                 new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(ItemStack), nameof(ItemStack.itemValue))),
                 // ContainerUtils.GetItemCount(_itemStacks[index].itemValue)
                 new CodeInstruction(OpCodes.Call,
-                    AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.GetItemCount))),
+                    AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.GetItemCountForItem))),
                 // -=
                 new CodeInstruction(OpCodes.Sub),
                 // num -= ContainerUtils.GetItemCount(_itemStacks[index].itemValue)

@@ -10,7 +10,8 @@ namespace BeyondStorage.Item.Craft;
 
 [HarmonyPatch(typeof(XUiC_RecipeCraftCount))]
 public class XUiCRecipeCraftCountPatches {
-    // Used for: Item Crafting (gets max craftable amount)
+    // Used for:
+    //          Item Crafting (gets max craftable amount)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(XUiC_RecipeCraftCount.calcMaxCraftable))]
     // [HarmonyDebug]
