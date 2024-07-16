@@ -43,8 +43,7 @@ public static class RangedUtil {
                 modifiedMagazineSize - currentAmmoCount);
 
 
-        amountReloaded += reloadCount;
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"New Reload Count: {amountReloaded}");
-        return amountReloaded;
+        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"Additionally Reloaded: {reloadCount}");
+        return reloadCount;
     }
 }
