@@ -8,18 +8,15 @@ using HarmonyLib;
 namespace SprintToggleFix._PlayerMoveController;
 
 [HarmonyPatch(typeof(PlayerMoveController))]
-public static class PlayerMoveController_Patches
-{
+public static class PlayerMoveControllerPatches {
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(PlayerMoveController.Update))]
     // [HarmonyDebug]
     private static IEnumerable<CodeInstruction> PlayerMoveController_Update_Transpiler(
-        IEnumerable<CodeInstruction> instructions)
-    {
+        IEnumerable<CodeInstruction> instructions) {
         var codes = new List<CodeInstruction>(instructions);
         Log.Out("[ToggleSprintFix] Transpiling PlayerMoveController.Update");
-        for (var i = 0; i < codes.Count; i++)
-        {
+        for (var i = 0; i < codes.Count; i++) {
             // ldfld        float32 PlayerMoveController::runInputTime
             if (codes[i].opcode != OpCodes.Ldfld || ((FieldInfo)codes[i].operand).Name != "runInputTime") continue;
             Log.Out("[ToggleSprintFix] Found runInputTime");

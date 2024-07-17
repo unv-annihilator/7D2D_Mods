@@ -8,14 +8,12 @@ using UnityEngine;
 namespace AlphaJump._EntityPlayerLocal;
 
 [HarmonyPatch(typeof(EntityPlayerLocal))]
-public class EntityPlayerLocal_Patches
-{
+public class EntityPlayerLocalPatches {
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(EntityPlayerLocal.MoveByInput))]
     // [HarmonyDebug]
     private static IEnumerable<CodeInstruction> EntityPlayerLocal_MoveByInput_Transpiler(
-        IEnumerable<CodeInstruction> instructions)
-    {
+        IEnumerable<CodeInstruction> instructions) {
         var codes = new List<CodeInstruction>(instructions);
         var lastBehaviour = -1;
         var endIndex = -1;
@@ -23,12 +21,9 @@ public class EntityPlayerLocal_Patches
         for (var i = 0; i < codes.Count; i++)
             // IL_02cb: callvirt     instance void [UnityEngine.CoreModule]UnityEngine.Behaviour::set_enabled(bool)
             if (codes[i].opcode == OpCodes.Callvirt &&
-                (MethodInfo)codes[i].operand == AccessTools.Method(typeof(Behaviour), "set_enabled"))
-            {
+                (MethodInfo)codes[i].operand == AccessTools.Method(typeof(Behaviour), "set_enabled")) {
                 lastBehaviour = i + 2; // Skip current line and next
-            }
-            else if (codes[i].opcode == OpCodes.Stfld && ((FieldInfo)codes[i].operand).Name == "jumpTrigger")
-            {
+            } else if (codes[i].opcode == OpCodes.Stfld && ((FieldInfo)codes[i].operand).Name == "jumpTrigger") {
                 // stfld        bool EntityPlayerLocal::jumpTrigger
                 endIndex = i;
                 Log.Out("[AlphaJump]: Updating EntityPlayerLocal.MoveByInput");

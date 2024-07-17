@@ -6,12 +6,10 @@ using HarmonyLib;
 namespace AutoClaimChallenges._Challenge;
 
 [HarmonyPatch(typeof(Challenge))]
-internal static class Challenge_Patches
-{
+internal static class Challenge_Patches {
     [HarmonyPostfix]
     [HarmonyPatch(nameof(Challenge.HandleComplete))]
-    private static void Challenge_HandleComplete_Postfix(Challenge __instance)
-    {
+    private static void Challenge_HandleComplete_Postfix(Challenge __instance) {
         if (!__instance.ReadyToComplete)
             return;
         __instance.ChallengeState = Challenge.ChallengeStates.Redeemed;

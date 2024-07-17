@@ -5,12 +5,10 @@ namespace ClaimAllChallenges.Scripts.XUiC;
 
 // ReSharper disable once InconsistentNaming
 // ReSharper disable once UnusedType.Global
-public class XUiC_ClaimAllButton : XUiController
-{
+public class XUiC_ClaimAllButton : XUiController {
     private XUiC_SimpleButton _btnCompleteAll;
 
-    public override void Init()
-    {
+    public override void Init() {
         base.Init();
 
         _btnCompleteAll = GetChildById("btnCompleteAll").GetChildByType<XUiC_SimpleButton>();
@@ -20,13 +18,11 @@ public class XUiC_ClaimAllButton : XUiController
             _btnCompleteAll.OnPressed += BtnCompleteAll_Controller_OnPress;
     }
 
-    private void BtnCompleteAll_Controller_OnPress(XUiController _sender, int _mousebutton)
-    {
+    private void BtnCompleteAll_Controller_OnPress(XUiController _sender, int _mousebutton) {
         CompleteAllChallenges();
     }
 
-    public override void Update(float _dt)
-    {
+    public override void Update(float _dt) {
         base.Update(_dt);
         if (!IsDirty)
             return;
@@ -34,21 +30,18 @@ public class XUiC_ClaimAllButton : XUiController
         IsDirty = false;
     }
 
-    public override void OnOpen()
-    {
+    public override void OnOpen() {
         base.OnOpen();
         IsDirty = true;
         RefreshBindings(true);
     }
 
-    private void CompleteAllChallenges()
-    {
+    private void CompleteAllChallenges() {
         var entityPlayer = xui.playerUI.entityPlayer;
         var challengeJournal = entityPlayer.challengeJournal;
         foreach (var challenge in challengeJournal.ChallengeDictionary.Values
                      .Where(challenge => challenge.ReadyToComplete)
-                     .Where(challenge => challenge.ChallengeClass.ChallengeGroup.IsVisible()))
-        {
+                     .Where(challenge => challenge.ChallengeClass.ChallengeGroup.IsVisible())) {
             challenge.ChallengeState = Challenge.ChallengeStates.Redeemed;
             challenge.Redeem();
             QuestEventManager.Current.ChallengeCompleted(challenge.ChallengeClass, true);
@@ -58,10 +51,8 @@ public class XUiC_ClaimAllButton : XUiController
         IsDirty = true;
     }
 
-    public override bool GetBindingValue(ref string value, string bindingName)
-    {
-        switch (bindingName)
-        {
+    public override bool GetBindingValue(ref string value, string bindingName) {
+        switch (bindingName) {
             case "hascompletedchallenges":
                 var entityPlayer = xui.playerUI.entityPlayer;
                 value = entityPlayer == null
