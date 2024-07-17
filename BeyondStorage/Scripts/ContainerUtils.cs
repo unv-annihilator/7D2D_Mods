@@ -68,9 +68,9 @@ public static class ContainerUtils {
     public static ItemStack[] GetAllStorageStacksArrays(ItemStack[] items) {
         if (!ShouldCheck())
             return items;
-        if (BeyondStorage.Config.isDebug) {
-            LogUtil.DebugLog("GetAllStorageStacksArrays");
-        }
+        // if (BeyondStorage.Config.isDebug) {
+        //     LogUtil.DebugLog("GetAllStorageStacksArrays");
+        // }
 
         var tempList = items.ToList();
         AddAllStorageStacks(tempList);
@@ -83,9 +83,9 @@ public static class ContainerUtils {
     public static void AddAllStorageStacks(List<ItemStack> items) {
         if (!ShouldCheck())
             return;
-        if (BeyondStorage.Config.isDebug) {
-            LogUtil.DebugLog("AddAllStorageStacks");
-        }
+        // if (BeyondStorage.Config.isDebug) {
+        //     LogUtil.DebugLog("AddAllStorageStacks");
+        // }
 
         ReloadStorages();
         if (_currentStorageDict.Count == 0) return;
@@ -281,9 +281,8 @@ public static class ContainerUtils {
 
                 if (kvp.Value.IsUserAccessing()) continue;
 
-                if (tileEntityLootable is ILockable tileLockable)
-                    if (tileLockable.IsLocked() &&
-                        !tileLockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
+                if (kvp.Value.TryGetSelfOrFeature(out ILockable tileLockable))
+                    if (tileLockable.IsLocked() && !tileLockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                         continue;
 
                 var loc = kvp.Value.ToWorldPos();
