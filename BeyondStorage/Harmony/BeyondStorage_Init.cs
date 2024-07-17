@@ -1,19 +1,15 @@
 ﻿using System.Reflection;
-using BeyondStorage.Scripts;
+using BeyondStorage.Scripts.Configuration;
 using HarmonyLib;
-using JetBrains.Annotations;
 
 namespace BeyondStorage;
 
-[UsedImplicitly]
-public class BeyondStorage : IModApi
-{
+public class BeyondStorage : IModApi {
     private static BeyondStorage _context;
-    internal static ModConfig Config;
+    internal static ModConfig.Config Config;
     internal static Mod ModInstance;
 
-    public void InitMod(Mod modInstance)
-    {
+    public void InitMod(Mod modInstance) {
         _context = this;
         Config = ModConfig.LoadConfig(_context);
         ModInstance = modInstance;
