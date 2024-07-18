@@ -52,7 +52,7 @@ public class XUiMPlayerInventoryCommonPatches {
                 // index
                 new CodeInstruction(OpCodes.Ldloc_0),
                 // _itemStacks[index]
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(List<ItemStack>), "get_Item")),
+                new CodeInstruction(OpCodes.Callvirt, AccessTools.IndexerGetter(typeof(List<ItemStack>), [typeof(int)])),
                 // _itemStacks[index].itemValue
                 new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(ItemStack), nameof(ItemStack.itemValue))),
                 // ContainerUtils.GetItemCount(_itemStacks[index].itemValue)

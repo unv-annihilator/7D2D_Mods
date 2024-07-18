@@ -105,7 +105,6 @@ public static class ContainerUtils {
     // Used By:
     //      ItemActionRepair.CanRemoveRequiredResource (Block Upgrade (Check for enough items))
     //      ItemActionRepair.canRemoveRequiredItem (Block Repair (resources available check))
-    //      ItemActionRanged.CanReload (Weapon Reload (check if allowed to reload))
     //      ItemActionEntryRepair.OnActivated (Item Repair (Allows Repair)) -- Already skips if not in inventory
     public static int GetItemCount(ItemValue itemValue) {
         if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"GetItemCount | item {itemValue.ItemClass.GetItemName()}");
@@ -118,6 +117,15 @@ public static class ContainerUtils {
 
     private static int GetItemCountFromSlots(ItemStack[] slots, ItemValue itemValue) {
         return slots.Where(t => t.itemValue.type == itemValue.type).Sum(t => t.count);
+    }
+
+
+    // Used By:
+    //      ItemActionRanged.CanReload (Weapon Reload - Ammo Exists Check)
+    public static bool HasItem(ItemValue itemValue) {
+        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"HasItem | item {itemValue.ItemClass.GetItemName()}");
+        ReloadStorages();
+        return _currentStorageDict.Select(kvp => kvp.Value.items).Any(items => items.Any(itemStack => itemStack.itemValue.type == itemValue.type));
     }
 
     // Used By:
@@ -194,20 +202,7 @@ public static class ContainerUtils {
         return currentCount - RemoveRemaining(itemValue, num, ignoreModdedItems, removedItems);
     }
 
-    // Used By:
-    //      AnimatorRangedReloadState.GetAmmoCountToReload
-    //      Animator3PRangedReloadState.GetAmmoCountToReload
-    // Used For:
-    //      Reloading (removes items on reload)
-    public static int RemoveRemainingForReload(ItemValue ammo, int requiredAmount) {
-        if (BeyondStorage.Config.isDebug)
-            LogUtil.DebugLog(
-                $"RemoveRemainingForReload | ammo: {ammo.ItemClass.GetItemName()} required: {requiredAmount}");
-
-        return RemoveRemaining(ammo, requiredAmount);
-    }
-
-    private static int RemoveRemaining(ItemValue itemValue, int requiredAmount, bool ignoreModdedItems = false,
+    public static int RemoveRemaining(ItemValue itemValue, int requiredAmount, bool ignoreModdedItems = false,
         IList<ItemStack> removedItems = null) {
         var num = requiredAmount;
         if (BeyondStorage.Config.isDebug)
