@@ -18,8 +18,8 @@ public class ItemActionRepairPatches {
     private static IEnumerable<CodeInstruction> ItemActionRepair_canRemoveRequiredItem_Patch(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
         if (!BeyondStorage.Config.enableForBlockRepair) return instructions;
-
-        LogUtil.Info("Transpiling ItemActionRepair.canRemoveRequiredItem");
+        var targetMethodString = $"{typeof(ItemActionRepair)}.{nameof(ItemActionRepair.canRemoveRequiredItem)}";
+        LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);
         var found = false;
         for (var i = 0; i < codes.Count; i++) {
@@ -67,9 +67,9 @@ public class ItemActionRepairPatches {
         }
 
         if (!found)
-            LogUtil.Error("Failed to patch ItemActionRepair.canRemoveRequiredItem");
+            LogUtil.Error($"Failed to patch {targetMethodString}");
         else
-            LogUtil.Info("Successfully patched ItemActionRepair.canRemoveRequiredItem");
+            LogUtil.Info($"Successfully patched {targetMethodString}");
 
         return codes.AsEnumerable();
     }
@@ -82,8 +82,8 @@ public class ItemActionRepairPatches {
     private static IEnumerable<CodeInstruction> ItemActionRepair_removeRequiredItem_Patch(
         IEnumerable<CodeInstruction> instructions) {
         if (!BeyondStorage.Config.enableForBlockRepair) return instructions;
-
-        LogUtil.Info("Transpiling ItemActionRepair.removeRequiredItem");
+        var targetMethodString = $"{typeof(ItemActionRepair)}.{nameof(ItemActionRepair.removeRequiredItem)}";
+        LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);
         var found = false;
         for (var i = 0; i < codes.Count; i++) {
@@ -92,7 +92,7 @@ public class ItemActionRepairPatches {
                 continue;
 
             found = true;
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Patching ItemActionRepair.removeRequiredItem");
+            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"Patching {targetMethodString}");
 
             List<CodeInstruction> newCode = [
                 // _itemStack
@@ -106,9 +106,9 @@ public class ItemActionRepairPatches {
         }
 
         if (!found)
-            LogUtil.Error("Failed to patch ItemActionRepair.removeRequiredItem");
+            LogUtil.Error($"Failed to patch {targetMethodString}");
         else
-            LogUtil.Info("Successfully patched ItemActionRepair.removeRequiredItem");
+            LogUtil.Info($"Successfully patched {targetMethodString}");
 
         return codes.AsEnumerable();
     }

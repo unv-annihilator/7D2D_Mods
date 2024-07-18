@@ -15,7 +15,7 @@ public class AnimatorRangedReloadStatePatches {
     // [HarmonyDebug]
     private static IEnumerable<CodeInstruction> AnimatorRangedReloadState_GetAmmoCountToReload_Patch(IEnumerable<CodeInstruction> instructions) {
         if (!BeyondStorage.Config.enableForReload) return instructions;
-        const string targetMethodString = nameof(AnimatorRangedReloadState.GetAmmoCountToReload);
+        var targetMethodString = $"{typeof(AnimatorRangedReloadState)}.{nameof(AnimatorRangedReloadState.GetAmmoCountToReload)}";
         LogUtil.Info($"Transpiling {targetMethodString}");
         var codeInstructions = new List<CodeInstruction>(instructions);
         var lastRet = codeInstructions.FindLastIndex(codeInstruction => codeInstruction.opcode == OpCodes.Ret);

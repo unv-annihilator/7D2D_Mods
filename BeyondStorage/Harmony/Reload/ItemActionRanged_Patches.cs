@@ -17,7 +17,7 @@ public class ItemActionRangedPatches {
     private static IEnumerable<CodeInstruction> ItemActionRanged_CanReload_Patch(IEnumerable<CodeInstruction> instructions) {
         // Skip if not enabled in config
         if (!BeyondStorage.Config.enableForReload) return instructions;
-        const string targetMethodString = nameof(ItemActionRanged.CanReload);
+        var targetMethodString = $"{typeof(ItemActionRanged)}.{nameof(ItemActionRanged.CanReload)}";
         var codeInstructions = new List<CodeInstruction>(instructions);
         var lastBgt = codeInstructions.FindLastIndex(instruction => instruction.opcode == OpCodes.Bgt);
         LogUtil.Info($"Transpiling {targetMethodString}");

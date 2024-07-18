@@ -18,14 +18,14 @@ public class ItemActionEntryRepairPatches {
     private static IEnumerable<CodeInstruction> ItemActionEntryRepair_OnActivated_Patch(
         IEnumerable<CodeInstruction> instructions) {
         if (!BeyondStorage.Config.enableForItemRepair) return instructions;
-
-        LogUtil.Info("Transpiling ItemActionEntryRepair.OnActivated");
+        var targetMethodString = $"{typeof(ItemActionEntryRepair)}.{nameof(ItemActionEntryRepair.OnActivated)}";
+        LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);
         var startIndex = -1;
         var endIndex = -1;
         for (var i = 0; i < codes.Count; i++) {
             if (startIndex != -1 && codes[i].opcode == OpCodes.Ble) {
-                if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Patching ItemActionEntryRepair.OnActivated");
+                if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"Patching {targetMethodString}");
 
                 endIndex = i;
                 List<CodeInstruction> newCode = [
@@ -65,9 +65,9 @@ public class ItemActionEntryRepairPatches {
         }
 
         if (startIndex == -1 || endIndex == -1)
-            LogUtil.Error("Failed to patch ItemActionEntryRepair.OnActivated");
+            LogUtil.Error($"Failed to patch {targetMethodString}");
         else
-            LogUtil.Info("Successfully patched ItemActionEntryRepair.OnActivated");
+            LogUtil.Info($"Successfully patched {targetMethodString}");
 
         return codes.AsEnumerable();
     }
@@ -80,8 +80,8 @@ public class ItemActionEntryRepairPatches {
     private static IEnumerable<CodeInstruction> ItemActionEntryRepair_RefreshEnabled_Patch(
         IEnumerable<CodeInstruction> instructions) {
         if (!BeyondStorage.Config.enableForItemRepair) return instructions;
-
-        LogUtil.Info("Transpiling ItemActionEntryRepair.RefreshEnabled");
+        var targetMethodString = $"{typeof(ItemActionEntryRepair)}.{nameof(ItemActionEntryRepair.RefreshEnabled)}";
+        LogUtil.Info($"Transpiling {targetMethodString}");
         var startIndex = -1;
         var endIndex = -1;
         var codes = new List<CodeInstruction>(instructions);
@@ -139,9 +139,9 @@ public class ItemActionEntryRepairPatches {
         }
 
         if (startIndex == -1 || endIndex == -1)
-            LogUtil.Error("Failed to patch ItemActionEntryRepair.RefreshEnabled");
+            LogUtil.Error($"Failed to patch {targetMethodString}");
         else
-            LogUtil.Info("Successfully patched ItemActionEntryRepair.RefreshEnabled");
+            LogUtil.Info($"Successfully patched {targetMethodString}");
 
         return codes.AsEnumerable();
     }

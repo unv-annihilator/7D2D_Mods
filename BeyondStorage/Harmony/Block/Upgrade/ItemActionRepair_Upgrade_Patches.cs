@@ -18,9 +18,8 @@ public class ItemActionRepairUpgradePatches {
     private static IEnumerable<CodeInstruction> ItemActionRepair_CanRemoveRequiredResource_Patch(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
         if (!BeyondStorage.Config.enableForBlockUpgrade) return instructions;
-
-        LogUtil.Info("Transpiling ItemActionRepair.CanRemoveRequiredResource");
-
+        var targetMethodString = $"{typeof(ItemActionRepair)}.{nameof(ItemActionRepair.CanRemoveRequiredResource)}";
+        LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);
         var found = false;
         for (var i = 0; i < codes.Count; i++) {
@@ -61,9 +60,9 @@ public class ItemActionRepairUpgradePatches {
         }
 
         if (!found)
-            LogUtil.Error("Failed to patch ItemActionRepair.CanRemoveRequiredResource");
+            LogUtil.Error($"Failed to patch {targetMethodString}");
         else
-            LogUtil.Info("Successfully patched ItemActionRepair.CanRemoveRequiredResource");
+            LogUtil.Info($"Successfully patched {targetMethodString}");
 
         return codes.AsEnumerable();
     }
@@ -76,8 +75,8 @@ public class ItemActionRepairUpgradePatches {
     private static IEnumerable<CodeInstruction> ItemActionRepair_RemoveRequiredResource_Patch(
         IEnumerable<CodeInstruction> instructions) {
         if (!BeyondStorage.Config.enableForBlockUpgrade) return instructions;
-
-        LogUtil.Info("Transpiling ItemActionRepair.RemoveRequiredResource");
+        var targetMethodString = $"{typeof(ItemActionRepair)}.{nameof(ItemActionRepair.RemoveRequiredResource)}";
+        LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);
         var found = false;
         for (var i = 0; i < codes.Count; i++) {
@@ -104,9 +103,9 @@ public class ItemActionRepairUpgradePatches {
         }
 
         if (!found)
-            LogUtil.Error("Failed to patch ItemActionRepair.RemoveRequiredResource");
+            LogUtil.Error($"Failed to patch {targetMethodString}");
         else
-            LogUtil.Info("Successfully patched ItemActionRepair.RemoveRequiredResource");
+            LogUtil.Info($"Successfully patched {targetMethodString}");
 
         return codes.AsEnumerable();
     }

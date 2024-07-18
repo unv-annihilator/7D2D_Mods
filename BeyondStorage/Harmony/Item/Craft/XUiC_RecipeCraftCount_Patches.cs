@@ -18,7 +18,8 @@ public class XUiCRecipeCraftCountPatches {
     // TODO: could possibly be made cleaner?
     private static IEnumerable<CodeInstruction> XUiC_RecipeCraftCount_calcMaxCraftable_Patch(
         IEnumerable<CodeInstruction> instructions) {
-        LogUtil.Info("Transpiling XUiC_RecipeCraftCount.calcMaxCraftable");
+        var targetMethodString = $"{typeof(XUiC_RecipeCraftCount)}.{nameof(XUiC_RecipeCraftCount.calcMaxCraftable)}";
+        LogUtil.Info($"Transpiling {targetMethodString}");
         // Append our itemStack array to current inventory
         var codes = new List<CodeInstruction>(instructions);
         var set = false;
@@ -37,9 +38,9 @@ public class XUiCRecipeCraftCountPatches {
         }
 
         if (!set)
-            LogUtil.Error("Failed to patch XUiC_RecipeCraftCount.calcMaxCraftable");
+            LogUtil.Error($"Failed to patch {targetMethodString}");
         else
-            LogUtil.Info("Successfully patched XUiC_RecipeCraftCount.calcMaxCraftable");
+            LogUtil.Info($"Successfully patched {targetMethodString}");
 
         return codes.AsEnumerable();
     }

@@ -18,12 +18,8 @@ public class XUiCIngredientEntryPatches {
     // [HarmonyDebug]
     private static IEnumerable<CodeInstruction> XUiC_IngredientEntry_GetBindingValue_Patch(
         IEnumerable<CodeInstruction> instructions) {
-        // TODO: Confirm only used for Item Craft
-        // if (!BeyondStorage.Config.enableForItemCraft && !BeyondStorage.Config.enableForItemRepair) {
-        //     return instructions;
-        // }
-
-        LogUtil.Info("Transpiling XUiC_IngredientEntry.GetBindingValue");
+        var targetMethodString = $"{typeof(XUiC_IngredientEntry)}.{nameof(XUiC_IngredientEntry.GetBindingValue)}";
+        LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);
         for (var i = 0; i < codes.Count; i++) {
             if (codes[i].opcode != OpCodes.Callvirt || (MethodInfo)codes[i].operand !=

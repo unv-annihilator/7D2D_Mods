@@ -34,7 +34,8 @@ public class XUiMPlayerInventoryCommonPatches {
     // [HarmonyDebug]
     private static IEnumerable<CodeInstruction> XUiM_PlayerInventory_HasItems_Patch(
         IEnumerable<CodeInstruction> instructions) {
-        LogUtil.Info("Transpiling XUiM_PlayerInventory.HasItems");
+        var targetMethodString = $"{typeof(XUiM_PlayerInventory)}.{nameof(XUiM_PlayerInventory.HasItems)}";
+        LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);
         var set = false;
         for (var i = 0; i < codes.Count; i++) {
@@ -42,7 +43,7 @@ public class XUiMPlayerInventoryCommonPatches {
                 codes[i + 1].opcode != OpCodes.Ret)
                 continue;
 
-            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Patching XUiM_PlayerInventory.HasItems");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"Patching {targetMethodString}");
 
             List<CodeInstruction> newCode = [
                 // num
@@ -76,9 +77,9 @@ public class XUiMPlayerInventoryCommonPatches {
         }
 
         if (!set)
-            LogUtil.Error("Failed to patch XUiM_PlayerInventory.HasItems");
+            LogUtil.Error($"Failed to patch {targetMethodString}");
         else
-            LogUtil.Info("Successfully patched XUiM_PlayerInventory.HasItems");
+            LogUtil.Info($"Successfully patched {targetMethodString}");
 
         return codes.AsEnumerable();
     }
@@ -102,7 +103,8 @@ public class XUiMPlayerInventoryCommonPatches {
     // [HarmonyDebug]
     private static IEnumerable<CodeInstruction> XUiM_PlayerInventory_RemoveItems_Patch(
         IEnumerable<CodeInstruction> instructions) {
-        LogUtil.Info("Transpiling XUiM_PlayerInventory.RemoveItems");
+        var targetMethodString = $"{typeof(XUiM_PlayerInventory)}.{nameof(XUiM_PlayerInventory.RemoveItems)}";
+        LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);
         var set = false;
         for (var i = 0; i < codes.Count; i++) {
@@ -111,7 +113,7 @@ public class XUiMPlayerInventoryCommonPatches {
                 continue;
 
             set = true;
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Patching XUiM_PlayerInventory.RemoveItems");
+            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"Patching {targetMethodString}");
 
             List<CodeInstruction> newCode = [
                 // ldarg.1      // _itemStacks
@@ -137,9 +139,9 @@ public class XUiMPlayerInventoryCommonPatches {
         }
 
         if (!set)
-            LogUtil.Error("Failed to patch XUiM_PlayerInventory.RemoveItems");
+            LogUtil.Error($"Failed to patch {targetMethodString}");
         else
-            LogUtil.Info("Successfully patched XUiM_PlayerInventory.RemoveItems");
+            LogUtil.Info($"Successfully patched {targetMethodString}");
 
         return codes.AsEnumerable();
     }

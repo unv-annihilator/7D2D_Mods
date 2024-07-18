@@ -33,7 +33,8 @@ public class XUiCRecipeListPatches {
     // [HarmonyDebug]
     private static IEnumerable<CodeInstruction>
         XUiC_RecipeList_Update_Patch(IEnumerable<CodeInstruction> instructions) {
-        LogUtil.Info("Transpiling XUiC_RecipeList.Update");
+        var targetMethodString = $"{typeof(XUiC_RecipeList)}.{nameof(XUiC_RecipeList.Update)}";
+        LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);
         var found = false;
         for (var i = 0; i < codes.Count; i++) {
@@ -60,9 +61,9 @@ public class XUiCRecipeListPatches {
         }
 
         if (!found)
-            LogUtil.Error("Failed to patch XUiC_RecipeList.Update");
+            LogUtil.Error($"Failed to patch {targetMethodString}");
         else
-            LogUtil.Info("Successfully patched XUiC_RecipeList.Update");
+            LogUtil.Info($"Successfully patched {targetMethodString}");
 
         return codes.AsEnumerable();
     }
