@@ -35,14 +35,16 @@ public static class PlayerMoveControllerPatches {
         return codes.AsEnumerable();
     }
 
-    [HarmonyPostfix]
+    [HarmonyPrefix]
     [HarmonyPatch(nameof(PlayerMoveController.stopMoving))]
     // [HarmonyDebug]
-    private static void PlayerMoveController_stopMoving_Postfix(PlayerMoveController __instance) {
+    private static void PlayerMoveController_stopMoving_Prefix(PlayerMoveController __instance) {
         // Prevents getting stuck on when expecting the player to stop movement
-        // Log.Out($"PlayerMoveController.stopMoving | runToggleActive: {__instance.runToggleActive}; entity Player running: {__instance.entityPlayerLocal.movementInput.running}; runPressedWhileActive {__instance.runPressedWhileActive}");
-        __instance.runToggleActive = false;
-        __instance.entityPlayerLocal.movementInput.running = false;
-        __instance.runPressedWhileActive = false;
+        var playerAction1 = __instance.playerInput.VehicleActions.Enabled ? __instance.playerInput.VehicleActions.Turbo : __instance.playerInput.Run;
+        // Log.Out($"PlayerMoveController.stopMoving | runToggleActive: {__instance.runToggleActive}; entity Player running: {__instance.entityPlayerLocal.movementInput.running}; runPressedWhileActive {__instance.runPressedWhileActive}; sprintPressed: {playerAction1.IsPressed}");
+
+        // Keep the state updated to what we have actually pressed
+        __instance.entityPlayerLocal.movementInput.running = playerAction1.IsPressed;
+        __instance.runPressedWhileActive = playerAction1.IsPressed;
     }
 }

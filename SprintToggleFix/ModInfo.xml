@@ -2,7 +2,7 @@
 <xml>
   <Name value="SprintToggleFix"/>
   <DisplayName value="Sprint Toggle Fix"/>
-  <Version value="1.1.0"/>
+  <Version value="1.1.1"/>
   <Description value="Fixes two bugs related to sprinting which can cause it to get stuck on."/>
   <Author value="unv_Annihilator"/>
   <Website value="https://github.com/unv-annihilator/7D2D_Mods"/>

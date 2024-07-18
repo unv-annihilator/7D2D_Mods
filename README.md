@@ -23,7 +23,7 @@
 
 - Alternative to 'Auto Claim Challenges'; adds a button to click to claim all completed challenges.
 
-### Sprint Toggle Fix [v1.1.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/SprintToggleFix_v1.1.0) - View on [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5070)
+### Sprint Toggle Fix [v1.1.1](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/SprintToggleFix_v1.1.1) - View on [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5070)
 
 - Removes delay that can cause your sprint to get stuck on after button press with toggle disabled.
 - Prevents sprint getting stuck on when expecting to stop movement (Opening UI windows, ragdoll, etc.)
