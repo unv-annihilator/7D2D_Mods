@@ -40,8 +40,11 @@ public static class ContainerUtils {
     //      Item Crafting (shows item count available in crafting window(s))
     //      Item Repair (removes items with Bag DecItem)
     public static int AddAllStoragesCountEntry(int count, XUiC_IngredientEntry entry) {
-        if (!ShouldCheck())
-            return count;
+        // if (!ShouldCheck()) {
+        //     if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("AddAllStoragesCountEntry Blocked due to shouldn't check");
+        //     return count;
+        // }
+
         if (BeyondStorage.Config.isDebug)
             LogUtil.DebugLog(
                 $"AddAllStoragesCountEntry | count {count} |  entry {entry.Ingredient.itemValue.ItemClass.GetItemName()}");
@@ -66,8 +69,10 @@ public static class ContainerUtils {
     // Used By:
     //      XUiC_RecipeCraftCount.calcMaxCraftable (Item Crafting (gets max craftable amount))
     public static ItemStack[] GetAllStorageStacksArrays(ItemStack[] items) {
-        if (!ShouldCheck())
+        if (!ShouldCheck()) {
+            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("GetAllStorageStacksArrays Blocked due to shouldn't check");
             return items;
+        }
         // if (BeyondStorage.Config.isDebug) {
         //     LogUtil.DebugLog("GetAllStorageStacksArrays");
         // }
@@ -81,8 +86,10 @@ public static class ContainerUtils {
     //      XUiC_RecipeList.Update (Item Crafts (shown as available in the list))
     //      XUiC_RecipeCraftCount.calcMaxCraftable (Item Crafting (gets max craftable amount))
     public static void AddAllStorageStacks(List<ItemStack> items) {
-        if (!ShouldCheck())
+        if (!ShouldCheck()) {
+            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("AddAllStorageStacks Blocked due to shouldn't check");
             return;
+        }
         // if (BeyondStorage.Config.isDebug) {
         //     LogUtil.DebugLog("AddAllStorageStacks");
         // }
@@ -99,7 +106,10 @@ public static class ContainerUtils {
     //      XUiM_PlayerInventory.HasItems (Item Crafting (has items only, does not handle remove))
     //      ItemActionEntryRepair.RefreshEnabled (Item Repair (Button Enabled))
     public static int GetItemCountForItem(ItemValue itemValue) {
-        return ShouldCheck(true) ? GetItemCount(itemValue) : 0;
+        if (ShouldCheck(true))
+            return GetItemCount(itemValue);
+        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("GetItemCountForItem Blocked due to shouldn't check");
+        return 0;
     }
 
     // Used By:
@@ -131,7 +141,11 @@ public static class ContainerUtils {
     // Used By:
     //      ItemActionEntryRepair.OnActivated (Item Repair (Allows Repair))
     public static int GetTrueItemRepairCount(ItemValue itemValue, int currentCount) {
-        if (!ShouldCheck(true)) return currentCount;
+        if (!ShouldCheck(true)) {
+            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("GetTrueItemRepairCount Blocked due to shouldn't check");
+            return currentCount;
+        }
+
         if (BeyondStorage.Config.isDebug)
             LogUtil.DebugLog(
                 $"GetTrueItemRepairCount | item {itemValue.ItemClass.GetItemName()} | currentCount {currentCount}");
