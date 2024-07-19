@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts;
 using BeyondStorage.Scripts.Common;
+using BeyondStorage.Scripts.Item;
 using HarmonyLib;
 
 namespace BeyondStorage.Item.Repair;
@@ -14,7 +14,9 @@ public class ItemActionEntryRepairPatches {
     //      Item Repair (Allows Repair)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(ItemActionEntryRepair.OnActivated))]
-    // [HarmonyDebug]
+#if DEBUG
+    [HarmonyDebug]
+#endif
     private static IEnumerable<CodeInstruction> ItemActionEntryRepair_OnActivated_Patch(
         IEnumerable<CodeInstruction> instructions) {
         if (!BeyondStorage.Config.enableForItemRepair) return instructions;
@@ -29,6 +31,7 @@ public class ItemActionEntryRepairPatches {
 
                 endIndex = i;
                 List<CodeInstruction> newCode = [
+                    // ldloc.s      itemClass
                     codes[startIndex - 4].Clone(),
                     // callvirt     instance int32 XMLData.Item.ItemData::get_Id()
                     codes[startIndex - 3].Clone(),
@@ -38,9 +41,9 @@ public class ItemActionEntryRepairPatches {
                     codes[startIndex - 1].Clone(),
                     // ldloc.s      _count
                     codes[startIndex + 4].Clone(),
-                    // ContainerUtils.GetTrueItemRepairCount(new ItemValue(itemClass.Id))
+                    // ItemRepair.ItemRepairOnActivatedGetItemCount(new ItemValue(itemClass.Id))
                     new CodeInstruction(OpCodes.Call,
-                        AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.GetTrueItemRepairCount))),
+                        AccessTools.Method(typeof(ItemRepair), nameof(ItemRepair.ItemRepairOnActivatedGetItemCount))),
                     // ldloc.s      int32
                     codes[startIndex + 1].Clone(),
                     // call         int32 [UnityEngine.CoreModule]UnityEngine.Mathf::Min(int32, int32)
@@ -76,7 +79,9 @@ public class ItemActionEntryRepairPatches {
     //      Item Repair (Button Enabled)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(ItemActionEntryRepair.RefreshEnabled))]
-    // [HarmonyDebug]
+#if DEBUG
+    [HarmonyDebug]
+#endif
     private static IEnumerable<CodeInstruction> ItemActionEntryRepair_RefreshEnabled_Patch(
         IEnumerable<CodeInstruction> instructions) {
         if (!BeyondStorage.Config.enableForItemRepair) return instructions;
@@ -88,7 +93,7 @@ public class ItemActionEntryRepairPatches {
         for (var i = 0; i < codes.Count; i++) {
             if (startIndex != -1 && codes[i].opcode == OpCodes.Ldc_I4_0 && codes[i + 1].opcode == OpCodes.Bgt) {
                 endIndex = i;
-                if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Found end");
+                if (LogUtil.IsDebug()) LogUtil.DebugLog("Found end");
 
                 List<CodeInstruction> newCode = [
                     codes[startIndex - 4].Clone(),
@@ -98,9 +103,9 @@ public class ItemActionEntryRepairPatches {
                     codes[startIndex - 2].Clone(),
                     // new ItemValue(itemClass.Id, 0)
                     codes[startIndex - 1].Clone(),
-                    // ContainerUtils.GetItemCount(new ItemValue(itemClass.Id, 0))
+                    // ItemRepair.ItemRepairRefreshGetItemCount(new ItemValue(itemClass.Id, 0))
                     new CodeInstruction(OpCodes.Call,
-                        AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.GetItemCountForItem))),
+                        AccessTools.Method(typeof(ItemRepair), nameof(ItemRepair.ItemRepairRefreshGetItemCount))),
                     // ldloc.s  'int32'
                     codes[startIndex + 1].Clone(),
                     // call         int32 [UnityEngine.CoreModule]UnityEngine.Mathf::Min(int32, int32)

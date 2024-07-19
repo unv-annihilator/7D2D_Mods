@@ -1,6 +1,11 @@
 ﻿using System.Reflection;
 using BeyondStorage.Scripts.Configuration;
 using HarmonyLib;
+#if DEBUG
+using HarmonyLib.Tools;
+
+// ReSharper disable ClassNeverInstantiated.Global
+#endif
 
 namespace BeyondStorage;
 
@@ -14,6 +19,9 @@ public class BeyondStorage : IModApi {
         Config = ModConfig.LoadConfig(_context);
         ModInstance = modInstance;
         var harmony = new Harmony(GetType().ToString());
+#if DEBUG
+        HarmonyFileLog.Enabled = true;
+#endif
         harmony.PatchAll(Assembly.GetExecutingAssembly());
     }
 }

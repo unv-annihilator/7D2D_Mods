@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts;
 using BeyondStorage.Scripts.Common;
+using BeyondStorage.Scripts.Item;
 using HarmonyLib;
 
 namespace BeyondStorage.Item.Craft;
@@ -30,7 +30,9 @@ public class XUiCRecipeListPatches {
     //      Item Crafts (shown as available in the list)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(XUiC_RecipeList.Update))]
-    // [HarmonyDebug]
+#if DEBUG
+    [HarmonyDebug]
+#endif
     private static IEnumerable<CodeInstruction>
         XUiC_RecipeList_Update_Patch(IEnumerable<CodeInstruction> instructions) {
         var targetMethodString = $"{typeof(XUiC_RecipeList)}.{nameof(XUiC_RecipeList.Update)}";
@@ -45,18 +47,20 @@ public class XUiCRecipeListPatches {
                 AccessTools.Method(typeof(XUiC_RecipeList), nameof(XUiC_RecipeList.BuildRecipeInfosList)))
                 continue;
 
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Adding method to add items from all storages");
+            if (LogUtil.IsDebug()) LogUtil.DebugLog("Adding method to add items from all storages");
 
             found = true;
             // IL_008b: ldarg.0      // this [Label 4]
-            var ci = codes[i - 2];
+            var jumpLabelCi = codes[i - 2];
             // IL_008c: ldloc.0      // updateStackList
-            var ciNew = new CodeInstruction(OpCodes.Ldloc_0);
-            ci.MoveLabelsTo(ciNew);
-            codes.Insert(i - 2,
-                new CodeInstruction(OpCodes.Call,
-                    AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.AddAllStorageStacks))));
-            codes.Insert(i - 2, ciNew);
+            var newJumpCi = new CodeInstruction(OpCodes.Ldloc_0);
+            jumpLabelCi.MoveLabelsTo(newJumpCi);
+            List<CodeInstruction> newCode = [
+                newJumpCi,
+                // ItemCraft.CraftGetAllStorageStacks(updateStackList)
+                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(ItemCraft), nameof(ItemCraft.ItemCraftGetAllStorageStacks)))
+            ];
+            codes.InsertRange(i - 2, newCode);
             break;
         }
 
