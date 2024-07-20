@@ -22,7 +22,7 @@ public class ItemActionRangedPatches {
         var lastBgt = codeInstructions.FindLastIndex(instruction => instruction.opcode == OpCodes.Bgt);
         LogUtil.Info($"Transpiling {targetMethodString}");
         if (lastBgt != -1) {
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"Last BGT Index: {lastBgt}");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"Last BGT Index: {lastBgt}");
             // if (RangedUtil.CanReloadFromStorage(_itemValue) > 0)
             List<CodeInstruction> newCode = [
                 // new CodeInstruction(OpCodes.Ldarg_0),

@@ -28,7 +28,7 @@ public class ItemActionRepairPatches {
                 continue;
 
             found = true;
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Adding method to count items from all storages");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Adding method to count items from all storages");
 
             List<CodeInstruction> newCode = new();
             // == New ==
@@ -92,7 +92,7 @@ public class ItemActionRepairPatches {
                 continue;
 
             found = true;
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"Patching {targetMethodString}");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"Patching {targetMethodString}");
 
             List<CodeInstruction> newCode = [
                 // _itemStack

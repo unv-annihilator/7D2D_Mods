@@ -25,7 +25,7 @@ public class ItemActionEntryRepairPatches {
         var endIndex = -1;
         for (var i = 0; i < codes.Count; i++) {
             if (startIndex != -1 && codes[i].opcode == OpCodes.Ble) {
-                if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"Patching {targetMethodString}");
+                if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"Patching {targetMethodString}");
 
                 endIndex = i;
                 List<CodeInstruction> newCode = [
@@ -61,7 +61,7 @@ public class ItemActionEntryRepairPatches {
                 continue;
 
             startIndex = i;
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Found start");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Found start");
         }
 
         if (startIndex == -1 || endIndex == -1)
@@ -88,7 +88,7 @@ public class ItemActionEntryRepairPatches {
         for (var i = 0; i < codes.Count; i++) {
             if (startIndex != -1 && codes[i].opcode == OpCodes.Ldc_I4_0 && codes[i + 1].opcode == OpCodes.Bgt) {
                 endIndex = i;
-                if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Found end");
+                if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Found end");
 
                 List<CodeInstruction> newCode = [
                     codes[startIndex - 4].Clone(),
@@ -100,7 +100,7 @@ public class ItemActionEntryRepairPatches {
                     codes[startIndex - 1].Clone(),
                     // ContainerUtils.GetItemCount(new ItemValue(itemClass.Id, 0))
                     new CodeInstruction(OpCodes.Call,
-                        AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.GetItemCountForItem))),
+                        AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.EntryRefresh_GetItemCount))),
                     // ldloc.s  'int32'
                     codes[startIndex + 1].Clone(),
                     // call         int32 [UnityEngine.CoreModule]UnityEngine.Mathf::Min(int32, int32)
@@ -133,7 +133,7 @@ public class ItemActionEntryRepairPatches {
                 ]))
                 continue;
 
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Found start");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Found start");
 
             startIndex = i;
         }

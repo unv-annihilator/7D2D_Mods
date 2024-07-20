@@ -40,12 +40,7 @@ public static class ContainerUtils {
     //      Item Crafting (shows item count available in crafting window(s))
     //      Item Repair (removes items with Bag DecItem)
     public static int AddAllStoragesCountEntry(int count, XUiC_IngredientEntry entry) {
-        // if (!ShouldCheck()) {
-        //     if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("AddAllStoragesCountEntry Blocked due to shouldn't check");
-        //     return count;
-        // }
-
-        if (BeyondStorage.Config.isDebug)
+        if (LogUtil.IsDebugEnabled())
             LogUtil.DebugLog(
                 $"AddAllStoragesCountEntry | count {count} |  entry {entry.Ingredient.itemValue.ItemClass.GetItemName()}");
 
@@ -69,14 +64,6 @@ public static class ContainerUtils {
     // Used By:
     //      XUiC_RecipeCraftCount.calcMaxCraftable (Item Crafting (gets max craftable amount))
     public static ItemStack[] GetAllStorageStacksArrays(ItemStack[] items) {
-        if (!ShouldCheck()) {
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("GetAllStorageStacksArrays Blocked due to shouldn't check");
-            return items;
-        }
-        // if (BeyondStorage.Config.isDebug) {
-        //     LogUtil.DebugLog("GetAllStorageStacksArrays");
-        // }
-
         var tempList = items.ToList();
         AddAllStorageStacks(tempList);
         return tempList.ToArray();
@@ -86,14 +73,6 @@ public static class ContainerUtils {
     //      XUiC_RecipeList.Update (Item Crafts (shown as available in the list))
     //      XUiC_RecipeCraftCount.calcMaxCraftable (Item Crafting (gets max craftable amount))
     public static void AddAllStorageStacks(List<ItemStack> items) {
-        if (!ShouldCheck()) {
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("AddAllStorageStacks Blocked due to shouldn't check");
-            return;
-        }
-        // if (BeyondStorage.Config.isDebug) {
-        //     LogUtil.DebugLog("AddAllStorageStacks");
-        // }
-
         ReloadStorages();
         if (_currentStorageDict.Count == 0) return;
 
@@ -103,13 +82,24 @@ public static class ContainerUtils {
     }
 
     // Used By:
-    //      XUiM_PlayerInventory.HasItems (Item Crafting (has items only, does not handle remove))
     //      ItemActionEntryRepair.RefreshEnabled (Item Repair (Button Enabled))
-    public static int GetItemCountForItem(ItemValue itemValue) {
+    public static int EntryRefresh_GetItemCount(ItemValue itemValue) {
+#if DEBUG
+        if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"EntryRefresh_GetItemCount | item {itemValue.ItemClass.GetItemName()}; shouldCheck {ShouldCheck(true)}");
+#endif
         if (ShouldCheck(true))
             return GetItemCount(itemValue);
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("GetItemCountForItem Blocked due to shouldn't check");
+        if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("EntryRefresh_GetItemCount Blocked due to shouldn't check");
         return 0;
+    }
+
+    // Used By:
+    //      XUiM_PlayerInventory.HasItems (Item Crafting (has items only, does not handle remove))
+    public static int GetItemCountForItem(ItemValue itemValue) {
+#if DEBUG
+        if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"GetItemCountForItem | item {itemValue.ItemClass.GetItemName()}");
+#endif
+        return GetItemCount(itemValue);
     }
 
     // Used By:
@@ -117,7 +107,7 @@ public static class ContainerUtils {
     //      ItemActionRepair.canRemoveRequiredItem (Block Repair (resources available check))
     //      ItemActionEntryRepair.OnActivated (Item Repair (Allows Repair)) -- Already skips if not in inventory
     public static int GetItemCount(ItemValue itemValue) {
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"GetItemCount | item {itemValue.ItemClass.GetItemName()}");
+        if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"GetItemCount | item {itemValue.ItemClass.GetItemName()}");
 
         ReloadStorages();
         return _currentStorageDict.Count == 0
@@ -133,7 +123,7 @@ public static class ContainerUtils {
     // Used By:
     //      ItemActionRanged.CanReload (Weapon Reload - Ammo Exists Check)
     public static bool HasItem(ItemValue itemValue) {
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"HasItem | item {itemValue.ItemClass.GetItemName()}");
+        if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"HasItem | item {itemValue.ItemClass.GetItemName()}");
         ReloadStorages();
         return _currentStorageDict.Select(kvp => kvp.Value.items).Any(items => items.Any(itemStack => itemStack.itemValue.type == itemValue.type));
     }
@@ -141,23 +131,17 @@ public static class ContainerUtils {
     // Used By:
     //      ItemActionEntryRepair.OnActivated (Item Repair (Allows Repair))
     public static int GetTrueItemRepairCount(ItemValue itemValue, int currentCount) {
-        if (!ShouldCheck(true)) {
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("GetTrueItemRepairCount Blocked due to shouldn't check");
-            return currentCount;
-        }
-
-        if (BeyondStorage.Config.isDebug)
-            LogUtil.DebugLog(
-                $"GetTrueItemRepairCount | item {itemValue.ItemClass.GetItemName()} | currentCount {currentCount}");
+        if (LogUtil.IsDebugEnabled())
+            LogUtil.DebugLog($"GetTrueItemRepairCount | item {itemValue.ItemClass.GetItemName()} | currentCount {currentCount}");
 
         // Skip if we already have enough in inventory
         if (currentCount * itemValue.ItemClass.RepairAmount.Value <= 0) {
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("GetTrueItemRepairCount | adding nearby inventory");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("GetTrueItemRepairCount | adding nearby inventory");
 
             return currentCount + GetItemCount(itemValue);
         }
 
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("GetTrueItemRepairCount | returning current count");
+        if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("GetTrueItemRepairCount | returning current count");
 
         return currentCount;
     }
@@ -166,14 +150,14 @@ public static class ContainerUtils {
     //      ItemActionRepair.RemoveRequiredResource (Block Upgrade (Remove items))
     public static int RemoveRemainingForUpgrade(int currentCount, ItemValue itemValue, int requiredCount) {
         if (currentCount == requiredCount) {
-            if (BeyondStorage.Config.isDebug)
+            if (LogUtil.IsDebugEnabled())
                 LogUtil.DebugLog(
                     $"RemoveRemainingForUpgrade | Skipping {itemValue.ItemClass.GetItemName()} | currentCount {currentCount} == requiredCount {requiredCount}");
 
             return currentCount;
         }
 
-        if (BeyondStorage.Config.isDebug)
+        if (LogUtil.IsDebugEnabled())
             LogUtil.DebugLog(
                 $"RemoveRemainingForUpgrade | Trying to remove {itemValue.ItemClass.GetItemName()} | currentCount {currentCount} | requiredCount {requiredCount}");
 
@@ -185,14 +169,14 @@ public static class ContainerUtils {
     public static int RemoveRemainingForRepair(int currentCount, ItemStack itemStack) {
         var num = itemStack.count - currentCount;
         if (num == 0) {
-            if (BeyondStorage.Config.isDebug)
+            if (LogUtil.IsDebugEnabled())
                 LogUtil.DebugLog(
                     $"RemoveRemainingForRepair | skipping itemStack {itemStack.itemValue.ItemClass.GetItemName()} | stillNeeded {num} == 0");
 
             return currentCount;
         }
 
-        if (BeyondStorage.Config.isDebug)
+        if (LogUtil.IsDebugEnabled())
             LogUtil.DebugLog(
                 $"RemoveRemainingForRepair | currentCount {currentCount} | itemStack {itemStack.itemValue.ItemClass.GetItemName()} | count {itemStack.count} | stillNeeded {num}");
 
@@ -208,7 +192,7 @@ public static class ContainerUtils {
         bool ignoreModdedItems = false,
         IList<ItemStack> removedItems = null) {
         var num = requiredAmount - currentCount;
-        if (BeyondStorage.Config.isDebug)
+        if (LogUtil.IsDebugEnabled())
             LogUtil.DebugLog(
                 $"RemoveRemainingForCraft | stillNeeded: {num} current: {currentCount} item: {itemValue.ItemClass.GetItemName()} required: {requiredAmount} ignoreModded: {ignoreModdedItems}");
         if (num <= 0) return currentCount;
@@ -219,7 +203,7 @@ public static class ContainerUtils {
     public static int RemoveRemaining(ItemValue itemValue, int requiredAmount, bool ignoreModdedItems = false,
         IList<ItemStack> removedItems = null) {
         var num = requiredAmount;
-        if (BeyondStorage.Config.isDebug)
+        if (LogUtil.IsDebugEnabled())
             LogUtil.DebugLog($"Trying to remove {requiredAmount} {itemValue.ItemClass.GetItemName()}");
 
         if (requiredAmount <= 0) return requiredAmount;
@@ -239,7 +223,7 @@ public static class ContainerUtils {
                 if (ItemClass.GetForId(items[index].itemValue.type).CanStack()) {
                     var itemCount = items[index].count;
                     var countToRemove = itemCount >= requiredAmount ? requiredAmount : itemCount;
-                    if (BeyondStorage.Config.isDebug) {
+                    if (LogUtil.IsDebugEnabled()) {
                         LogUtil.DebugLog($"Loc: {kvp.Key}, Value: {kvp.Value}");
                         LogUtil.DebugLog($"Item Count: {itemCount} Count To Remove: {countToRemove}");
                         LogUtil.DebugLog($"Item Count Before: {items[index].count}");
@@ -248,7 +232,7 @@ public static class ContainerUtils {
                     removedItems?.Add(new ItemStack(items[index].itemValue.Clone(), countToRemove));
                     items[index].count -= countToRemove;
                     requiredAmount -= countToRemove;
-                    if (BeyondStorage.Config.isDebug) {
+                    if (LogUtil.IsDebugEnabled()) {
                         LogUtil.DebugLog($"Item Count After: {items[index].count}");
                         LogUtil.DebugLog($"Required After: {requiredAmount}");
                     }
@@ -266,7 +250,7 @@ public static class ContainerUtils {
         }
 
         var result = num - requiredAmount;
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"Removed {result} {itemValue.ItemClass.GetItemName()}");
+        if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"Removed {result} {itemValue.ItemClass.GetItemName()}");
 
         return result;
     }

@@ -87,7 +87,7 @@ public class XUiMPlayerInventoryCommonPatches {
     [HarmonyPrefix]
     [HarmonyPatch(nameof(XUiM_PlayerInventory.RemoveItems))]
     private static void XUiM_PlayerInventory_RemoveItems_Prefix(IList<ItemStack> _itemStacks, int _multiplier) {
-        if (!BeyondStorage.Config.isDebug) return;
+        if (!LogUtil.IsDebugEnabled()) return;
 
         foreach (var itemStack in _itemStacks) {
             var num = itemStack.count * _multiplier;
@@ -113,7 +113,7 @@ public class XUiMPlayerInventoryCommonPatches {
                 continue;
 
             set = true;
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"Patching {targetMethodString}");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"Patching {targetMethodString}");
 
             List<CodeInstruction> newCode = [
                 // ldarg.1      // _itemStacks

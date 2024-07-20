@@ -16,7 +16,7 @@ public class XUiCIngredientListPatches {
     [HarmonyPostfix]
     [HarmonyPatch(nameof(XUiC_IngredientList.OnOpen))]
     private static void XUiC_IngredientList_OnOpen_Postfix() {
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"{OnOpenTargetString}");
+        if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"{OnOpenTargetString}");
         ContainerUtils.IngredientListShown = true;
     }
 
@@ -26,7 +26,7 @@ public class XUiCIngredientListPatches {
     [HarmonyPostfix]
     [HarmonyPatch(nameof(XUiC_IngredientList.OnClose))]
     private static void XUiC_IngredientList_OnClose_Postfix() {
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"{OnCloseTargetString}");
+        if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"{OnCloseTargetString}");
         ContainerUtils.IngredientListShown = false;
     }
 }

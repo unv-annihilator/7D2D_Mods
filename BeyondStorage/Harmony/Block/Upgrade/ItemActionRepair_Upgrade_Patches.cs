@@ -28,7 +28,7 @@ public class ItemActionRepairUpgradePatches {
                 continue;
 
             found = true;
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Adding method to count items from all storages");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Adding method to count items from all storages");
 
             List<CodeInstruction> newCode = new();
             // == 'Proper' Code / Only Called When Needed ==
@@ -85,7 +85,7 @@ public class ItemActionRepairUpgradePatches {
                 (MethodInfo)codes[i].operand != AccessTools.Method(typeof(Bag), nameof(Bag.DecItem)))
                 continue;
 
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Adding method to remove items from all storages");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Adding method to remove items from all storages");
 
             found = true;
             List<CodeInstruction> newCode = [

@@ -27,7 +27,7 @@ public class XUiCIngredientEntryPatches {
                     new[] { typeof(ItemValue) }))
                 continue;
 
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Adding method to add item counts from all storages");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Adding method to add item counts from all storages");
 
             // TODO: possibly clean this up
             codes.Insert(i + 1,

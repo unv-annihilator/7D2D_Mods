@@ -19,7 +19,7 @@ public class XUiCItemActionListPatches {
     private static void VisibilityChanged(XUiController _sender, bool _visible) {
         if (!BeyondStorage.Config.enableForItemRepair)
             return;
-        // if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"{_sender.GetType()} {_visible}");
+        // if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"{_sender.GetType()} {_visible}");
         ContainerUtils.ActionListVisible = _visible;
     }
 
@@ -45,7 +45,7 @@ public class XUiCItemActionListPatches {
     // Update `RepairActionShown` in `ContainerUtils` if list contains Repair action
     private static void UpdateRepair(XUiC_ItemActionList itemActionList) {
         var repairFound = HasRepair(itemActionList);
-        // if (BeyondStorage.Config.isDebug)
+        // if (LogUtil.IsDebugEnabled())
         //     LogUtil.DebugLog($"Repair Entry Found {repairFound}");
         ContainerUtils.RepairActionShown = repairFound;
     }

@@ -45,7 +45,7 @@ public class XUiCRecipeListPatches {
                 AccessTools.Method(typeof(XUiC_RecipeList), nameof(XUiC_RecipeList.BuildRecipeInfosList)))
                 continue;
 
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Adding method to add items from all storages");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Adding method to add items from all storages");
 
             found = true;
             // IL_008b: ldarg.0      // this [Label 4]

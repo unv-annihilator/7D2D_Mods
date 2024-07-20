@@ -20,7 +20,7 @@ public class AnimatorRangedReloadStatePatches {
         var codeInstructions = new List<CodeInstruction>(instructions);
         var lastRet = codeInstructions.FindLastIndex(codeInstruction => codeInstruction.opcode == OpCodes.Ret);
         if (lastRet != -1) {
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"Found last ret at {lastRet} for {targetMethodString}");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"Found last ret at {lastRet} for {targetMethodString}");
             var start = new CodeInstruction(OpCodes.Ldarg_2);
             codeInstructions[lastRet - 1].MoveLabelsTo(start);
             codeInstructions[lastRet - 1] = new CodeInstruction(OpCodes.Nop);

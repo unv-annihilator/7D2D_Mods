@@ -8,8 +8,7 @@ public static class RangedUtil {
     public static bool CanReloadFromStorage(ItemValue itemValue) {
         // Get ammo count for ammo type; setting __result to (Count > 0)
         var newResult = ContainerUtils.HasItem(itemValue);
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"New Result: {newResult}");
-
+        if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"New Result: {newResult}");
         // Set new result
         return newResult;
     }
@@ -20,7 +19,6 @@ public static class RangedUtil {
     //      Animator3PRangedReloadState.GetAmmoCount (Weapon Reload - Get Total Ammo Count (not displayed))
     public static int GetAmmoCount(ItemValue itemValue) {
         return ContainerUtils.GetItemCount(itemValue);
-        // return Container2Utils.GetAvailableStorages().Sum(tileEntityLootable => tileEntityLootable.items.Where(t => t.itemValue.type == itemValue.type).Sum(t => t.count));
     }
 
     // Used By:
@@ -29,7 +27,7 @@ public static class RangedUtil {
     public static int RemoveAmmoForReload(ItemValue ammoType, bool isPerMag, int maxMagSize, int currentAmmo) {
         var ammoRequired = isPerMag ? 1 : maxMagSize - currentAmmo;
         var ammoRemovedFromStorage = ContainerUtils.RemoveRemaining(ammoType, ammoRequired);
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"{ammoType.ItemClass.GetItemName()} {isPerMag} {maxMagSize} {currentAmmo} {ammoRemovedFromStorage}");
+        if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"{ammoType.ItemClass.GetItemName()} {isPerMag} {maxMagSize} {currentAmmo} {ammoRemovedFromStorage}");
         return isPerMag ? maxMagSize * ammoRemovedFromStorage : ammoRemovedFromStorage;
     }
 }

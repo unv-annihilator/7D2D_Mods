@@ -10,7 +10,7 @@ public static class GameManagerPatches {
     [HarmonyPatch(nameof(GameManager.StartGame))]
     // [HarmonyDebug]
     private static void GameManager_StartGame_PostFix() {
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("StartGame: Initializing ContainerUtils");
+        if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("StartGame: Initializing ContainerUtils");
 
         ContainerUtils.Init();
     }
@@ -19,7 +19,7 @@ public static class GameManagerPatches {
     [HarmonyPatch(nameof(GameManager.Disconnect))]
     // [HarmonyDebug]
     private static void GameManager_Disconnect_PostFix() {
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Disconnect: Cleaning up ContainerUtils");
+        if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Disconnect: Cleaning up ContainerUtils");
 
         ContainerUtils.Cleanup();
     }

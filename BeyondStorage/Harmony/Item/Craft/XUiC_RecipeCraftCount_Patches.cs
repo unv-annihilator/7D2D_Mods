@@ -28,7 +28,7 @@ public class XUiCRecipeCraftCountPatches {
                 AccessTools.Method(typeof(XUiM_PlayerInventory), nameof(XUiM_PlayerInventory.GetAllItemStacks)))
                 continue;
 
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Appending our item stacks to current inventory");
+            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Appending our item stacks to current inventory");
 
             codes.Insert(i + 2,
                 new CodeInstruction(OpCodes.Call,
