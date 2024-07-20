@@ -72,10 +72,6 @@
       <HintPath>..\..\7DaysToDie_Data\Managed\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Xml">
-      <HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine.AnimationModule">
       <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
       <Private>False</Private>

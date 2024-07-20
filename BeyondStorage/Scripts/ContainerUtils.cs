@@ -288,6 +288,10 @@ public static class ContainerUtils {
 
                 if (!tileEntityLootable.bPlayerStorage) continue;
 
+#if DEBUG
+                LogUtil.DebugLog($"{kvp.Key} {kvp.Value.IsUserAccessing()}");
+#endif
+
                 if (kvp.Value.IsUserAccessing()) continue;
 
                 if (kvp.Value.TryGetSelfOrFeature(out ILockable tileLockable))
