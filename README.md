@@ -2,7 +2,7 @@
 
 ---
 
-### Alpha Jump [v1.0.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/AlphaJump_v1.0.0.0) - View on [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5103)
+### Alpha Jump [v1.0.1](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/AlphaJump_v1.0.1) - View on [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5103)
 
 - One jump per keybind press similar to alpha. (Holding space results in a single jump instead of constant jumping)
 
@@ -10,7 +10,7 @@
 
 - Claims the rewards of challenges automatically after you complete them.
 
-### Beyond Storage [v2.0.6](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/BeyondStorage_v2.0.6) - View on [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5087)
+### Beyond Storage [v2.0.7](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/BeyondStorage_v2.0.7) - View on [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5087)
 
 - Originally 'CraftFromContainers' by aedenthorn. Refactored and updated for v1.0
 - Craft and Repair items using items from nearby storage. (repair configurable)
