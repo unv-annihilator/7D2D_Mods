@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts;
+using BeyondStorage.Scripts.Block;
 using BeyondStorage.Scripts.Common;
 using HarmonyLib;
 
@@ -14,7 +14,9 @@ public class ItemActionRepairPatches {
     //          Block Repair (resources available check)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(ItemActionRepair.canRemoveRequiredItem))]
-    // [HarmonyDebug]
+#if DEBUG
+    [HarmonyDebug]
+#endif
     private static IEnumerable<CodeInstruction> ItemActionRepair_canRemoveRequiredItem_Patch(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
         if (!BeyondStorage.Config.enableForBlockRepair) return instructions;
@@ -28,9 +30,9 @@ public class ItemActionRepairPatches {
                 continue;
 
             found = true;
-            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Adding method to count items from all storages");
+            if (LogUtil.IsDebug()) LogUtil.DebugLog("Adding method to count items from all storages");
 
-            List<CodeInstruction> newCode = new();
+            List<CodeInstruction> newCode = [];
             // == New ==
             var newLabel = generator.DefineLabel();
             // New jump to our new section of code if the previous check failed
@@ -49,7 +51,7 @@ public class ItemActionRepairPatches {
                 AccessTools.Field(typeof(ItemStack), nameof(ItemStack.itemValue))));
             // GetItemCount(itemValue)
             newCode.Add(new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.GetItemCount))));
+                AccessTools.Method(typeof(BlockRepair), nameof(BlockRepair.BlockRepairGetItemCount))));
             // _itemStack
             newCode.Add(new CodeInstruction(OpCodes.Ldarg_2));
             // _itemStack.count
@@ -78,7 +80,9 @@ public class ItemActionRepairPatches {
     //          Block Repair (remove items on repair)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(ItemActionRepair.removeRequiredItem))]
-    // [HarmonyDebug]
+#if DEBUG
+    [HarmonyDebug]
+#endif
     private static IEnumerable<CodeInstruction> ItemActionRepair_removeRequiredItem_Patch(
         IEnumerable<CodeInstruction> instructions) {
         if (!BeyondStorage.Config.enableForBlockRepair) return instructions;
@@ -92,14 +96,14 @@ public class ItemActionRepairPatches {
                 continue;
 
             found = true;
-            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog($"Patching {targetMethodString}");
+            if (LogUtil.IsDebug()) LogUtil.DebugLog($"Patching {targetMethodString}");
 
             List<CodeInstruction> newCode = [
                 // _itemStack
                 new CodeInstruction(OpCodes.Ldarg_2),
-                // ContainerUtils.RemoveRemainingForRepair(Bag::DecItem(), _itemStack)
+                // BlockRepair.BlockRepairRemoveRemaining(Bag::DecItem(), _itemStack)
                 new CodeInstruction(OpCodes.Call,
-                    AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.RemoveRemainingForRepair)))
+                    AccessTools.Method(typeof(BlockRepair), nameof(BlockRepair.BlockRepairRemoveRemaining)))
             ];
             codes.InsertRange(i + 1, newCode);
             break;

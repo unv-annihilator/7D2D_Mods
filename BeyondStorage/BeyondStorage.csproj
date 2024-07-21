@@ -35,22 +35,27 @@
     <Compile Include="Harmony\BeyondStorage_Init.cs"/>
     <Compile Include="Harmony\Block\Repair\ItemActionRepair_Repair_Patches.cs"/>
     <Compile Include="Harmony\Block\Upgrade\ItemActionRepair_Upgrade_Patches.cs"/>
-    <Compile Include="Harmony\Common\GameManager_Patches.cs"/>
+    <Compile Include="Harmony\Item\Craft\XUiC_IngredientEntry_Patches.cs"/>
     <Compile Include="Harmony\Item\Craft\XUiC_RecipeCraftCount_Patches.cs"/>
     <Compile Include="Harmony\Item\Craft\XUiC_RecipeList_Patches.cs"/>
+    <Compile Include="Harmony\Item\Craft\XUiM_PlayerInventory_Craft_Patches.cs"/>
     <Compile Include="Harmony\Item\Repair\ItemActionEntryRepair_Patches.cs"/>
     <Compile Include="Harmony\Item\Repair\XUiC_ItemActionList_Patches.cs"/>
-    <Compile Include="Harmony\Item\XUiC_IngredientEntry_Patches.cs"/>
-    <Compile Include="Harmony\Item\XUiC_IngredientList_Patches.cs"/>
     <Compile Include="Harmony\Item\XUiM_PlayerInventory_Patches.cs"/>
-    <Compile Include="Harmony\Reload\Animator3PRangedReloadState_Patches.cs"/>
-    <Compile Include="Harmony\Reload\AnimatorRangedReloadState_Patches.cs"/>
+    <Compile Include="Harmony\Reload\3P\Animator3PRangedReloadState_Patches.cs"/>
+    <Compile Include="Harmony\Reload\AnimatorCommon.cs"/>
+    <Compile Include="Harmony\Reload\FP\AnimatorRangedReloadState_Patches.cs"/>
     <Compile Include="Harmony\Reload\ItemActionRanged_Patches.cs"/>
-    <Compile Include="Scripts\Common\FileUtil.cs"/>
-    <Compile Include="Scripts\Common\LogUtil.cs"/>
     <Compile Include="Scripts\Configuration\ModConfig.cs"/>
-    <Compile Include="Scripts\ContainerUtils.cs"/>
-    <Compile Include="Scripts\RangedUtil.cs"/>
+    <Compile Include="Scripts\ContainerLogic\Block\BlockRepair.cs"/>
+    <Compile Include="Scripts\ContainerLogic\Block\BlockUpgrade.cs"/>
+    <Compile Include="Scripts\ContainerLogic\ContainerUtils.cs"/>
+    <Compile Include="Scripts\ContainerLogic\Item\ItemCommon.cs"/>
+    <Compile Include="Scripts\ContainerLogic\Item\ItemCraft.cs"/>
+    <Compile Include="Scripts\ContainerLogic\Item\ItemRepair.cs"/>
+    <Compile Include="Scripts\ContainerLogic\Ranged\Ranged.cs"/>
+    <Compile Include="Scripts\Utils\FileUtil.cs"/>
+    <Compile Include="Scripts\Utils\LogUtil.cs"/>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ModInfo.xml"/>

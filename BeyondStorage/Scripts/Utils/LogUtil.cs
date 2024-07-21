@@ -24,7 +24,7 @@ public static class LogUtil {
         }
     }
 
-    public static bool IsDebugEnabled() {
+    public static bool IsDebug() {
         return BeyondStorage.Config.isDebug;
     }
 

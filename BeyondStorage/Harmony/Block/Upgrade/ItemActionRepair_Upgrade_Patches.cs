@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts;
+using BeyondStorage.Scripts.Block;
 using BeyondStorage.Scripts.Common;
 using HarmonyLib;
 
@@ -14,7 +14,9 @@ public class ItemActionRepairUpgradePatches {
     //          Block Upgrade (Check for enough items)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(ItemActionRepair.CanRemoveRequiredResource))]
-    // [HarmonyDebug]
+#if DEBUG
+    [HarmonyDebug]
+#endif
     private static IEnumerable<CodeInstruction> ItemActionRepair_CanRemoveRequiredResource_Patch(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
         if (!BeyondStorage.Config.enableForBlockUpgrade) return instructions;
@@ -28,26 +30,26 @@ public class ItemActionRepairUpgradePatches {
                 continue;
 
             found = true;
-            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Adding method to count items from all storages");
+            if (LogUtil.IsDebug()) LogUtil.DebugLog("Adding method to count items from all storages");
 
-            List<CodeInstruction> newCode = new();
-            // == 'Proper' Code / Only Called When Needed ==
             var newLabel = generator.DefineLabel();
-            // blt.s    [newLabel]
-            newCode.Add(new CodeInstruction(OpCodes.Blt_S, newLabel));
-            // ldc.i4.1
-            newCode.Add(new CodeInstruction(OpCodes.Ldc_I4_1));
-            // ret
-            newCode.Add(new CodeInstruction(OpCodes.Ret));
             // ldloc.s  _itemValue [newLabel]
-            var ci = new CodeInstruction(codes[i - 4].opcode, codes[i - 4].operand);
-            ci.labels.Add(newLabel);
-            newCode.Add(ci);
-            // ContainerUtils.GetItemCount(_itemValue)
-            newCode.Add(new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.GetItemCount))));
-            // Moves result onto stack
-            newCode.Add(new CodeInstruction(OpCodes.Ldloc_3));
+            var newLabelDestCi = new CodeInstruction(codes[i - 4].opcode, codes[i - 4].operand);
+            newLabelDestCi.labels.Add(newLabel);
+            List<CodeInstruction> newCode = [
+                // blt.s    [newLabel]
+                new CodeInstruction(OpCodes.Blt_S, newLabel),
+                // ldc.i4.1
+                new CodeInstruction(OpCodes.Ldc_I4_1),
+                // ret
+                new CodeInstruction(OpCodes.Ret),
+                // ldloc.s  _itemValue [newLabel]
+                newLabelDestCi,
+                // BlockUpgrade.BlockUpgradeGetItemCount(_itemValue)
+                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(BlockUpgrade), nameof(BlockUpgrade.BlockUpgradeGetItemCount))),
+                // Moves result onto stack
+                new CodeInstruction(OpCodes.Ldloc_3)
+            ];
             codes.InsertRange(i + 2, newCode);
             // == END 'Proper' Code ==
 
@@ -71,7 +73,9 @@ public class ItemActionRepairUpgradePatches {
     //          Block Upgrade (Remove items)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(ItemActionRepair.RemoveRequiredResource))]
-    // [HarmonyDebug]
+#if DEBUG
+    [HarmonyDebug]
+#endif
     private static IEnumerable<CodeInstruction> ItemActionRepair_RemoveRequiredResource_Patch(
         IEnumerable<CodeInstruction> instructions) {
         if (!BeyondStorage.Config.enableForBlockUpgrade) return instructions;
@@ -85,7 +89,7 @@ public class ItemActionRepairUpgradePatches {
                 (MethodInfo)codes[i].operand != AccessTools.Method(typeof(Bag), nameof(Bag.DecItem)))
                 continue;
 
-            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Adding method to remove items from all storages");
+            if (LogUtil.IsDebug()) LogUtil.DebugLog("Adding method to remove items from all storages");
 
             found = true;
             List<CodeInstruction> newCode = [
@@ -93,9 +97,9 @@ public class ItemActionRepairUpgradePatches {
                 new CodeInstruction(OpCodes.Ldloc_1),
                 // _result
                 new CodeInstruction(OpCodes.Ldloc_2),
-                // ContainerUtils.RemoveRemainingForUpgrade(bag.DecItem(...), _itemValue, _result)
+                // BlockUpgrade.BlockUpgradeRemoveRemaining(bag.DecItem(...), _itemValue, _result)
                 new CodeInstruction(OpCodes.Call,
-                    AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.RemoveRemainingForUpgrade)))
+                    AccessTools.Method(typeof(BlockUpgrade), nameof(BlockUpgrade.BlockUpgradeRemoveRemaining)))
             ];
             codes.InsertRange(i + 1, newCode);
 

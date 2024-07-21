@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts;
 using BeyondStorage.Scripts.Common;
+using BeyondStorage.Scripts.Item;
 using HarmonyLib;
 
 namespace BeyondStorage.Item.Craft;
@@ -14,8 +14,9 @@ public class XUiCRecipeCraftCountPatches {
     //          Item Crafting (gets max craftable amount)
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(XUiC_RecipeCraftCount.calcMaxCraftable))]
-    // [HarmonyDebug]
-    // TODO: could possibly be made cleaner?
+#if DEBUG
+    [HarmonyDebug]
+#endif
     private static IEnumerable<CodeInstruction> XUiC_RecipeCraftCount_calcMaxCraftable_Patch(
         IEnumerable<CodeInstruction> instructions) {
         var targetMethodString = $"{typeof(XUiC_RecipeCraftCount)}.{nameof(XUiC_RecipeCraftCount.calcMaxCraftable)}";
@@ -28,11 +29,12 @@ public class XUiCRecipeCraftCountPatches {
                 AccessTools.Method(typeof(XUiM_PlayerInventory), nameof(XUiM_PlayerInventory.GetAllItemStacks)))
                 continue;
 
-            if (LogUtil.IsDebugEnabled()) LogUtil.DebugLog("Appending our item stacks to current inventory");
+            if (LogUtil.IsDebug()) LogUtil.DebugLog("Appending our item stacks to current inventory");
 
-            codes.Insert(i + 2,
+            // ItemCraft.MaxCraftGetAllStorageStacks(this.xui.PlayerInventory.GetAllItemStacks()).ToArray()
+            codes.Insert(i + 1,
                 new CodeInstruction(OpCodes.Call,
-                    AccessTools.Method(typeof(ContainerUtils), nameof(ContainerUtils.GetAllStorageStacksArrays))));
+                    AccessTools.Method(typeof(ItemCraft), nameof(ItemCraft.ItemCraftMaxGetAllStorageStacks))));
             set = true;
             break;
         }
