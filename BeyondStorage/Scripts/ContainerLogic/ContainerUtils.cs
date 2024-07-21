@@ -4,7 +4,7 @@ using BeyondStorage.Scripts.Common;
 using Platform;
 using UnityEngine;
 
-namespace BeyondStorage.Scripts;
+namespace BeyondStorage.Scripts.ContainerLogic;
 
 public static class ContainerUtils {
     public static IEnumerable<ItemStack> GetItemStacks() {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BeyondStorage.Scripts.Common;
 
-namespace BeyondStorage.Scripts.Item;
+namespace BeyondStorage.Scripts.ContainerLogic.Item;
 
 public static class ItemCommon {
     // Used By:

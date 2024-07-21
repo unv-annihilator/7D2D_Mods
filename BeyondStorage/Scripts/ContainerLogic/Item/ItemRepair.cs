@@ -1,6 +1,6 @@
 ﻿using BeyondStorage.Scripts.Common;
 
-namespace BeyondStorage.Scripts.Item;
+namespace BeyondStorage.Scripts.ContainerLogic.Item;
 
 public static class ItemRepair {
     internal static bool ActionListVisible { get; set; }

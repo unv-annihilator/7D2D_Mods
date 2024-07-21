@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts.Block;
 using BeyondStorage.Scripts.Common;
+using BeyondStorage.Scripts.ContainerLogic.Block;
 using HarmonyLib;
 
 namespace BeyondStorage.Block.Repair;

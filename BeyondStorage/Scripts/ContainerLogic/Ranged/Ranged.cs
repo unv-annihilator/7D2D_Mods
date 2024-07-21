@@ -1,6 +1,6 @@
 ﻿using BeyondStorage.Scripts.Common;
 
-namespace BeyondStorage.Scripts.Ranged;
+namespace BeyondStorage.Scripts.ContainerLogic.Ranged;
 
 public static class Ranged {
     // Used By:

@@ -1,6 +1,6 @@
 ﻿using BeyondStorage.Scripts.Common;
 
-namespace BeyondStorage.Scripts.Block;
+namespace BeyondStorage.Scripts.ContainerLogic.Block;
 
 public class BlockUpgrade {
     // Used By:

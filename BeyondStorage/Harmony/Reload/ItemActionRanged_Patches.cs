@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection.Emit;
 using BeyondStorage.Scripts.Common;
-using BeyondStorage.Scripts.Ranged;
+using BeyondStorage.Scripts.ContainerLogic.Ranged;
 using HarmonyLib;
 
 namespace BeyondStorage.Reload;

@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using BeyondStorage.Scripts.Item;
+using BeyondStorage.Scripts.ContainerLogic.Item;
 using HarmonyLib;
 
 namespace BeyondStorage.Item.Repair;

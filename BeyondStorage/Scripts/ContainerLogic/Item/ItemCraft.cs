@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BeyondStorage.Scripts.Common;
 
-namespace BeyondStorage.Scripts.Item;
+namespace BeyondStorage.Scripts.ContainerLogic.Item;
 
 public class ItemCraft {
     internal static bool IngredientListShown { get; set; }

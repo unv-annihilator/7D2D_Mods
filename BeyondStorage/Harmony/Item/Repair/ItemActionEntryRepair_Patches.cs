@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using BeyondStorage.Scripts.Common;
-using BeyondStorage.Scripts.Item;
+using BeyondStorage.Scripts.ContainerLogic.Item;
 using HarmonyLib;
 
 namespace BeyondStorage.Item.Repair;
