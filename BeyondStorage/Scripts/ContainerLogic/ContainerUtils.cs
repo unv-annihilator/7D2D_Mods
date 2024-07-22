@@ -8,15 +8,16 @@ using UnityEngine;
 namespace BeyondStorage.Scripts.ContainerLogic;
 
 public static class ContainerUtils {
-    private static ConcurrentDictionary<Vector3i, int> _lockedTileEntities;
+    public static ConcurrentDictionary<Vector3i, int> LockedTileEntities { get; set; }
+
     public static int LastLockedCount { get; set; }
 
     public static void Init() {
-        _lockedTileEntities = new ConcurrentDictionary<Vector3i, int>();
+        LockedTileEntities = new ConcurrentDictionary<Vector3i, int>();
     }
 
     public static void Cleanup() {
-        _lockedTileEntities.Clear();
+        LockedTileEntities.Clear();
     }
 
     public static IEnumerable<ItemStack> GetItemStacks() {
@@ -51,17 +52,16 @@ public static class ContainerUtils {
             // Skip if not player storage
             if (!tileEntityLootable.bPlayerStorage) continue;
 #if DEBUG
-            LogUtil.DebugLog($"TEL: {tileEntityLootable}; Locked Count: {_lockedTileEntities.Count}; {tileEntity.IsUserAccessing()}");
+            LogUtil.DebugLog($"TEL: {tileEntityLootable}; Locked Count: {LockedTileEntities.Count}; {tileEntity.IsUserAccessing()}");
 #endif
             // If we have locked entities
-            if (_lockedTileEntities.Count > 0)
+            if (LockedTileEntities.Count > 0)
                 // Skip if player already accessing the storage
-                if (_lockedTileEntities.ContainsKey(tileEntityLootable.ToWorldPos()) && _lockedTileEntities[tileEntityLootable.ToWorldPos()] != player.entityId)
+                if (LockedTileEntities.ContainsKey(tileEntityLootable.ToWorldPos()) && LockedTileEntities[tileEntityLootable.ToWorldPos()] != player.entityId)
                     continue;
 
-            // Skip if the container can be locked
             if (tileEntity.TryGetSelfOrFeature(out ILockable tileLockable))
-                // And is locked, and the player doesn't have access
+                // If storage can be locked, is locked, and the player doesn't have access
                 if (tileLockable.IsLocked() && !tileLockable.IsUserAllowed(internalLocalUserIdentifier))
                     continue;
             // If entity is in range (or range is set infinite)
@@ -120,9 +120,10 @@ public static class ContainerUtils {
         return result;
     }
 
+    // Client Update
     public static void UpdateLockedTEs(Dictionary<Vector3i, int> lockedTileEntities) {
-        _lockedTileEntities.Clear();
-        lockedTileEntities.CopyTo(_lockedTileEntities);
+        LockedTileEntities.Clear();
+        lockedTileEntities.CopyTo(LockedTileEntities);
         if (LogUtil.IsDebug()) LogUtil.DebugLog($"UpdateLockedTEs: newCount {lockedTileEntities.Count}");
     }
 }

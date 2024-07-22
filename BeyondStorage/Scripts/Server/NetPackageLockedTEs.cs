@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// ReSharper disable MemberCanBePrivate.Global
+using System.Collections.Generic;
 using BeyondStorage.Scripts.ContainerLogic;
-
-// ReSharper disable MemberCanBePrivate.Global
 #if DEBUG
 using BeyondStorage.Scripts.Common;
 #endif
