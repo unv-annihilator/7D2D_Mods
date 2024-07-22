@@ -1,10 +1,44 @@
 ﻿using System.Collections.Generic;
-using BeyondStorage.Scripts.Common;
 using BeyondStorage.Scripts.ContainerLogic;
+#if DEBUG
+using BeyondStorage.Scripts.Common;
+#endif
 
 namespace BeyondStorage.Scripts.Server;
 
 public static class ServerUtils {
+    public static void SendCurrentLockedDict(int destinationId) {
+        // Skip if we have nothing to send
+        if (ContainerUtils.LockedTileEntities.IsEmpty) return;
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"PlayerSpawnedInWorld called with {destinationId}");
+        // skip if invalid entity ID or if we are the server just logging in
+        if (destinationId == -1) {
+            LogUtil.Error("PlayerSpawnedInWorld called without a valid entity id");
+            return;
+        }
+
+        if (!GameManager.IsDedicatedServer && destinationId == GameManager.Instance.myEntityPlayerLocal.entityId) {
+            if (LogUtil.IsDebug()) LogUtil.DebugLog("Skipping local player starting server");
+            return;
+        }
+#else
+        // skip if invalid entity ID
+        if (destinationId == -1) return;
+        // skip local entity test if we're a dedicated server
+        if (!GameManager.IsDedicatedServer)
+            // skip entity is the server-client first starting the server (logging in)
+            if (destinationId == GameManager.Instance.myEntityPlayerLocal.entityId)
+                return;
+#endif
+        // send current locked entities to newly logging in player
+        var currentCopy = new Dictionary<Vector3i, int>(ContainerUtils.LockedTileEntities);
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(new NetPackageLockedTEs().Setup(currentCopy), true, destinationId);
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"SendCurrentLockedDict to {destinationId}");
+#endif
+    }
+
     public static void LockedTEsUpdate() {
         var newLockedDict = GameManager.Instance.lockedTileEntities;
         var newDictCount = newLockedDict.Count;

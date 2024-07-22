@@ -67,6 +67,9 @@ public class NetPackageLockedTEs : NetPackage {
     }
 
     public override void ProcessPackage(World _world, GameManager _callbacks) {
+        // skip if we don't have a valid world yet
+        if (_world == null)
+            return;
         ContainerUtils.UpdateLockedTEs(LockedTileEntities);
 #if DEBUG
         if (LogUtil.IsDebug()) LogUtil.DebugLog($"NetPackageLockedTEs: size {Length}; count {EntryCount}");
