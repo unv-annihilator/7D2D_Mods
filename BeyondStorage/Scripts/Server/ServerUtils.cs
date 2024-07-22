@@ -1,0 +1,51 @@
+﻿using System.Collections.Generic;
+using BeyondStorage.Scripts.Common;
+using BeyondStorage.Scripts.ContainerLogic;
+
+namespace BeyondStorage.Scripts.Server;
+
+public static class ServerUtils {
+    public static void LockedTEsUpdate() {
+        var newLockedDict = GameManager.Instance.lockedTileEntities;
+        var newDictCount = newLockedDict.Count;
+        // Skip if it was 0 and still is (before filtering)
+        if (ContainerUtils.LockedTileEntities.Count == 0 && newDictCount == 0) return;
+        // TODO: investigate possible performance hit, if large consider moving to update every X delta?
+        //          concurrent checking looks to take 1-8 ms for small dictionaries
+        Dictionary<Vector3i, int> tempDict = new();
+        var currentCopy = new Dictionary<Vector3i, int>(ContainerUtils.LockedTileEntities);
+        var currentCount = currentCopy.Count;
+        var foundChange = false;
+        // Remove anything not player storage
+        foreach (var kvp in newLockedDict) {
+            // Skip anything not ITileEntityLootable
+            if (!kvp.Key.TryGetSelfOrFeature(out ITileEntityLootable tileEntityLootable)) continue;
+            // Skip any lootables not of player storage
+            if (!tileEntityLootable.bPlayerStorage) continue;
+            var tePos = tileEntityLootable.ToWorldPos();
+            // Add current entry to our new dict for clients
+            tempDict.Add(tePos, kvp.Value);
+            // Skip if we already know things have changes
+            if (foundChange) continue;
+            if (currentCopy.TryGetValue(tePos, out var currentValue)) {
+                if (currentValue != kvp.Value)
+                    foundChange = true; // previous value of key changed
+            } else {
+                // new key found mark as changed
+                foundChange = true;
+            }
+        }
+
+        // capture our new count
+        var newCount = tempDict.Count;
+        // skip if we didn't find any change and the lengths are the same
+        if (!foundChange && newCount == currentCount) return;
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"Original Count: {newLockedDict.Count}; Filter Count: {newCount}");
+#endif
+        // Update clients with filtered list
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(new NetPackageLockedTEs().Setup(tempDict));
+        // Update our own list as well
+        ContainerUtils.UpdateLockedTEs(tempDict);
+    }
+}

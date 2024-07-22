@@ -10,14 +10,18 @@ namespace BeyondStorage.Scripts.ContainerLogic;
 public static class ContainerUtils {
     public static ConcurrentDictionary<Vector3i, int> LockedTileEntities { get; set; }
 
-    public static int LastLockedCount { get; set; }
-
     public static void Init() {
         LockedTileEntities = new ConcurrentDictionary<Vector3i, int>();
     }
 
     public static void Cleanup() {
         LockedTileEntities.Clear();
+    }
+
+    // Client Update
+    public static void UpdateLockedTEs(Dictionary<Vector3i, int> lockedTileEntities) {
+        LockedTileEntities = new ConcurrentDictionary<Vector3i, int>(lockedTileEntities);
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"UpdateLockedTEs: newCount {lockedTileEntities.Count}");
     }
 
     public static IEnumerable<ItemStack> GetItemStacks() {
@@ -118,12 +122,5 @@ public static class ContainerUtils {
         if (LogUtil.IsDebug()) LogUtil.DebugLog($"RemoveRemaining | Removed {result} {itemValue.ItemClass.GetItemName()}");
 
         return result;
-    }
-
-    // Client Update
-    public static void UpdateLockedTEs(Dictionary<Vector3i, int> lockedTileEntities) {
-        LockedTileEntities.Clear();
-        lockedTileEntities.CopyTo(LockedTileEntities);
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"UpdateLockedTEs: newCount {lockedTileEntities.Count}");
     }
 }

@@ -57,6 +57,7 @@
     <Compile Include="Scripts\ContainerLogic\Item\ItemRepair.cs"/>
     <Compile Include="Scripts\ContainerLogic\Ranged\Ranged.cs"/>
     <Compile Include="Scripts\Server\NetPackageLockedTEs.cs"/>
+    <Compile Include="Scripts\Server\ServerUtils.cs"/>
     <Compile Include="Scripts\Utils\FileUtil.cs"/>
     <Compile Include="Scripts\Utils\LogUtil.cs"/>
   </ItemGroup>

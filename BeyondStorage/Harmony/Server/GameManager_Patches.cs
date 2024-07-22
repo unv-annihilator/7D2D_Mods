@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using BeyondStorage.Scripts.ContainerLogic;
 using BeyondStorage.Scripts.Server;
 using HarmonyLib;
 #if DEBUG
@@ -42,54 +41,10 @@ public class GameManagerPatches {
 
     // ReSharper disable once InconsistentNaming
     [HarmonyPostfix]
-    private static void Postfix(MethodBase __originalMethod) {
+    private static void Postfix() {
         // Skip if we're not a server
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
-        var newLockedDict = GameManager.Instance.lockedTileEntities;
-        var currentCount = newLockedDict.Count;
-        // Skip if it was 0 and still is (before filtering)
-        if (ContainerUtils.LastLockedCount == 0 && currentCount == 0) return;
-#if DEBUG
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"GameManager.{__originalMethod.Name} LTE possibly changed");
-#endif
-        Dictionary<Vector3i, int> tempDict = new();
-        var foundChange = false;
-        // Remove anything not player storage
-        foreach (var kvp in newLockedDict) {
-            // Skip anything not ITileEntityLootable
-            if (!kvp.Key.TryGetSelfOrFeature(out ITileEntityLootable tileEntityLootable)) continue;
-            // Skip any lootables not of player storage
-            if (!tileEntityLootable.bPlayerStorage) continue;
-            var tePos = tileEntityLootable.ToWorldPos();
-            // Add current entry to our new dict
-            tempDict.Add(tePos, kvp.Value);
-            // if (!GameManager.IsDedicatedServer) {
-            //     // Client-Server update list -- avoid double looping the dicts
-            // }
-            // skip if we already found a change
-            if (foundChange) continue;
-            // try and get the key from current dict
-            if (ContainerUtils.LockedTileEntities.TryGetValue(tePos, out var currentValue)) {
-                if (currentValue != kvp.Value)
-                    foundChange = true; // previous value of key changed
-            } else {
-                // new key found mark as changed
-                foundChange = true;
-            }
-        }
-
-        var newCount = tempDict.Count;
-
-        // skip if we didn't find any change and the lengths are the same
-        if (!foundChange && newCount == ContainerUtils.LastLockedCount) return;
-#if DEBUG
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"Original Count: {newLockedDict.Count}; Filter Count: {newCount}");
-#endif
-        // store the last count
-        ContainerUtils.LastLockedCount = newCount;
-        // Update clients
-        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(new NetPackageLockedTEs());
-        // Update the current list locally (Server/Client-Server)
-        ContainerUtils.UpdateLockedTEs(tempDict);
+        // Otherwise update our locked TE list
+        ServerUtils.LockedTEsUpdate();
     }
 }

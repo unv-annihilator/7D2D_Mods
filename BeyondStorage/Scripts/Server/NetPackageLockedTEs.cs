@@ -1,4 +1,5 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
+
 using System.Collections.Generic;
 using BeyondStorage.Scripts.ContainerLogic;
 #if DEBUG
@@ -14,26 +15,26 @@ public class NetPackageLockedTEs : NetPackage {
 
     public override NetPackageDirection PackageDirection => NetPackageDirection.ToClient;
 
-    public override void write(PooledBinaryWriter binaryWriter) {
-        var lockedTEs = GameManager.Instance.lockedTileEntities;
-        base.write(binaryWriter);
-        EntryCount = lockedTEs.Count;
-        binaryWriter.Write(lockedTEs.Count);
-        foreach (var kvp in lockedTEs) {
-            var pos = kvp.Key.ToWorldPos();
-            StreamUtils.Write(binaryWriter, pos);
-            binaryWriter.Write(kvp.Value);
-#if DEBUG
-            LogUtil.DebugLog($"pos {pos.x} {pos.y} {pos.z}, value {kvp.Value}");
-            LogUtil.DebugLog(
-                $"id  {kvp.Key.EntityId}; worldPos {kvp.Key.ToWorldPos()}; worldCenterPos {kvp.Key.ToWorldCenterPos()}; {kvp.Key} {GameManager.Instance.World.GetTileEntity(kvp.Key.ToWorldPos())}");
-#endif
-        }
-
-        RecalcLength();
+    public NetPackageLockedTEs Setup(Dictionary<Vector3i, int> lockedTEs) {
+        LockedTileEntities = new Dictionary<Vector3i, int>(lockedTEs);
+        EntryCount = LockedTileEntities.Count;
+        UpdateLength();
+        return this;
     }
 
-    public void RecalcLength() {
+    public override void write(PooledBinaryWriter binaryWriter) {
+        base.write(binaryWriter);
+        binaryWriter.Write(LockedTileEntities.Count);
+        foreach (var kvp in LockedTileEntities) {
+            StreamUtils.Write(binaryWriter, kvp.Key);
+            binaryWriter.Write(kvp.Value);
+#if DEBUG
+            LogUtil.DebugLog($"pos {kvp.Key}, value {kvp.Value}");
+#endif
+        }
+    }
+
+    public void UpdateLength() {
         // x, y, z
         const int posIntCount = 3;
         // int size
@@ -42,9 +43,6 @@ public class NetPackageLockedTEs : NetPackage {
         Length = 1 + intSize;
         // add the additional size per entry: ((x,y,z) + entityId) * EntryCount
         Length += (posIntCount * intSize + intSize) * EntryCount;
-#if DEBUG
-        LogUtil.DebugLog($"entryCount {EntryCount}, length {Length}");
-#endif
     }
 
     public override void read(PooledBinaryReader binaryReader) {
@@ -62,7 +60,7 @@ public class NetPackageLockedTEs : NetPackage {
         var tempLength = Length;
 #endif
 
-        RecalcLength();
+        UpdateLength();
 #if DEBUG
         LogUtil.DebugLog($"count: {EntryCount}; LTE_Dict count {LockedTileEntities.Count}; length {Length}; oldLength {tempLength}");
 #endif
