@@ -8,8 +8,8 @@ using UnityEngine;
 namespace BeyondStorage.Scripts.ContainerLogic;
 
 public static class ContainerUtils {
-    public static int LastLockedCount { get; set; }
     private static ConcurrentDictionary<Vector3i, int> _lockedTileEntities;
+    public static int LastLockedCount { get; set; }
 
     public static void Init() {
         _lockedTileEntities = new ConcurrentDictionary<Vector3i, int>();

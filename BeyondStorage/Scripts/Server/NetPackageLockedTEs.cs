@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using BeyondStorage.Scripts.ContainerLogic;
+// ReSharper disable MemberCanBePrivate.Global
 #if DEBUG
 using BeyondStorage.Scripts.Common;
 #endif
-using BeyondStorage.Scripts.ContainerLogic;
 
 namespace BeyondStorage.Scripts.Server;
 
@@ -28,6 +29,7 @@ public class NetPackageLockedTEs : NetPackage {
                 $"id  {kvp.Key.EntityId}; worldPos {kvp.Key.ToWorldPos()}; worldCenterPos {kvp.Key.ToWorldCenterPos()}; {kvp.Key} {GameManager.Instance.World.GetTileEntity(kvp.Key.ToWorldPos())}");
 #endif
         }
+
         RecalcLength();
     }
 

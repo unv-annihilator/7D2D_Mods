@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+#if DEBUG
 using BeyondStorage.Scripts.Common;
+#endif
 using BeyondStorage.Scripts.ContainerLogic;
 using BeyondStorage.Scripts.Server;
 using HarmonyLib;
@@ -12,24 +14,31 @@ namespace BeyondStorage.Server;
 
 [HarmonyPatch(typeof(GameManager))]
 public class GameManagerPatches {
+#if DEBUG
     [HarmonyPrepare]
     private static void Prepare(MethodBase original) {
-#if DEBUG
-        if (original != null)
-            LogUtil.DebugLog($"Adding Postfix to {typeof(GameManager)}.{original.Name} | {original}");
-#endif
+        if (original == null) return;
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"Adding Postfix to {typeof(GameManager)}.{original.Name} | {original}");
     }
+#endif
 
     [HarmonyTargetMethods]
     private static IEnumerable<MethodBase> TargetMethods() {
-        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.ChangeBlocks), [typeof(PlatformUserIdentifierAbs), typeof(List<BlockChangeInfo>)]);
-        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.ClearTileEntityLockForClient), [typeof(int)]);
-        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.DropContentOfLootContainerServer), [typeof(BlockValue), typeof(Vector3i), typeof(int), typeof(ITileEntityLootable)]);
-        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.FreeAllTileEntityLocks), []);
-        // yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.GetEntityIDForLockedTileEntity), [typeof(TileEntity)]);
-        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.ResetWindowsAndLocks), [typeof(HashSetLong)]);
-        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.TELockServer), [typeof(int), typeof(Vector3i), typeof(int), typeof(int), typeof(string)]);
-        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.TEUnlockServer), [typeof(int), typeof(Vector3i), typeof(int), typeof(bool)]);
+        // , [typeof(PlatformUserIdentifierAbs), typeof(List<BlockChangeInfo>)]);
+        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.ChangeBlocks));
+        // , [typeof(int)]);
+        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.ClearTileEntityLockForClient));
+        // , [typeof(BlockValue), typeof(Vector3i), typeof(int), typeof(ITileEntityLootable)]);
+        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.DropContentOfLootContainerServer));
+        // , []);
+        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.FreeAllTileEntityLocks));
+        // yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.GetEntityIDForLockedTileEntity)); // , [typeof(TileEntity)]);
+        // , [typeof(HashSetLong)]);
+        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.ResetWindowsAndLocks));
+        // , [typeof(int), typeof(Vector3i), typeof(int), typeof(int), typeof(string)]);
+        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.TELockServer));
+        // , [typeof(int), typeof(Vector3i), typeof(int), typeof(bool)]);
+        yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.TEUnlockServer));
     }
 
     // ReSharper disable once InconsistentNaming
