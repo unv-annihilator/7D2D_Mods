@@ -82,8 +82,6 @@ public class GameManagerPatches {
 
         // skip if we didn't find any change and the lengths are the same
         if (!foundChange && newCount == ContainerUtils.LastLockedCount) return;
-        // skip if the new list is empty and was previously empty (similar to another check above but done post filtering)
-        if (ContainerUtils.LastLockedCount == 0 && newCount == 0) return;
 #if DEBUG
         if (LogUtil.IsDebug()) LogUtil.DebugLog($"Original Count: {newLockedDict.Count}; Filter Count: {newCount}");
 #endif
