@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using BeyondStorage.Scripts.Common;
 using Platform;
@@ -7,6 +8,17 @@ using UnityEngine;
 namespace BeyondStorage.Scripts.ContainerLogic;
 
 public static class ContainerUtils {
+    public static int LastLockedCount { get; set; }
+    private static ConcurrentDictionary<Vector3i, int> _lockedTileEntities;
+
+    public static void Init() {
+        _lockedTileEntities = new ConcurrentDictionary<Vector3i, int>();
+    }
+
+    public static void Cleanup() {
+        _lockedTileEntities.Clear();
+    }
+
     public static IEnumerable<ItemStack> GetItemStacks() {
         return GetAvailableStorages().SelectMany(lootable => lootable.items);
     }
@@ -23,7 +35,8 @@ public static class ContainerUtils {
     }
 
     private static IEnumerable<ITileEntityLootable> GetAvailableStorages() {
-        var playerPos = GameManager.Instance.World.GetPrimaryPlayer().position;
+        var player = GameManager.Instance.World.GetPrimaryPlayer();
+        var playerPos = player.position;
         var configRange = BeyondStorage.Config.range;
         var configOnlyCrates = BeyondStorage.Config.onlyStorageCrates;
         var internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
@@ -37,8 +50,15 @@ public static class ContainerUtils {
             if (configOnlyCrates && !tileEntity.TryGetSelfOrFeature(out TEFeatureStorage _)) continue;
             // Skip if not player storage
             if (!tileEntityLootable.bPlayerStorage) continue;
-            // Skip if player already accessing the storage
-            if (tileEntity.IsUserAccessing()) continue;
+#if DEBUG
+            LogUtil.DebugLog($"TEL: {tileEntityLootable}; Locked Count: {_lockedTileEntities.Count}; {tileEntity.IsUserAccessing()}");
+#endif
+            // If we have locked entities
+            if (_lockedTileEntities.Count > 0)
+                // Skip if player already accessing the storage
+                if (_lockedTileEntities.ContainsKey(tileEntityLootable.ToWorldPos()) && _lockedTileEntities[tileEntityLootable.ToWorldPos()] != player.entityId)
+                    continue;
+
             // Skip if the container can be locked
             if (tileEntity.TryGetSelfOrFeature(out ILockable tileLockable))
                 // And is locked, and the player doesn't have access
@@ -52,7 +72,7 @@ public static class ContainerUtils {
 
     public static int RemoveRemaining(ItemValue itemValue, int requiredAmount, bool ignoreModdedItems = false, IList<ItemStack> removedItems = null) {
         var num = requiredAmount;
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"RemoveRemaining | Trying to remove {requiredAmount} {itemValue.ItemClass.GetItemName()}");
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"RemoveRemaining | Trying to remove {requiredAmount} {itemValue.ItemClass.GetItemName()}");
 
         if (requiredAmount <= 0) return requiredAmount;
 
@@ -95,8 +115,14 @@ public static class ContainerUtils {
         }
 
         var result = num - requiredAmount;
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"RemoveRemaining | Removed {result} {itemValue.ItemClass.GetItemName()}");
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"RemoveRemaining | Removed {result} {itemValue.ItemClass.GetItemName()}");
 
         return result;
+    }
+
+    public static void UpdateLockedTEs(Dictionary<Vector3i, int> lockedTileEntities) {
+        _lockedTileEntities.Clear();
+        lockedTileEntities.CopyTo(_lockedTileEntities);
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"UpdateLockedTEs: newCount {lockedTileEntities.Count}");
     }
 }
