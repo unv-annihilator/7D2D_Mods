@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+#if DEBUG
 using BeyondStorage.Scripts.Common;
+#endif
 using BeyondStorage.Scripts.ContainerLogic;
 
 namespace BeyondStorage.Scripts.Server;
@@ -17,14 +19,8 @@ public class NetPackageLockedTEs : NetPackage {
         EntryCount = lockedTEs.Count;
         binaryWriter.Write(lockedTEs.Count);
         foreach (var kvp in lockedTEs) {
-            // var clrIdx = kvp.Key.GetClrIdx();
-            // binaryWriter.Write(clrIdx);
             var pos = kvp.Key.ToWorldPos();
             StreamUtils.Write(binaryWriter, pos);
-            // binaryWriter.Write(pos.x);
-            // binaryWriter.Write(pos.y);
-            // binaryWriter.Write(pos.z);
-            // var pos = kvp.Key.ToWorldPos().ToStringNoBlanks();
             binaryWriter.Write(kvp.Value);
 #if DEBUG
             LogUtil.DebugLog($"pos {pos.x} {pos.y} {pos.z}, value {kvp.Value}");
@@ -32,11 +28,7 @@ public class NetPackageLockedTEs : NetPackage {
                 $"id  {kvp.Key.EntityId}; worldPos {kvp.Key.ToWorldPos()}; worldCenterPos {kvp.Key.ToWorldCenterPos()}; {kvp.Key} {GameManager.Instance.World.GetTileEntity(kvp.Key.ToWorldPos())}");
 #endif
         }
-
         RecalcLength();
-#if DEBUG
-        LogUtil.DebugLog($"entryCount {EntryCount}, length {Length}");
-#endif
     }
 
     public void RecalcLength() {
@@ -48,16 +40,16 @@ public class NetPackageLockedTEs : NetPackage {
         Length = 1 + intSize;
         // add the additional size per entry: ((x,y,z) + entityId) * EntryCount
         Length += (posIntCount * intSize + intSize) * EntryCount;
+#if DEBUG
+        LogUtil.DebugLog($"entryCount {EntryCount}, length {Length}");
+#endif
     }
 
     public override void read(PooledBinaryReader binaryReader) {
         EntryCount = binaryReader.ReadInt32();
         LockedTileEntities = new Dictionary<Vector3i, int>();
         for (var i = 0; i < EntryCount; i++) {
-            // var clrIdx = binaryReader.ReadInt32();
             var pos = StreamUtils.ReadVector3i(binaryReader);
-            // var tileEntity = GameManager.Instance.World.GetTileEntity(clrIdx, pos);
-            // var tePos = tileEntity.ToWorldPos();
             var lockingEntityId = binaryReader.ReadInt32();
 #if DEBUG
             LogUtil.DebugLog($"tePOS {pos}; lockingEntityId {lockingEntityId}");
@@ -75,8 +67,10 @@ public class NetPackageLockedTEs : NetPackage {
     }
 
     public override void ProcessPackage(World _world, GameManager _callbacks) {
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"NetPackageLockedTEs: size {Length}; count {EntryCount}");
         ContainerUtils.UpdateLockedTEs(LockedTileEntities);
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"NetPackageLockedTEs: size {Length}; count {EntryCount}");
+#endif
     }
 
     public override int GetLength() {
