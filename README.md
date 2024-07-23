@@ -23,18 +23,15 @@
 
 - Alternative to 'Auto Claim Challenges'; adds a button to click to claim all completed challenges.
 
+### Random Traders - [v1.0.1](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/RandomTraders_v1.0.1) - View on [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5071)
+
+- Removes Forest biome filter from initial find trader quest started at end of basic challenge group. Now always sends to closest.
+- Removes biome specific requirements from traders.
+- Quest tier upgrade quests given by any trader
+- Quest tier upgrade quests point to nearest trader
+
 ### Sprint Toggle Fix [v1.1.1](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/SprintToggleFix_v1.1.1) - View on [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5070)
 
 - Removes delay that can cause your sprint to get stuck on after button press with toggle disabled.
 - Prevents sprint getting stuck on when expecting to stop movement (Opening UI windows, ragdoll, etc.)
 
-
----
-
-
-### Random Traders - Not Maintained. Replacement: ['Random Trader Biome Spawns' by Ananais](https://www.nexusmods.com/7daystodie/mods/4968)
-
-- No longer maintained as there are many alternative mods, left here as an example xml mod.
-- Removes biome specific requirements from traders.
-- Quest tier upgrade quests given by any trader.
-- NOTE: Does NOT change trader challenge order.

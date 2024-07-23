@@ -1,14 +1,47 @@
 <configs>
-    <append xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_rekt_quests')]">
-        <quest id="tier2_nexttrader"/>
+    <!-- Set quest id quest_whiteRiverCitizen1 biome_filter to deal with situations where a trader
+    isn't placed into forest (rwg issue?) -->
+    <setattribute
+        xpath="/quests/quest[@id='quest_whiteRiverCitizen1']/objective[@type='Goto']/property[@name='biome_filter_type']"
+        name="value">
+        AnyBiome
+    </setattribute>
+    <setattribute
+        xpath="/quests/quest[@id='quest_whiteRiverCitizen1']/objective[@type='Goto']/property[@name='biome_filter_type']"
+        name="param1">
+        biome_filter_type
+    </setattribute>
+    <remove
+        xpath="/quests/quest[@id='quest_whiteRiverCitizen1']/objective[@type='Goto']/property[@name='biome_filter']" />
+    <!-- Remove location tags from '_nexttrader' quests -->
+    <remove
+        xpath="/quests/quest[starts-with(@id, 'tier') and contains(@id, '_nexttrader')]/objective[@type='Goto']/property[starts-with(@name, 'location_')]" />
+    <!-- Add id='trader' attribute to '_nexttrader' quests -->
+    <setattribute
+        xpath="/quests/quest[starts-with(@id, 'tier') and contains(@id, '_nexttrader')]/objective[@type='Goto']"
+        name="id">
+        trader
+    </setattribute>
+    <!-- Add use_closest=true to '_nexttrader' quests -->
+    <append
+        xpath="/quests/quest[starts-with(@id, 'tier') and contains(@id, '_nexttrader')]/objective[@type='InteractWithNPC']">
+        <property name="use_closest" value="true" />
     </append>
-    <append xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_jen_quests')]">
-        <quest id="tier3_nexttrader"/>
+    <!-- Append the 'nexttrader' quests to trader quest lists skipping the ones they already have -->
+    <append
+        xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_rekt_quests')]">
+        <quest id="tier2_nexttrader" />
     </append>
-    <append xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_bob_quests')]">
-        <quest id="tier4_nexttrader"/>
+    <append
+        xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_jen_quests')]">
+        <quest id="tier3_nexttrader" />
     </append>
-    <append xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_hugh_quests')]">
-        <quest id="tier5_nexttrader"/>
+    <append
+        xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_bob_quests')]">
+        <quest id="tier4_nexttrader" />
+    </append>
+    <append
+        xpath="/quests/quest_list[starts-with(@id, 'trader_') and not (@id='trader_hugh_quests')]">
+        <quest id="tier5_nexttrader" />
     </append>
 </configs>
