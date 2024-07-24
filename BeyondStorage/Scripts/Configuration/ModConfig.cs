@@ -25,9 +25,6 @@ internal static class ModConfig {
         // if set true nearby containers will be used for block upgrades
         public bool enableForBlockUpgrade = true;
 
-        // always on - crafting from storage
-        // public bool enableForItemCraft = true;
-
         // if set true nearby containers will be used for item repairs
         // disable if you experience lag
         public bool enableForItemRepair = true;
@@ -41,6 +38,9 @@ internal static class ModConfig {
         // if set to true it will ignore tile entities that aren't Storage Containers (crates)
         // otherwise will check all lootable containers placed by player(s)
         public bool onlyStorageCrates = false;
+
+        // if set to true it will try and pull items from nearby vehicle storages
+        public bool pullFromVehicleStorage = false;
 
         // How far to pull from (-1 is infinite range, only limited by chunks loaded)
         public float range = -1;

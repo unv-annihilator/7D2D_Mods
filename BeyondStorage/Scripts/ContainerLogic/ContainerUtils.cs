@@ -8,7 +8,7 @@ using UnityEngine;
 namespace BeyondStorage.Scripts.ContainerLogic;
 
 public static class ContainerUtils {
-    public static ConcurrentDictionary<Vector3i, int> LockedTileEntities { get; set; }
+    public static ConcurrentDictionary<Vector3i, int> LockedTileEntities { get; private set; }
 
     public static void Init() {
         LockedTileEntities = new ConcurrentDictionary<Vector3i, int>();
@@ -25,18 +25,62 @@ public static class ContainerUtils {
     }
 
     public static IEnumerable<ItemStack> GetItemStacks() {
-        return GetAvailableStorages().SelectMany(lootable => lootable.items);
+        // get container storage
+        var containerStorage = GetAvailableStorages();
+        // get results if storage was not null; otherwise return empty list
+        var containerResults = containerStorage == null ? new List<ItemStack>().AsEnumerable() : containerStorage.SelectMany(lootable => lootable.items);
+        // return container results if we're not pulling from vehicles
+        if (!BeyondStorage.Config.pullFromVehicleStorage) return containerResults;
+        // == start vehicle code ==
+        // init vehicleResults
+        var vehicleResults = new List<ItemStack>().AsEnumerable();
+        // get available vehicle storage
+        var vehicleStorage = VehicleUtils.GetAvailableVehicleStorages();
+        // check if we got any vehicle storage results
+        if (vehicleStorage != null) // set results if we found any storage to pull from
+            vehicleResults = vehicleStorage.SelectMany(vehicle => vehicle.bag?.GetSlots());
+        // return a concat of both results
+        return containerResults.Concat(vehicleResults);
     }
 
     public static bool HasItem(ItemValue itemValue) {
-        return GetAvailableStorages().Select(lootable => lootable.items).Any(itemStacks => itemStacks.Any(stack => stack.itemValue.type == itemValue.type));
+        // capture container storage
+        var containerStorage = GetAvailableStorages();
+        // return false if no storage, otherwise return if any is found
+        var containerHas = containerStorage != null && containerStorage.Select(lootable => lootable.items).Any(itemStacks => itemStacks.Any(stack => stack.itemValue.type == itemValue.type));
+        // return early if container has
+        if (containerHas)
+            return true;
+        // return false if container didn't have and not set to pull from vehicles
+        if (!BeyondStorage.Config.pullFromVehicleStorage)
+            return false;
+        // == start vehicle code ==
+        // get vehicle storage
+        var vehicleStorage = VehicleUtils.GetAvailableVehicleStorages();
+        // check vehicles storage if it exists, otherwise return false
+        return vehicleStorage != null && vehicleStorage.Select(vehicle => vehicle.bag.items).Any(itemStacks => itemStacks.Any(stack => stack.itemValue.type == itemValue.type));
     }
 
     public static int GetItemCount(ItemValue itemValue) {
-        return (from tileEntityLootable in GetAvailableStorages()
-            from itemStack in tileEntityLootable.items
-            where itemStack.itemValue.type == itemValue.type
-            select itemStack.count).Sum();
+        // capture container storages
+        var containerStorage = GetAvailableStorages();
+        // 0 if no storage, otherwise count the number of items found
+        var containerCount = containerStorage == null
+            ? 0
+            : (from tileEntityLootable in containerStorage from itemStack in tileEntityLootable.items where itemStack.itemValue.type == itemValue.type select itemStack.count).Sum();
+        // return early if we're not pulling from vehicles
+        if (!BeyondStorage.Config.pullFromVehicleStorage)
+            return containerCount;
+        // == start vehicle code ==
+        // get vehicle storages
+        var vehicleStorage = VehicleUtils.GetAvailableVehicleStorages();
+        // count from vehicle storage
+        var vehicleCount = vehicleStorage == null
+            ? 0
+            : vehicleStorage.Select(vehicle => vehicle.bag.items).SelectMany(stacks => stacks).Where(itemStack => itemStack.itemValue.type == itemValue.type).Select(itemStack => itemStack.count)
+                .Sum();
+        // return combo result
+        return containerCount + vehicleCount;
     }
 
     private static IEnumerable<ITileEntityLootable> GetAvailableStorages() {
@@ -74,53 +118,95 @@ public static class ContainerUtils {
         }
     }
 
-    public static int RemoveRemaining(ItemValue itemValue, int requiredAmount, bool ignoreModdedItems = false, IList<ItemStack> removedItems = null) {
-        var num = requiredAmount;
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"RemoveRemaining | Trying to remove {requiredAmount} {itemValue.ItemClass.GetItemName()}");
+    private static int RemoveItems(ItemStack[] items, ItemValue desiredItem, int requiredAmount, bool ignoreModdedItems = false, IList<ItemStack> removedItems = null) {
+        for (var index = 0; requiredAmount > 0 && index < items.Length; ++index) {
+            if (items[index].itemValue.type != desiredItem.type || ignoreModdedItems &&
+                items[index].itemValue.HasModSlots &&
+                items[index].itemValue.HasMods()) {
+                continue;
+            }
 
-        if (requiredAmount <= 0) return requiredAmount;
-
-        foreach (var tileEntityLootable in GetAvailableStorages()) {
-            var items = tileEntityLootable.items;
-            for (var index = 0; requiredAmount > 0 && index < items.Length; ++index) {
-                if (items[index].itemValue.type != itemValue.type || ignoreModdedItems &&
-                    items[index].itemValue.HasModSlots &&
-                    items[index].itemValue.HasMods()) {
-                    continue;
+            if (ItemClass.GetForId(items[index].itemValue.type).CanStack()) {
+                var itemCount = items[index].count;
+                var countToRemove = itemCount >= requiredAmount ? requiredAmount : itemCount;
+#if DEBUG
+                if (BeyondStorage.Config.isDebug) {
+                    // LogUtil.DebugLog($"Loc: {tileEntityLootable.ToWorldPos()}, Value: {tileEntityLootable}");
+                    LogUtil.DebugLog($"Item Count: {itemCount} Count To Remove: {countToRemove}");
+                    LogUtil.DebugLog($"Item Count Before: {items[index].count}");
                 }
-
-                if (ItemClass.GetForId(items[index].itemValue.type).CanStack()) {
-                    var itemCount = items[index].count;
-                    var countToRemove = itemCount >= requiredAmount ? requiredAmount : itemCount;
-                    if (BeyondStorage.Config.isDebug) {
-                        LogUtil.DebugLog($"Loc: {tileEntityLootable.ToWorldPos()}, Value: {tileEntityLootable}");
-                        LogUtil.DebugLog($"Item Count: {itemCount} Count To Remove: {countToRemove}");
-                        LogUtil.DebugLog($"Item Count Before: {items[index].count}");
-                    }
-
-                    removedItems?.Add(new ItemStack(items[index].itemValue.Clone(), countToRemove));
-                    items[index].count -= countToRemove;
-                    requiredAmount -= countToRemove;
-                    if (BeyondStorage.Config.isDebug) {
-                        LogUtil.DebugLog($"Item Count After: {items[index].count}");
-                        LogUtil.DebugLog($"Required After: {requiredAmount}");
-                    }
-
-                    if (items[index].count <= 0) items[index].Clear();
-
-                    tileEntityLootable.SetModified();
-                } else {
-                    removedItems?.Add(items[index].Clone());
-                    items[index].Clear();
-                    --requiredAmount;
-                    tileEntityLootable.SetModified();
+#endif
+                removedItems?.Add(new ItemStack(items[index].itemValue.Clone(), countToRemove));
+                items[index].count -= countToRemove;
+                requiredAmount -= countToRemove;
+#if DEBUG
+                if (BeyondStorage.Config.isDebug) {
+                    LogUtil.DebugLog($"Item Count After: {items[index].count}");
+                    LogUtil.DebugLog($"Required After: {requiredAmount}");
                 }
+#endif
+                if (items[index].count <= 0) items[index].Clear();
+            } else {
+                removedItems?.Add(items[index].Clone());
+                items[index].Clear();
+                --requiredAmount;
             }
         }
 
-        var result = num - requiredAmount;
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"RemoveRemaining | Removed {result} {itemValue.ItemClass.GetItemName()}");
+        return requiredAmount;
+    }
 
-        return result;
+    public static int RemoveRemaining(ItemValue itemValue, int requiredAmount, bool ignoreModdedItems = false, IList<ItemStack> removedItems = null) {
+        // return early if we already have enough items removed
+        if (requiredAmount <= 0) return requiredAmount;
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"RemoveRemaining | Trying to remove {requiredAmount} {itemValue.ItemClass.GetItemName()}");
+        var originalAmountNeeded = requiredAmount;
+        // capture container storage
+        var containerStorage = GetAvailableStorages();
+        // update storage if it's null to empty list
+        containerStorage ??= new List<ITileEntityLootable>().AsEnumerable();
+        foreach (var tileEntityLootable in containerStorage) {
+            // Remove items from TEL
+            var newRequiredAmount = RemoveItems(tileEntityLootable.items, itemValue, requiredAmount, ignoreModdedItems, removedItems);
+            // check if we took items from the TEL, if so set modified
+            if (requiredAmount != newRequiredAmount) tileEntityLootable.SetModified();
+            // update required amount
+            requiredAmount = newRequiredAmount;
+            // continue if we still need more
+            if (requiredAmount > 0) continue;
+            // otherwise return early
+            break;
+        }
+
+        var difference = originalAmountNeeded - requiredAmount;
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"RemoveRemaining | Containers | Removed {difference} {itemValue.ItemClass.GetItemName()}");
+        // if we already have enough return
+        if (requiredAmount <= 0) return originalAmountNeeded - requiredAmount;
+        // return if we're not checking vehicle storages
+        if (!BeyondStorage.Config.pullFromVehicleStorage) return originalAmountNeeded - requiredAmount;
+        // == start vehicle code ==
+        // get current vehicle storages
+        var vehicleStorages = VehicleUtils.GetAvailableVehicleStorages();
+        // update to new list if null
+        vehicleStorages ??= new List<EntityVehicle>().AsEnumerable();
+        // check vehicle storages
+        foreach (var vehicle in vehicleStorages) {
+            // try and remove items from vehicle storage
+            var newRequiredAmount = RemoveItems(vehicle.bag.items, itemValue, requiredAmount, ignoreModdedItems, removedItems);
+            // if we took something, set the vehicle storage as modified
+            if (newRequiredAmount != requiredAmount) vehicle.SetBagModified();
+            // update required amount
+            requiredAmount = newRequiredAmount;
+            // continue if we still need more
+            if (requiredAmount > 0) continue;
+            // otherwise return early
+            break;
+        }
+
+        // check difference
+        difference = originalAmountNeeded - requiredAmount - difference;
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"RemoveRemaining | Vehicles | Removed {difference} {itemValue.ItemClass.GetItemName()}");
+        // return originalCountNeeded - newRequiredAmount
+        return originalAmountNeeded - requiredAmount;
     }
 }
