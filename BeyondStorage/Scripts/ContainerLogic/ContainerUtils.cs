@@ -108,10 +108,14 @@ public static class ContainerUtils {
                 if (LockedTileEntities.ContainsKey(tileEntityLootable.ToWorldPos()) && LockedTileEntities[tileEntityLootable.ToWorldPos()] != player.entityId)
                     continue;
 
+            // check if storage is lockable
             if (tileEntity.TryGetSelfOrFeature(out ILockable tileLockable))
                 // If storage can be locked, is locked, and the player doesn't have access
                 if (tileLockable.IsLocked() && !tileLockable.IsUserAllowed(internalLocalUserIdentifier))
                     continue;
+
+            // Skip empty TEL
+            if (tileEntityLootable.IsEmpty()) continue;
             // If entity is in range (or range is set infinite)
             if (configRange <= 0 || Vector3.Distance(playerPos, tileEntity.ToWorldPos()) < configRange)
                 yield return tileEntityLootable;
