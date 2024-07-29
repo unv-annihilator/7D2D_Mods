@@ -25,6 +25,9 @@ internal static class ModConfig {
         // if set true nearby containers will be used for block upgrades
         public bool enableForBlockUpgrade = true;
 
+        // if set true will allow refueling generators
+        public bool enableForGeneratorRefuel = false;
+
         // if set true nearby containers will be used for item repairs
         // disable if you experience lag
         public bool enableForItemRepair = true;
