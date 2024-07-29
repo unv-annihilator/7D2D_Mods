@@ -36,6 +36,7 @@
     <Compile Include="Harmony\Block\Repair\ItemActionRepair_Repair_Patches.cs"/>
     <Compile Include="Harmony\Block\Upgrade\ItemActionRepair_Upgrade_Patches.cs"/>
     <Compile Include="Harmony\Common\GameManager_Patches.cs"/>
+    <Compile Include="Harmony\Common\XUiC_CraftingQueue_Patches.cs"/>
     <Compile Include="Harmony\Item\Craft\XUiC_IngredientEntry_Patches.cs"/>
     <Compile Include="Harmony\Item\Craft\XUiC_RecipeCraftCount_Patches.cs"/>
     <Compile Include="Harmony\Item\Craft\XUiC_RecipeList_Patches.cs"/>
@@ -48,6 +49,8 @@
     <Compile Include="Harmony\Reload\FP\AnimatorRangedReloadState_Patches.cs"/>
     <Compile Include="Harmony\Reload\ItemActionRanged_Patches.cs"/>
     <Compile Include="Harmony\Server\GameManager_Patches.cs"/>
+    <Compile Include="Harmony\Vehicle\Refuel\EntityVehicle_Patches.cs"/>
+    <Compile Include="Harmony\Vehicle\Repair\XUiM_Vehicle_Patches.cs"/>
     <Compile Include="Scripts\Configuration\ModConfig.cs"/>
     <Compile Include="Scripts\ContainerLogic\Block\BlockRepair.cs"/>
     <Compile Include="Scripts\ContainerLogic\Block\BlockUpgrade.cs"/>
@@ -57,6 +60,8 @@
     <Compile Include="Scripts\ContainerLogic\Item\ItemRepair.cs"/>
     <Compile Include="Scripts\ContainerLogic\Ranged\Ranged.cs"/>
     <Compile Include="Scripts\ContainerLogic\VehicleUtils.cs"/>
+    <Compile Include="Scripts\ContainerLogic\Vehicle\VehicleRefuel.cs"/>
+    <Compile Include="Scripts\ContainerLogic\Vehicle\VehicleRepair.cs"/>
     <Compile Include="Scripts\Server\NetPackageLockedTEs.cs"/>
     <Compile Include="Scripts\Server\ServerUtils.cs"/>
     <Compile Include="Scripts\Utils\FileUtil.cs"/>
