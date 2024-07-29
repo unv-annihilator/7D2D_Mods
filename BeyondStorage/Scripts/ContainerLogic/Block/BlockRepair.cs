@@ -16,11 +16,14 @@ public class BlockRepair {
     //      ItemActionRepair.removeRequiredItem
     //          Block Repair - remove items on repair
     public static int BlockRepairRemoveRemaining(int currentCount, ItemStack itemStack) {
+        // itemStack.count is total amount needed
+        // currentCount is the amount removed previously in last DecItem
         var stillNeed = itemStack.count - currentCount;
         if (LogUtil.IsDebug()) LogUtil.DebugLog($"BlockRepairRemoveRemaining | itemStack {itemStack.itemValue.ItemClass.GetItemName()}; currentCount {currentCount}; stillNeed {stillNeed} ");
         // Skip if already 0
         if (stillNeed == 0)
             return currentCount;
+        // Add amount removed from storage to last amount removed to update result
         var result = currentCount + ContainerUtils.RemoveRemaining(itemStack.itemValue, stillNeed);
         if (LogUtil.IsDebug()) LogUtil.DebugLog($"BlockRepairRemoveRemaining | updated Count {result}");
         return result;

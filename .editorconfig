@@ -1,7 +1,7 @@
-﻿# editorconfig.org
+root = true
+# editorconfig.org
 
 # top-most EditorConfig file
-root = true
 
 # Default settings:
 # A newline ending every file
@@ -12,6 +12,16 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 
+# Microsoft .NET properties
+csharp_preferred_modifier_order = public, private, protected, internal, file, new, static, abstract, virtual, sealed, readonly, override, extern, unsafe, volatile, async, required:suggestion
+
+# ReSharper properties
+resharper_blank_lines_after_using_list = 0
+resharper_csharp_empty_block_style = together
+resharper_csharp_max_line_length = 265
+resharper_place_expr_property_on_single_line = true
+resharper_wrap_list_pattern = chop_always
+
 [project.json]
 indent_size = 2
 
@@ -20,7 +30,7 @@ indent_size = 2
 charset = utf-8-bom
 
 # Analyzers
-dotnet_analyzer_diagnostic.category-Security.severity = error
+dotnet_analyzer_diagnostic.category-security.severity = error
 dotnet_code_quality.ca1802.api_surface = private, internal
 
 # Miscellaneous style rules
@@ -79,7 +89,7 @@ dotnet_style_prefer_conditional_expression_over_assignment = true:refactoring
 dotnet_style_prefer_conditional_expression_over_return = true:refactoring
 
 # CA2208: Instantiate argument exceptions correctly
-dotnet_diagnostic.CA2208.severity = error
+dotnet_diagnostic.ca2208.severity = error
 
 # C# files
 [*.cs]

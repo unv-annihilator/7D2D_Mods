@@ -95,9 +95,9 @@ public class ItemActionRepairUpgradePatches {
             List<CodeInstruction> newCode = [
                 // _itemValue
                 new CodeInstruction(OpCodes.Ldloc_1),
-                // _result
+                // result
                 new CodeInstruction(OpCodes.Ldloc_2),
-                // BlockUpgrade.BlockUpgradeRemoveRemaining(bag.DecItem(...), _itemValue, _result)
+                // BlockUpgrade.BlockUpgradeRemoveRemaining(bag.DecItem(...), _itemValue, result)
                 new CodeInstruction(OpCodes.Call,
                     AccessTools.Method(typeof(BlockUpgrade), nameof(BlockUpgrade.BlockUpgradeRemoveRemaining)))
             ];
