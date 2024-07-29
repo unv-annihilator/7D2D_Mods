@@ -28,30 +28,18 @@ public class XUiMPlayerInventoryCraftPatches {
             if (LogUtil.IsDebug()) LogUtil.DebugLog($"Patching {targetMethodString}");
 
             List<CodeInstruction> newCode = [
-                // num
-                new CodeInstruction(OpCodes.Ldloc_1),
                 // _itemStacks
                 new CodeInstruction(OpCodes.Ldarg_1),
                 // index
                 new CodeInstruction(OpCodes.Ldloc_0),
-                // _itemStacks[index]
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.IndexerGetter(typeof(List<ItemStack>), [typeof(int)])),
-                // _itemStacks[index].itemValue
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(ItemStack), nameof(ItemStack.itemValue))),
-                // ContainerUtils.GetItemCount(_itemStacks[index].itemValue)
-                new CodeInstruction(OpCodes.Call,
-                    AccessTools.Method(typeof(ItemCraft), nameof(ItemCraft.HasItemGetItemCount))),
-                // -=
-                new CodeInstruction(OpCodes.Sub),
-                // num -= ContainerUtils.GetItemCount(_itemStacks[index].itemValue)
-                new CodeInstruction(OpCodes.Stloc_1),
-                // ldloc.1      // num
-                codes[i - 3].Clone(),
+                // num
+                new CodeInstruction(OpCodes.Ldloc_1),
+                // ContainerUtils.GetItemCount(_itemStacks, index, num)
+                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(ItemCraft), nameof(ItemCraft.HasItemGetItemCount))),
                 // ldc.i4.0
                 codes[i - 2].Clone(),
                 // ble.s        <Label>
                 codes[i - 1].Clone()
-                // last 3 lines: if (num > 0) -> <Label>
             ];
             codes.InsertRange(i, newCode);
             set = true;

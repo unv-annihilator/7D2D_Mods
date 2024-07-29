@@ -35,12 +35,17 @@ public class ItemCraft {
         return count + storageCount;
     }
 
+
     // Used By:
     //      XUiM_PlayerInventory.HasItems
     //          Item Crafting -
-    public static int HasItemGetItemCount(ItemValue itemValue) {
-        var storageCount = ContainerUtils.GetItemCount(itemValue);
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"HasItemGetItemCount | item {itemValue.ItemClass.GetItemName()}; storageCount {storageCount}");
-        return storageCount;
+    public static int HasItemGetItemCount(IList<ItemStack> itemStacks, int i, int numLeft) {
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"HasItemGetItemCount {itemStacks}; {i}; {numLeft}");
+#endif
+        if (numLeft <= 0) return numLeft;
+        var storageCount = ContainerUtils.GetItemCount(itemStacks[i].itemValue);
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"HasItemGetItemCount | item {itemStacks[i].itemValue.ItemClass.GetItemName()}; storageCount {storageCount}");
+        return numLeft - storageCount;
     }
 }
