@@ -44,6 +44,7 @@
     <Compile Include="Harmony\Item\Repair\ItemActionEntryRepair_Patches.cs"/>
     <Compile Include="Harmony\Item\Repair\XUiC_ItemActionList_Patches.cs"/>
     <Compile Include="Harmony\Item\XUiM_PlayerInventory_Patches.cs"/>
+    <Compile Include="Harmony\PowerSource\Refuel\XUiC_PowerSourceStats_Patches.cs"/>
     <Compile Include="Harmony\Reload\_3P\Animator3PRangedReloadState_Patches.cs"/>
     <Compile Include="Harmony\Reload\AnimatorCommon.cs"/>
     <Compile Include="Harmony\Reload\FP\AnimatorRangedReloadState_Patches.cs"/>
@@ -58,6 +59,7 @@
     <Compile Include="Scripts\ContainerLogic\Item\ItemCommon.cs"/>
     <Compile Include="Scripts\ContainerLogic\Item\ItemCraft.cs"/>
     <Compile Include="Scripts\ContainerLogic\Item\ItemRepair.cs"/>
+    <Compile Include="Scripts\ContainerLogic\PowerSource\PowerSourceRefuel.cs"/>
     <Compile Include="Scripts\ContainerLogic\Ranged\Ranged.cs"/>
     <Compile Include="Scripts\ContainerLogic\VehicleUtils.cs"/>
     <Compile Include="Scripts\ContainerLogic\Vehicle\VehicleRefuel.cs"/>
