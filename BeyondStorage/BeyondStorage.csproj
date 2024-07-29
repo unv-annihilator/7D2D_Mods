@@ -49,8 +49,8 @@
     <Compile Include="Harmony\Reload\FP\AnimatorRangedReloadState_Patches.cs"/>
     <Compile Include="Harmony\Reload\ItemActionRanged_Patches.cs"/>
     <Compile Include="Harmony\Server\GameManager_Patches.cs"/>
-    <Compile Include="Harmony\Vehicle\EntityVehicle_Patches.cs"/>
-    <Compile Include="Harmony\Vehicle\XUiM_Vehicle_Patches.cs"/>
+    <Compile Include="Harmony\Vehicle\Refuel\EntityVehicle_Patches.cs"/>
+    <Compile Include="Harmony\Vehicle\Repair\XUiM_Vehicle_Patches.cs"/>
     <Compile Include="Scripts\Configuration\ModConfig.cs"/>
     <Compile Include="Scripts\ContainerLogic\Block\BlockRepair.cs"/>
     <Compile Include="Scripts\ContainerLogic\Block\BlockUpgrade.cs"/>

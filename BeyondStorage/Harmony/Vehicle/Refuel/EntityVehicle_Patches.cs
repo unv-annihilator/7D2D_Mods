@@ -6,7 +6,7 @@ using BeyondStorage.Scripts.Common;
 using BeyondStorage.Scripts.ContainerLogic.Vehicle;
 using HarmonyLib;
 
-namespace BeyondStorage.Vehicle;
+namespace BeyondStorage.Vehicle.Refuel;
 
 [HarmonyPatch(typeof(EntityVehicle))]
 public class EntityVehiclePatches {

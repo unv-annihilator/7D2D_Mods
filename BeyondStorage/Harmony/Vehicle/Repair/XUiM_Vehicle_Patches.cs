@@ -5,7 +5,7 @@ using BeyondStorage.Scripts.Common;
 using BeyondStorage.Scripts.ContainerLogic.Vehicle;
 using HarmonyLib;
 
-namespace BeyondStorage.Vehicle;
+namespace BeyondStorage.Vehicle.Repair;
 
 [HarmonyPatch(typeof(XUiM_Vehicle))]
 public class XUiMVehiclePatches {
