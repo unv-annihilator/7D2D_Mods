@@ -32,6 +32,9 @@ internal static class ModConfig {
         // if set true nearby containers will be used for gun reloading
         public bool enableForReload = true;
 
+        // if set true will allow refueling vehicles from nearby storage
+        public bool enableForVehicleRefuel = false;
+
         // if set true will allow repairing vehicles from nearby storage
         public bool enableForVehicleRepair = false;
 

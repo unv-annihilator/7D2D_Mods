@@ -7,6 +7,7 @@ namespace BeyondStorage.Common;
 
 [HarmonyPatch(typeof(XUiC_CraftingQueue))]
 public class XUiCCraftingQueuePatches {
+    // TODO: Remove this if it's fixed or determine steps to reproduce and send bug report to TFP
     // possible index out of bounds seems to get hit when opening workbenches?
     // seems like vanilla bug but avoiding it here as I believe it fails more gracefully in vanilla
     [HarmonyPrefix]
