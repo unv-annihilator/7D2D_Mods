@@ -10,7 +10,7 @@
 
 - Claims the rewards of challenges automatically after you complete them.
 
-### Beyond Storage [v2.4.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/BeyondStorage_v2.4.0) - View on [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5087)
+### Beyond Storage [v3.0.0](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/BeyondStorage_v3.0.0) - View on [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5087)
 
 - Originally 'CraftFromContainers' by aedenthorn. Refactored and updated for v1.0
 - Craft and/or Repair ITEMS using items from nearby storage. (Craft always on; Repair configurable defaults true)
@@ -21,6 +21,7 @@
 - Pulls from ALL nearby storage. (Fridges, drawers, storage chests, etc.) (Configurable; defaults false)
 - Pulls items from nearby VEHICLE STORAGE (Configurable; defaults false)
 - Range configurable in the configuration json file. (-1 is unlimited range; defaults -1)
+- Allows servers to force clients to use server config OR use their own settings. (Configurable; defaults true)
 
 ### Claim All Challenges [v1.1.1](https://github.com/unv-annihilator/7D2D_Mods/releases/tag/ClaimAllChallenges_v1.1.1-exp.1.0%2B313) - View on [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5155)
 
