@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts.Common;
 using BeyondStorage.Scripts.ContainerLogic.Item;
+using BeyondStorage.Scripts.Utils;
 using HarmonyLib;
 
 namespace BeyondStorage.Item.Repair;
@@ -17,9 +17,7 @@ public class ItemActionEntryRepairPatches {
 #if DEBUG
     [HarmonyDebug]
 #endif
-    private static IEnumerable<CodeInstruction> ItemActionEntryRepair_OnActivated_Patch(
-        IEnumerable<CodeInstruction> instructions) {
-        if (!BeyondStorage.Config.enableForItemRepair) return instructions;
+    private static IEnumerable<CodeInstruction> ItemActionEntryRepair_OnActivated_Patch(IEnumerable<CodeInstruction> instructions) {
         var targetMethodString = $"{typeof(ItemActionEntryRepair)}.{nameof(ItemActionEntryRepair.OnActivated)}";
         LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);
@@ -82,9 +80,7 @@ public class ItemActionEntryRepairPatches {
 #if DEBUG
     [HarmonyDebug]
 #endif
-    private static IEnumerable<CodeInstruction> ItemActionEntryRepair_RefreshEnabled_Patch(
-        IEnumerable<CodeInstruction> instructions) {
-        if (!BeyondStorage.Config.enableForItemRepair) return instructions;
+    private static IEnumerable<CodeInstruction> ItemActionEntryRepair_RefreshEnabled_Patch(IEnumerable<CodeInstruction> instructions) {
         var targetMethodString = $"{typeof(ItemActionEntryRepair)}.{nameof(ItemActionEntryRepair.RefreshEnabled)}";
         LogUtil.Info($"Transpiling {targetMethodString}");
         var startIndex = -1;
@@ -138,7 +134,7 @@ public class ItemActionEntryRepairPatches {
                 ]))
                 continue;
 
-            if (BeyondStorage.Config.isDebug) LogUtil.DebugLog("Found start");
+            if (LogUtil.IsDebug()) LogUtil.DebugLog("Found start");
 
             startIndex = i;
         }

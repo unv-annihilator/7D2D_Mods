@@ -1,15 +1,28 @@
 ﻿using System.Collections.Generic;
+using BeyondStorage.Scripts.Configuration;
 using BeyondStorage.Scripts.ContainerLogic;
-#if DEBUG
-using BeyondStorage.Scripts.Common;
-#endif
+using BeyondStorage.Scripts.Utils;
 
 namespace BeyondStorage.Scripts.Server;
 
 public static class ServerUtils {
-    public static void SendCurrentLockedDict(int destinationId) {
+    public static bool HasServerConfig = false;
+
+    public static void PlayerSpawnedInWorld(ClientInfo client, RespawnType respawnType, Vector3i pos) {
+        // Skip if we're not a server
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
+        // Skip if single player
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsSinglePlayer) return;
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"client {client}; respawn type {respawnType}; pos {pos}");
+        // Send the current locked dictionary to player logging in
+        SendCurrentLockedDict(client);
+        if (ModConfig.ServerSyncConfig()) client.SendPackage(NetPackageManager.GetPackage<NetPackageBeyondStorageConfig>());
+    }
+
+    private static void SendCurrentLockedDict(ClientInfo client) {
         // Skip if we have nothing to send
         if (ContainerUtils.LockedTileEntities.IsEmpty) return;
+        var destinationId = client.entityId;
 #if DEBUG
         if (LogUtil.IsDebug()) LogUtil.DebugLog($"PlayerSpawnedInWorld called with {destinationId}");
         // skip if invalid entity ID or if we are the server just logging in
@@ -33,7 +46,8 @@ public static class ServerUtils {
 #endif
         // send current locked entities to newly logging in player
         var currentCopy = new Dictionary<Vector3i, int>(ContainerUtils.LockedTileEntities);
-        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(new NetPackageLockedTEs().Setup(currentCopy), true, destinationId);
+        client.SendPackage(NetPackageManager.GetPackage<NetPackageLockedTEs>().Setup(currentCopy));
+        // SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(new NetPackageLockedTEs().Setup(currentCopy), true, destinationId);
 #if DEBUG
         if (LogUtil.IsDebug()) LogUtil.DebugLog($"SendCurrentLockedDict to {destinationId}");
 #endif

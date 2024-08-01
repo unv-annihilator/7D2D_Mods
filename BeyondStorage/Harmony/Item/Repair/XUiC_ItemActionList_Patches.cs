@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using BeyondStorage.Scripts.Configuration;
 using BeyondStorage.Scripts.ContainerLogic.Item;
 using HarmonyLib;
 
@@ -39,7 +40,7 @@ public class XUiCItemActionListPatches {
 
     // Update `RepairActionShown` in `ContainerUtils` if list contains Repair action
     private static void ActionList_UpdateVisibleActions(XUiC_ItemActionList itemActionList) {
-        if (!BeyondStorage.Config.enableForItemRepair) return;
+        if (!ModConfig.EnableForItemRepair()) return;
         ItemRepair.RepairActionShown = ActionList_HasRepair(itemActionList);
     }
 

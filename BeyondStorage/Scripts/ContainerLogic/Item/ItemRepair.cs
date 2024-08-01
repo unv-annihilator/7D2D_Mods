@@ -1,4 +1,5 @@
-﻿using BeyondStorage.Scripts.Common;
+﻿using BeyondStorage.Scripts.Configuration;
+using BeyondStorage.Scripts.Utils;
 
 namespace BeyondStorage.Scripts.ContainerLogic.Item;
 
@@ -10,6 +11,8 @@ public static class ItemRepair {
     //      ItemActionEntryRepair.OnActivated
     //          FOR: Item Repair - Allows Repair
     public static int ItemRepairOnActivatedGetItemCount(ItemValue itemValue, int currentCount) {
+        // skip if not enabled
+        if (!ModConfig.EnableForItemRepair()) return currentCount;
         var currentValue = currentCount * itemValue.ItemClass.RepairAmount.Value;
         if (LogUtil.IsDebug()) LogUtil.DebugLog($"ItemRepairOnActivatedGetItemCount | item {itemValue.ItemClass.GetItemName()}; currentCount {currentCount}; currentValue {currentValue}");
         if (currentValue > 0) return currentCount;
@@ -23,11 +26,10 @@ public static class ItemRepair {
     //      ItemActionEntryRepair.RefreshEnabled
     //          FOR: Item Repair - Button Enabled
     public static int ItemRepairRefreshGetItemCount(ItemValue itemValue) {
-        if (!ActionListVisible || !RepairActionShown) {
-            // if (LogUtil.IsDebug()) LogUtil.DebugLog($"Skipped RefreshEnabled | ActionListVisible: {ContainerUtils.ActionListVisible}; RepairActionShown: {ContainerUtils.RepairActionShown}");
-            return 0;
-        }
-
+        // skip if not enabled
+        if (!ModConfig.EnableForItemRepair()) return 0;
+        // skip if not showing repair action or action list
+        if (!ActionListVisible || !RepairActionShown) return 0;
         var storageCount = ContainerUtils.GetItemCount(itemValue);
         if (LogUtil.IsDebug()) LogUtil.DebugLog($"ItemRepairRefreshGetItemCount | item {itemValue.ItemClass.GetItemName()}; storageCount {storageCount}");
         return storageCount;

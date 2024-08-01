@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BeyondStorage.Scripts.Configuration;
 using HarmonyLib;
 
 namespace BeyondStorage.Reload._3P;
@@ -18,7 +19,7 @@ public class Animator3PRangedReloadStatePatches {
     [HarmonyPostfix]
     [HarmonyPatch(nameof(Animator3PRangedReloadState.GetAmmoCount))]
     public static void Animator3PRangedReloadState_GetAmmoCount_Postfix(ref int __result, ItemValue ammo, int modifiedMagazineSize) {
-        if (!BeyondStorage.Config.enableForReload) return;
+        if (!ModConfig.EnableForReload()) return;
         __result = AnimatorCommon.GetAmmoCount(ammo, __result, modifiedMagazineSize);
     }
 }

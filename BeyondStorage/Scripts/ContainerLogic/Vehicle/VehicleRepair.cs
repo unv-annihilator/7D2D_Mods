@@ -1,10 +1,13 @@
 ﻿using Audio;
-using BeyondStorage.Scripts.Common;
+using BeyondStorage.Scripts.Configuration;
+using BeyondStorage.Scripts.Utils;
 
 namespace BeyondStorage.Scripts.ContainerLogic.Vehicle;
 
 public static class VehicleRepair {
     public static int VehicleRepairRemoveRemaining(XUi xui, global::Vehicle vehicle, ItemValue itemValue) {
+        // skip if not enabled
+        if (!ModConfig.EnableForVehicleRepair()) return 0;
         // skip if no repairs needed
         var repairAmountNeeded = vehicle.GetRepairAmountNeeded();
         if (repairAmountNeeded <= 0) return 0;

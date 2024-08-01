@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts.Common;
 using BeyondStorage.Scripts.ContainerLogic.Vehicle;
+using BeyondStorage.Scripts.Utils;
 using HarmonyLib;
 
 namespace BeyondStorage.Vehicle.Repair;
@@ -15,7 +15,6 @@ public class XUiMVehiclePatches {
     [HarmonyDebug]
 #endif
     private static IEnumerable<CodeInstruction> XUiM_Vehicle_RepairVehicle_Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
-        if (!BeyondStorage.Config.enableForVehicleRepair) return instructions;
         var targetMethodString = $"{typeof(XUiM_Vehicle)}.{nameof(XUiM_Vehicle.RepairVehicle)}";
         LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);

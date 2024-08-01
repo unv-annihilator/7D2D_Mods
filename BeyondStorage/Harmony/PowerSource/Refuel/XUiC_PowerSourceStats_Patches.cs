@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts.Common;
 using BeyondStorage.Scripts.ContainerLogic.PowerSource;
+using BeyondStorage.Scripts.Utils;
 using HarmonyLib;
 using UniLinq;
 
@@ -16,7 +16,6 @@ public class XUiCPowerSourceStatsPatches {
     [HarmonyDebug]
 #endif
     private static IEnumerable<CodeInstruction> XUiC_PowerSourceStats_BtnRefuel_OnPress_Transpiler(IEnumerable<CodeInstruction> instructions) {
-        if (!BeyondStorage.Config.enableForGeneratorRefuel) return instructions;
         var targetMethodString = $"{typeof(XUiC_PowerSourceStats)}.{nameof(XUiC_PowerSourceStats.BtnRefuel_OnPress)}";
         LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);

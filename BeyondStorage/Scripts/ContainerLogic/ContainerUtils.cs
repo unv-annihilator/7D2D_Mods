@@ -1,7 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using BeyondStorage.Scripts.Common;
+using BeyondStorage.Scripts.Configuration;
+using BeyondStorage.Scripts.Server;
+using BeyondStorage.Scripts.Utils;
 using Platform;
 using UnityEngine;
 
@@ -11,10 +13,12 @@ public static class ContainerUtils {
     public static ConcurrentDictionary<Vector3i, int> LockedTileEntities { get; private set; }
 
     public static void Init() {
+        ServerUtils.HasServerConfig = false;
         LockedTileEntities = new ConcurrentDictionary<Vector3i, int>();
     }
 
     public static void Cleanup() {
+        ServerUtils.HasServerConfig = false;
         LockedTileEntities.Clear();
     }
 
@@ -30,7 +34,7 @@ public static class ContainerUtils {
         // get results if storage was not null; otherwise return empty list
         var containerResults = containerStorage == null ? new List<ItemStack>().AsEnumerable() : containerStorage.SelectMany(lootable => lootable.items);
         // return container results if we're not pulling from vehicles
-        if (!BeyondStorage.Config.pullFromVehicleStorage) return containerResults;
+        if (!ModConfig.PullFromVehicleStorage()) return containerResults;
         // == start vehicle code ==
         // init vehicleResults
         var vehicleResults = new List<ItemStack>().AsEnumerable();
@@ -52,7 +56,7 @@ public static class ContainerUtils {
         if (containerHas)
             return true;
         // return false if container didn't have and not set to pull from vehicles
-        if (!BeyondStorage.Config.pullFromVehicleStorage)
+        if (!ModConfig.PullFromVehicleStorage())
             return false;
         // == start vehicle code ==
         // get vehicle storage
@@ -69,7 +73,7 @@ public static class ContainerUtils {
             ? 0
             : (from tileEntityLootable in containerStorage from itemStack in tileEntityLootable.items where itemStack.itemValue.type == itemValue.type select itemStack.count).Sum();
         // return early if we're not pulling from vehicles
-        if (!BeyondStorage.Config.pullFromVehicleStorage)
+        if (!ModConfig.PullFromVehicleStorage())
             return containerCount;
         // == start vehicle code ==
         // get vehicle storages
@@ -86,8 +90,8 @@ public static class ContainerUtils {
     private static IEnumerable<ITileEntityLootable> GetAvailableStorages() {
         var player = GameManager.Instance.World.GetPrimaryPlayer();
         var playerPos = player.position;
-        var configRange = BeyondStorage.Config.range;
-        var configOnlyCrates = BeyondStorage.Config.onlyStorageCrates;
+        var configRange = ModConfig.Range();
+        var configOnlyCrates = ModConfig.OnlyStorageCrates();
         var internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
         // Get a copy of the current chunk cache
         var chunkCacheCopy = GameManager.Instance.World.ChunkCache.GetChunkArrayCopySync();
@@ -134,7 +138,7 @@ public static class ContainerUtils {
                 var itemCount = items[index].count;
                 var countToRemove = itemCount >= requiredAmount ? requiredAmount : itemCount;
 #if DEBUG
-                if (BeyondStorage.Config.isDebug) {
+                if (LogUtil.IsDebug()) {
                     // LogUtil.DebugLog($"Loc: {tileEntityLootable.ToWorldPos()}, Value: {tileEntityLootable}");
                     LogUtil.DebugLog($"Item Count: {itemCount} Count To Remove: {countToRemove}");
                     LogUtil.DebugLog($"Item Count Before: {items[index].count}");
@@ -144,7 +148,7 @@ public static class ContainerUtils {
                 items[index].count -= countToRemove;
                 requiredAmount -= countToRemove;
 #if DEBUG
-                if (BeyondStorage.Config.isDebug) {
+                if (LogUtil.IsDebug()) {
                     LogUtil.DebugLog($"Item Count After: {items[index].count}");
                     LogUtil.DebugLog($"Required After: {requiredAmount}");
                 }
@@ -187,7 +191,7 @@ public static class ContainerUtils {
         // if we already have enough return
         if (requiredAmount <= 0) return originalAmountNeeded - requiredAmount;
         // return if we're not checking vehicle storages
-        if (!BeyondStorage.Config.pullFromVehicleStorage) return originalAmountNeeded - requiredAmount;
+        if (!ModConfig.PullFromVehicleStorage()) return originalAmountNeeded - requiredAmount;
         // == start vehicle code ==
         // get current vehicle storages
         var vehicleStorages = VehicleUtils.GetAvailableVehicleStorages();

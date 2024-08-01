@@ -1,9 +1,11 @@
-﻿using BeyondStorage.Scripts.Common;
+﻿using BeyondStorage.Scripts.Configuration;
+using BeyondStorage.Scripts.Utils;
 
 namespace BeyondStorage.Scripts.ContainerLogic.PowerSource;
 
 public static class PowerSourceRefuel {
     public static int RefuelRemoveRemaining(ItemValue itemValue, int lastRemoved, int totalNeeded) {
+        if (!ModConfig.EnableForGeneratorRefuel()) return lastRemoved;
 #if DEBUG
         if (LogUtil.IsDebug()) LogUtil.DebugLog("RefuelRemoveRemaining");
 #endif
