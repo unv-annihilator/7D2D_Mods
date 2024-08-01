@@ -13,6 +13,7 @@ public static class ContainerUtils {
     public static ConcurrentDictionary<Vector3i, int> LockedTileEntities { get; private set; }
 
     public static void Init() {
+        ServerUtils.HasServerConfig = false;
         LockedTileEntities = new ConcurrentDictionary<Vector3i, int>();
     }
 
