@@ -6,12 +6,23 @@ namespace BeyondStorage.Scripts.Server;
 // ReSharper disable once ClassNeverInstantiated.Global
 public class NetPackageBeyondStorageConfig : NetPackage {
     private const ushort ConfigVersion = 1;
+
+    // TODO: Update number if more options being sent
+    private const ushort BoolCount = 9;
+
     public override NetPackageDirection PackageDirection => NetPackageDirection.ToClient;
 
     public override void write(PooledBinaryWriter binaryWriter) {
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"Sending config, version {ConfigVersion}, from server to client.");
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"Sending config, version {ConfigVersion}, to client.");
         base.write(binaryWriter);
         binaryWriter.Write(ConfigVersion);
+// #if DEBUG
+//         // Testing backwards compatibility
+//         binaryWriter.Write((ushort)(BoolCount + 5));
+// #else
+        binaryWriter.Write(BoolCount);
+// #endif
+
         binaryWriter.Write(ModConfig.ClientConfig.range);
         binaryWriter.Write(ModConfig.ClientConfig.enableForBlockRepair);
         binaryWriter.Write(ModConfig.ClientConfig.enableForBlockUpgrade);
@@ -22,16 +33,31 @@ public class NetPackageBeyondStorageConfig : NetPackage {
         binaryWriter.Write(ModConfig.ClientConfig.enableForVehicleRepair);
         binaryWriter.Write(ModConfig.ClientConfig.onlyStorageCrates);
         binaryWriter.Write(ModConfig.ClientConfig.pullFromVehicleStorage);
-        // binaryWriter.Write(BeyondStorage.ClientConfig.pullFromDroneStorage);
+
+// #if DEBUG
+//         // testing backwards compatibility if we are sending more than expecting to receive (EX: newer config sent by server to client running older mod version)
+//         binaryWriter.Write(ModConfig.ClientConfig.pullFromVehicleStorage);
+//         binaryWriter.Write(ModConfig.ClientConfig.pullFromVehicleStorage);
+//         binaryWriter.Write(ModConfig.ClientConfig.pullFromVehicleStorage);
+//         binaryWriter.Write(ModConfig.ClientConfig.pullFromVehicleStorage);
+//         binaryWriter.Write(ModConfig.ClientConfig.pullFromVehicleStorage);
+// #endif
     }
 
     public override void read(PooledBinaryReader reader) {
         var configVersion = reader.ReadUInt16();
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"Received config, version {configVersion}, from server.");
-        if (configVersion != ConfigVersion) {
-            // TODO: send mod version from server?
-            LogUtil.Error("Invalid configuration version sent from server!!! Please update your mod to the same version as the server.");
-            return;
+        var sentBoolCount = reader.ReadUInt16();
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"Received config from server. Version {configVersion}; sentBoolCount {sentBoolCount}; localBoolCount {BoolCount}.");
+        // check if we got the same, newer, or older version of the config.
+        switch (configVersion) {
+            case > ConfigVersion:
+                LogUtil.Warning("Newer configuration version received from server! You might be missing features present on the server and is advised to use the same version.");
+                break;
+            case < ConfigVersion:
+                // TODO: maybe extract what we can from server settings
+                LogUtil.Error(
+                    "Older configuration version received from server, failed to sync server settings! Either downgrade client mod to the version on the server OR have the server upgrade to client's mod version.");
+                return;
         }
 
         // update server config (or set if it's first time)
@@ -45,8 +71,16 @@ public class NetPackageBeyondStorageConfig : NetPackage {
         ModConfig.ServerConfig.enableForVehicleRepair = reader.ReadBoolean();
         ModConfig.ServerConfig.onlyStorageCrates = reader.ReadBoolean();
         ModConfig.ServerConfig.pullFromVehicleStorage = reader.ReadBoolean();
-        // ModConfig.ServerConfig.pullFromDroneStorage = reader.ReadBoolean();
+        // Set HasServerConfig = true
         ServerUtils.HasServerConfig = true;
+
+        if (sentBoolCount > BoolCount) {
+            for (var i = 0; i < sentBoolCount - BoolCount; i++) {
+                // read/discard remaining booleans if more than expected
+                reader.ReadBoolean();
+            }
+        }
+
 #if DEBUG
         if (!LogUtil.IsDebug()) return;
         LogUtil.DebugLog($"ModConfig.ServerConfig.range {ModConfig.ServerConfig.range}");
@@ -66,12 +100,12 @@ public class NetPackageBeyondStorageConfig : NetPackage {
         if (LogUtil.IsDebug()) LogUtil.DebugLog("Updated client config to use server settings.");
     }
 
-    // TODO: Update this if new options are being sent (new config version)
     public override int GetLength() {
+        //  save room for 6 more bytes (future boolean options)
+        const int futureReservedSpace = 6;
         const int ushortSize = 2;
         const int floatSize = 4;
-        const int boolSize = 1;
-        const int boolCount = 9;
-        return ushortSize + floatSize + boolCount * boolSize;
+        // Future Space + ConfigVersion + BoolCount + Range + (Bool(1) * Count)
+        return futureReservedSpace + ushortSize + ushortSize + floatSize + BoolCount;
     }
 }
