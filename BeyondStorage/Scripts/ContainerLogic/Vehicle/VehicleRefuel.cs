@@ -1,9 +1,12 @@
-﻿using BeyondStorage.Scripts.Common;
+﻿using BeyondStorage.Scripts.Configuration;
+using BeyondStorage.Scripts.Utils;
 
 namespace BeyondStorage.Scripts.ContainerLogic.Vehicle;
 
 public static class VehicleRefuel {
     public static int VehicleRefuelRemoveRemaining(ItemValue itemValue, int lastRemovedCount, int totalRequired) {
+        // skip if not enabled
+        if (!ModConfig.EnableForVehicleRefuel()) return lastRemovedCount;
 #if DEBUG
         if (LogUtil.IsDebug()) LogUtil.DebugLog("VehicleRefuelRemoveRemaining");
 #endif

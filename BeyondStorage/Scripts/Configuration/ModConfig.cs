@@ -1,24 +1,108 @@
-﻿using System.IO;
-using BeyondStorage.Scripts.Common;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using BeyondStorage.Scripts.Server;
+using BeyondStorage.Scripts.Utils;
 using Newtonsoft.Json;
 using static System.IO.File;
 
 namespace BeyondStorage.Scripts.Configuration;
 
-internal static class ModConfig {
+public static class ModConfig {
     private const string ConfigFileName = "config.json";
+    public static BsConfig ClientConfig { get; private set; }
+    public static BsConfig ServerConfig { get; } = new();
 
-    public static Config LoadConfig(BeyondStorage context) {
+    public static void LoadConfig(BeyondStorage context) {
         var path = Path.Combine(FileUtil.GetAssetPath(context, true), ConfigFileName);
         var config = !Exists(path)
-            ? new Config()
-            : JsonConvert.DeserializeObject<Config>(ReadAllText(path));
+            ? new BsConfig()
+            : JsonConvert.DeserializeObject<BsConfig>(ReadAllText(path));
         WriteAllText(path,
             JsonConvert.SerializeObject(config, Formatting.Indented));
-        return config;
+        ClientConfig = config;
     }
 
-    internal class Config {
+    public static bool EnableForBlockRepair() {
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; client {ClientConfig.enableForBlockRepair}; server {ServerConfig.enableForBlockRepair}");
+#endif
+        return ServerUtils.HasServerConfig ? ServerConfig.enableForBlockRepair : ClientConfig.enableForBlockRepair;
+    }
+
+    public static bool EnableForBlockUpgrade() {
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; client {ClientConfig.enableForBlockUpgrade}; server {ServerConfig.enableForBlockUpgrade}");
+#endif
+        return ServerUtils.HasServerConfig ? ServerConfig.enableForBlockUpgrade : ClientConfig.enableForBlockUpgrade;
+    }
+
+    public static bool EnableForGeneratorRefuel() {
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; client {ClientConfig.enableForGeneratorRefuel}; server {ServerConfig.enableForGeneratorRefuel}");
+#endif
+        return ServerUtils.HasServerConfig ? ServerConfig.enableForGeneratorRefuel : ClientConfig.enableForGeneratorRefuel;
+    }
+
+    public static bool EnableForItemRepair() {
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; client {ClientConfig.enableForItemRepair}; server {ServerConfig.enableForItemRepair}");
+#endif
+        return ServerUtils.HasServerConfig ? ServerConfig.enableForItemRepair : ClientConfig.enableForItemRepair;
+    }
+
+    public static bool EnableForReload() {
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; client {ClientConfig.enableForReload}; server {ServerConfig.enableForReload}");
+#endif
+        return ServerUtils.HasServerConfig ? ServerConfig.enableForReload : ClientConfig.enableForReload;
+    }
+
+    public static bool EnableForVehicleRefuel() {
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; client {ClientConfig.enableForVehicleRefuel}; server {ServerConfig.enableForVehicleRefuel}");
+#endif
+        return ServerUtils.HasServerConfig ? ServerConfig.enableForVehicleRefuel : ClientConfig.enableForVehicleRefuel;
+    }
+
+    public static bool EnableForVehicleRepair() {
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; client {ClientConfig.enableForVehicleRepair}; server {ServerConfig.enableForVehicleRepair}");
+#endif
+        return ServerUtils.HasServerConfig ? ServerConfig.enableForVehicleRepair : ClientConfig.enableForVehicleRepair;
+    }
+
+    public static bool IsDebug() {
+        return ClientConfig.isDebug;
+    }
+
+    public static bool OnlyStorageCrates() {
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; client {ClientConfig.onlyStorageCrates}; server {ServerConfig.onlyStorageCrates}");
+#endif
+        return ServerUtils.HasServerConfig ? ServerConfig.onlyStorageCrates : ClientConfig.onlyStorageCrates;
+    }
+
+    public static bool PullFromVehicleStorage() {
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; client {ClientConfig.pullFromVehicleStorage}; server {ServerConfig.pullFromVehicleStorage}");
+#endif
+        return ServerUtils.HasServerConfig ? ServerConfig.pullFromVehicleStorage : ClientConfig.pullFromVehicleStorage;
+    }
+
+    public static bool ServerSyncConfig() {
+        return ClientConfig.serverSyncConfig;
+    }
+
+    public static float Range() {
+#if DEBUG
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; client {ClientConfig.range}; server {ServerConfig.range}");
+#endif
+        return ServerUtils.HasServerConfig ? ServerConfig.range : ClientConfig.range;
+    }
+
+    // TODO: Update NetPackageBeyondStorageConfig if new settings added and should be synced between server/client
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class BsConfig {
         // if set true nearby containers will be used for block repairs
         public bool enableForBlockRepair = true;
 
@@ -53,5 +137,8 @@ internal static class ModConfig {
 
         // How far to pull from (-1 is infinite range, only limited by chunks loaded)
         public float range = -1;
+
+        // if set true on a server it will force all clients to use server settings for Beyond Storage
+        public bool serverSyncConfig = true;
     }
 }

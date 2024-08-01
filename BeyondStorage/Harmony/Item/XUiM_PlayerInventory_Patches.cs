@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts.Common;
 using BeyondStorage.Scripts.ContainerLogic.Item;
+using BeyondStorage.Scripts.Utils;
 using HarmonyLib;
 
 // ReSharper disable InconsistentNaming
@@ -32,8 +32,7 @@ public class XUiMPlayerInventoryCommonPatches {
 #if DEBUG
     [HarmonyDebug]
 #endif
-    private static IEnumerable<CodeInstruction> XUiM_PlayerInventory_RemoveItems_Patch(
-        IEnumerable<CodeInstruction> instructions) {
+    private static IEnumerable<CodeInstruction> XUiM_PlayerInventory_RemoveItems_Patch(IEnumerable<CodeInstruction> instructions) {
         var targetMethodString = $"{typeof(XUiM_PlayerInventory)}.{nameof(XUiM_PlayerInventory.RemoveItems)}";
         LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);

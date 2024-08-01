@@ -2,9 +2,7 @@
 
 using System.Collections.Generic;
 using BeyondStorage.Scripts.ContainerLogic;
-#if DEBUG
-using BeyondStorage.Scripts.Common;
-#endif
+using BeyondStorage.Scripts.Utils;
 
 namespace BeyondStorage.Scripts.Server;
 
@@ -66,9 +64,9 @@ public class NetPackageLockedTEs : NetPackage {
 #endif
     }
 
-    public override void ProcessPackage(World _world, GameManager _callbacks) {
+    public override void ProcessPackage(World world, GameManager callbacks) {
         // skip if we don't have a valid world yet
-        if (_world == null)
+        if (world == null)
             return;
         ContainerUtils.UpdateLockedTEs(LockedTileEntities);
 #if DEBUG

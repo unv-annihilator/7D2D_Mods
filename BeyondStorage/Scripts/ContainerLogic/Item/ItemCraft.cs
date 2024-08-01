@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BeyondStorage.Scripts.Common;
+using BeyondStorage.Scripts.Utils;
 
 namespace BeyondStorage.Scripts.ContainerLogic.Item;
 
@@ -10,9 +10,9 @@ public class ItemCraft {
     //      XUiC_RecipeCraftCount.calcMaxCraftable
     //          Item Crafting - gets max craftable amount
     public static List<ItemStack> ItemCraftMaxGetAllStorageStacks(List<ItemStack> items) {
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"ItemCraftMaxGetAllStorageStacks | itemCount before {items.Count}");
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"ItemCraftMaxGetAllStorageStacks | itemCount before {items.Count}");
         items.AddRange(ContainerUtils.GetItemStacks());
-        if (BeyondStorage.Config.isDebug) LogUtil.DebugLog($"ItemCraftMaxGetAllStorageStacks | itemCount after {items.Count}");
+        if (LogUtil.IsDebug()) LogUtil.DebugLog($"ItemCraftMaxGetAllStorageStacks | itemCount after {items.Count}");
         return items;
     }
 

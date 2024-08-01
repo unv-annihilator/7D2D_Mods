@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts.Common;
 using BeyondStorage.Scripts.ContainerLogic.Ranged;
+using BeyondStorage.Scripts.Utils;
 using HarmonyLib;
 using UnityEngine;
 
@@ -14,7 +14,6 @@ public static class AnimatorCommon {
     }
 
     internal static IEnumerable<CodeInstruction> GetCountToReload_Transpiler(string targetMethodString, IEnumerable<CodeInstruction> instructions) {
-        if (!BeyondStorage.Config.enableForReload) return instructions;
         LogUtil.Info($"Transpiling {targetMethodString}");
         var codeInstructions = new List<CodeInstruction>(instructions);
         var lastRet = codeInstructions.FindLastIndex(codeInstruction => codeInstruction.opcode == OpCodes.Ret);

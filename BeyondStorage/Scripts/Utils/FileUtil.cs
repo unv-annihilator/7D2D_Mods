@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace BeyondStorage.Scripts.Common;
+namespace BeyondStorage.Scripts.Utils;
 
 internal static class FileUtil {
     internal static string GetAssetPath(object obj, bool create = false) {

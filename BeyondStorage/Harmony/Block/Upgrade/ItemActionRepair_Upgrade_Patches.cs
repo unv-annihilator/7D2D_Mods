@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts.Common;
 using BeyondStorage.Scripts.ContainerLogic.Block;
+using BeyondStorage.Scripts.Utils;
 using HarmonyLib;
 
 namespace BeyondStorage.Block.Upgrade;
@@ -19,7 +19,6 @@ public class ItemActionRepairUpgradePatches {
 #endif
     private static IEnumerable<CodeInstruction> ItemActionRepair_CanRemoveRequiredResource_Patch(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
-        if (!BeyondStorage.Config.enableForBlockUpgrade) return instructions;
         var targetMethodString = $"{typeof(ItemActionRepair)}.{nameof(ItemActionRepair.CanRemoveRequiredResource)}";
         LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);
@@ -78,7 +77,6 @@ public class ItemActionRepairUpgradePatches {
 #endif
     private static IEnumerable<CodeInstruction> ItemActionRepair_RemoveRequiredResource_Patch(
         IEnumerable<CodeInstruction> instructions) {
-        if (!BeyondStorage.Config.enableForBlockUpgrade) return instructions;
         var targetMethodString = $"{typeof(ItemActionRepair)}.{nameof(ItemActionRepair.RemoveRequiredResource)}";
         LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);

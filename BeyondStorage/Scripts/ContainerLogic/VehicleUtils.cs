@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BeyondStorage.Scripts.Configuration;
 using UnityEngine;
 
 namespace BeyondStorage.Scripts.ContainerLogic;
@@ -8,7 +9,7 @@ public static class VehicleUtils {
         // foreach (var vehicle in VehicleManager.Instance.vehiclesActive) {
         var player = GameManager.Instance.World.GetPrimaryPlayer();
         var playerPos = player.position;
-        var rangeConfig = BeyondStorage.Config.range;
+        var rangeConfig = ModConfig.Range();
         foreach (var entity in GameManager.Instance.World.Entities.list) {
             // skip anything not a vehicle
             if (entity is not EntityVehicle vehicle) continue;

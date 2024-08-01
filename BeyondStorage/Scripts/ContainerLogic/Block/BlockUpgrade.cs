@@ -1,4 +1,5 @@
-﻿using BeyondStorage.Scripts.Common;
+﻿using BeyondStorage.Scripts.Configuration;
+using BeyondStorage.Scripts.Utils;
 
 namespace BeyondStorage.Scripts.ContainerLogic.Block;
 
@@ -7,6 +8,8 @@ public class BlockUpgrade {
     //      ItemActionRepair.CanRemoveRequiredResource
     //          Block Upgrade - Resources Available Check (called by ItemActionRepair: .ExecuteAction() and .RemoveRequiredResource())
     public static int BlockUpgradeGetItemCount(ItemValue itemValue) {
+        // skip if not enabled
+        if (!ModConfig.EnableForBlockUpgrade()) return 0;
         var result = ContainerUtils.GetItemCount(itemValue);
         if (LogUtil.IsDebug()) LogUtil.DebugLog($"BlockUpgradeGetItemCount | item {itemValue.ItemClass.GetItemName()}; count {result}");
         return result;
@@ -16,6 +19,8 @@ public class BlockUpgrade {
     //      ItemActionRepair.RemoveRequiredResource
     //          Block Upgrade - Remove items
     public static int BlockUpgradeRemoveRemaining(int currentCount, ItemValue itemValue, int requiredCount) {
+        // skip if not enabled
+        if (!ModConfig.EnableForBlockUpgrade()) return currentCount;
         // currentCount is previous amount removed by DecItem
         // requiredCount is total required (before last decItem)
         // return early if we already have enough

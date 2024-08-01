@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts.Common;
 using BeyondStorage.Scripts.ContainerLogic.Item;
+using BeyondStorage.Scripts.Utils;
 using HarmonyLib;
 
 namespace BeyondStorage.Item.Craft;

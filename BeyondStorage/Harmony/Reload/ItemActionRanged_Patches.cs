@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts.Common;
 using BeyondStorage.Scripts.ContainerLogic.Ranged;
+using BeyondStorage.Scripts.Utils;
 using HarmonyLib;
 
 namespace BeyondStorage.Reload;
@@ -17,8 +17,6 @@ public class ItemActionRangedPatches {
     [HarmonyDebug]
 #endif
     private static IEnumerable<CodeInstruction> ItemActionRanged_CanReload_Patch(IEnumerable<CodeInstruction> instructions) {
-        // Skip if not enabled in config
-        if (!BeyondStorage.Config.enableForReload) return instructions;
         var targetMethodString = $"{typeof(ItemActionRanged)}.{nameof(ItemActionRanged.CanReload)}";
         var codeInstructions = new List<CodeInstruction>(instructions);
         var lastBgt = codeInstructions.FindLastIndex(instruction => instruction.opcode == OpCodes.Bgt);

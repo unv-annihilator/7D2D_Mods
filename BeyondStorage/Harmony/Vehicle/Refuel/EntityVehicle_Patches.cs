@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using BeyondStorage.Scripts.Common;
+using BeyondStorage.Scripts.Configuration;
 using BeyondStorage.Scripts.ContainerLogic.Vehicle;
+using BeyondStorage.Scripts.Utils;
 using HarmonyLib;
 
 namespace BeyondStorage.Vehicle.Refuel;
@@ -14,7 +15,7 @@ public class EntityVehiclePatches {
     [HarmonyPatch(nameof(EntityVehicle.hasGasCan))]
     private static void EntityVehicle_hasGasCan_Patch(EntityVehicle __instance, ref bool __result) {
         // Skip if not refueling from storage
-        if (!BeyondStorage.Config.enableForVehicleRefuel) return;
+        if (!ModConfig.EnableForVehicleRefuel()) return;
         // Update result of CanRefuel if nearby storage has required gas item
         __result = VehicleRefuel.CanRefuel(__instance, __result);
     }
@@ -25,7 +26,6 @@ public class EntityVehiclePatches {
     [HarmonyDebug]
 #endif
     private static IEnumerable<CodeInstruction> EntityVehicle_takeFuel_Transpiler(IEnumerable<CodeInstruction> instructions) {
-        if (!BeyondStorage.Config.enableForVehicleRefuel) return instructions;
         var targetMethodString = $"{typeof(EntityVehicle)}.{nameof(EntityVehicle.takeFuel)}";
         LogUtil.Info($"Transpiling {targetMethodString}");
         var codes = new List<CodeInstruction>(instructions);
