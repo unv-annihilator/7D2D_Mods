@@ -19,7 +19,7 @@ public static class ContainerUtils {
 
     public static void Cleanup() {
         ServerUtils.HasServerConfig = false;
-        LockedTileEntities.Clear();
+        LockedTileEntities?.Clear();
     }
 
     // Client Update

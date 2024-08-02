@@ -27,8 +27,18 @@ public class BeyondStorage : IModApi {
         harmony.PatchAll(Assembly.GetExecutingAssembly());
 
         ModEvents.PlayerSpawnedInWorld.RegisterHandler(ServerUtils.PlayerSpawnedInWorld);
-
+        // Game Start Done Called when:
+        //      - Loading into singleplayer world
+        //      - Starting client hosted multiplayer world
+        // Not Called during connecting TO server
         ModEvents.GameStartDone.RegisterHandler(EventsUtil.GameStartDone);
+        // Game Shutdown Called when:
+        //      - Quitting GAME (EXE)
+        // NOT called when LEAVING a world
         ModEvents.GameShutdown.RegisterHandler(EventsUtil.GameShutdown);
+        // Player Disconnected Called When:
+        //      - Player disconnects from server YOU'RE hosting
+        // NOT called when YOU disconnect
+        // ModEvents.PlayerDisconnected.RegisterHandler(EventsUtil.PlayerDisconnected);
     }
 }
