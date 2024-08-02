@@ -32,49 +32,62 @@ public static class ModConfig {
 #endif
     public static bool EnableForBlockRepair() {
 #if DEBUG
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForBlockRepair}; server {ServerConfig.enableForBlockRepair}");
+        if (LogUtil.IsDebug())
+            LogUtil.DebugLog(
+                $"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForBlockRepair}; server {ServerConfig.enableForBlockRepair}");
 #endif
         return ServerUtils.HasServerConfig ? ServerConfig.enableForBlockRepair : ClientConfig.enableForBlockRepair;
     }
 
     public static bool EnableForBlockUpgrade() {
 #if DEBUG
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForBlockUpgrade}; server {ServerConfig.enableForBlockUpgrade}");
+        if (LogUtil.IsDebug())
+            LogUtil.DebugLog(
+                $"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForBlockUpgrade}; server {ServerConfig.enableForBlockUpgrade}");
 #endif
         return ServerUtils.HasServerConfig ? ServerConfig.enableForBlockUpgrade : ClientConfig.enableForBlockUpgrade;
     }
 
     public static bool EnableForGeneratorRefuel() {
 #if DEBUG
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForGeneratorRefuel}; server {ServerConfig.enableForGeneratorRefuel}");
+        if (LogUtil.IsDebug())
+            LogUtil.DebugLog(
+                $"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForGeneratorRefuel}; server {ServerConfig.enableForGeneratorRefuel}");
 #endif
         return ServerUtils.HasServerConfig ? ServerConfig.enableForGeneratorRefuel : ClientConfig.enableForGeneratorRefuel;
     }
 
     public static bool EnableForItemRepair() {
 #if DEBUG
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForItemRepair}; server {ServerConfig.enableForItemRepair}");
+        if (LogUtil.IsDebug())
+            LogUtil.DebugLog(
+                $"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForItemRepair}; server {ServerConfig.enableForItemRepair}");
 #endif
         return ServerUtils.HasServerConfig ? ServerConfig.enableForItemRepair : ClientConfig.enableForItemRepair;
     }
 
     public static bool EnableForReload() {
 #if DEBUG
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForReload}; server {ServerConfig.enableForReload}");
+        if (LogUtil.IsDebug())
+            LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForReload}; server {ServerConfig.enableForReload}");
 #endif
         return ServerUtils.HasServerConfig ? ServerConfig.enableForReload : ClientConfig.enableForReload;
     }
 
     public static bool EnableForVehicleRefuel() {
 #if DEBUG
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForVehicleRefuel}; server {ServerConfig.enableForVehicleRefuel}");
+        if (LogUtil.IsDebug())
+            LogUtil.DebugLog(
+                $"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForVehicleRefuel}; server {ServerConfig.enableForVehicleRefuel}");
 #endif
         return ServerUtils.HasServerConfig ? ServerConfig.enableForVehicleRefuel : ClientConfig.enableForVehicleRefuel;
     }
 
     public static bool EnableForVehicleRepair() {
 #if DEBUG
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForVehicleRepair}; server {ServerConfig.enableForVehicleRepair}");
+        if (LogUtil.IsDebug())
+            LogUtil.DebugLog(
+                $"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.enableForVehicleRepair}; server {ServerConfig.enableForVehicleRepair}");
 #endif
         return ServerUtils.HasServerConfig ? ServerConfig.enableForVehicleRepair : ClientConfig.enableForVehicleRepair;
     }
@@ -85,14 +98,18 @@ public static class ModConfig {
 
     public static bool OnlyStorageCrates() {
 #if DEBUG
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.onlyStorageCrates}; server {ServerConfig.onlyStorageCrates}");
+        if (LogUtil.IsDebug())
+            LogUtil.DebugLog(
+                $"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.onlyStorageCrates}; server {ServerConfig.onlyStorageCrates}");
 #endif
         return ServerUtils.HasServerConfig ? ServerConfig.onlyStorageCrates : ClientConfig.onlyStorageCrates;
     }
 
     public static bool PullFromVehicleStorage() {
 #if DEBUG
-        if (LogUtil.IsDebug()) LogUtil.DebugLog($"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.pullFromVehicleStorage}; server {ServerConfig.pullFromVehicleStorage}");
+        if (LogUtil.IsDebug())
+            LogUtil.DebugLog(
+                $"using server config: {ServerUtils.HasServerConfig}; usingServer {UsingServerConfig()}; client {ClientConfig.pullFromVehicleStorage}; server {ServerConfig.pullFromVehicleStorage}");
 #endif
         return ServerUtils.HasServerConfig ? ServerConfig.pullFromVehicleStorage : ClientConfig.pullFromVehicleStorage;
     }
