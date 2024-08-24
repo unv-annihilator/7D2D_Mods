@@ -30,11 +30,11 @@ public class BeyondStorage : IModApi {
         // Game Start Done Called when:
         //      - Loading into singleplayer world
         //      - Starting client hosted multiplayer world
-        // Not Called during connecting TO server
+        //      - Loading into dedicated world
+        // Not Called during connecting TO client server
         ModEvents.GameStartDone.RegisterHandler(EventsUtil.GameStartDone);
         // Game Shutdown Called when:
-        //      - Quitting GAME (EXE)
-        // NOT called when LEAVING a world
+        //      - Leaving the world
         ModEvents.GameShutdown.RegisterHandler(EventsUtil.GameShutdown);
         // Player Disconnected Called When:
         //      - Player disconnects from server YOU'RE hosting
