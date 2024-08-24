@@ -14,6 +14,7 @@ public static class ServerUtils {
         // Skip if single player
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsSinglePlayer) return;
         if (LogUtil.IsDebug()) LogUtil.DebugLog($"client {client}; respawn type {respawnType}; pos {pos}");
+        if (client == null) return;
         // Send the current locked dictionary to player logging in
         SendCurrentLockedDict(client);
         if (ModConfig.ServerSyncConfig()) client.SendPackage(NetPackageManager.GetPackage<NetPackageBeyondStorageConfig>());
